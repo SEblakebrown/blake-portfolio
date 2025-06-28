@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blake Brown - Interactive Portfolio</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-mode">
+
+  <header>
+    <h1 class="typewriter">Hi, I'm Blake Brown 🚀</h1>
+    <button id="themeToggle">Toggle Dark/Light Mode</button>
+  </header>
+
+  <section id="resume">
+    <h2>My Resume</h2>
+    <a href="Blake Brown Resume.pdf" target="_blank" class="resume-btn">📄 Download My Resume</a>
+  </section>
+
+  <section id="skills">
+    <h2>My Technical Skills</h2>
+    <canvas id="skillsChart"></canvas>
+  </section>
+
+  <section id="experience">
+    <h2>Experience Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>IT Specialist - West Middle School</h3>
+        <p>Jan 2025 – Present</p>
+        <p>Supporting school network systems, cybersecurity, and IT troubleshooting.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Data Engineer Intern - Omega Holdings</h3>
+        <p>Jun 2024 – Dec 2024</p>
+        <p>Developed scalable data pipelines, ETL processes, and storage optimization.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Apple Repair Technician - The Mac Shack</h3>
+        <p>Dec 2021 – Jun 2024</p>
+        <p>Diagnosed and repaired Apple devices and managed repair inventory.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <h2>Certifications</h2>
+    <div class="cert-card">
+      <h3>Apple Certified Repair Technician</h3>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <div class="edu-card">
+      <h3>Colorado State University</h3>
+      <p>Bachelor of Science in Computer Science</p>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <h2>What People Say About Me</h2>
+    <div class="testimonial">
+      <p>“Blake is a fast learner with strong problem-solving skills.”</p>
+      <h4>– Rizwan Ahmed, VP IT at Omega Holdings</h4>
+    </div>
+    <div class="testimonial">
+      <p>“Always ready to help and great with troubleshooting complex systems.”</p>
+      <h4>– Faculty Member, West Middle School</h4>
+    </div>
+  </section>
+
+  <section id="blog">
+    <h2>What I'm Learning 🚀</h2>
+    <div class="blog-post">
+      <h3>Learning React Basics</h3>
+      <p>Currently exploring component-based UI design and JSX syntax using React.js.</p>
+    </div>
+    <div class="blog-post">
+      <h3>Working with Data Pipelines</h3>
+      <p>Gained experience building ETL pipelines during my Data Engineer internship at Omega Holdings.</p>
+    </div>
+    <div class="blog-post">
+      <h3>Sharpening Object-Oriented Design</h3>
+      <p>Implementing low-coupling and high-cohesion principles across my Java and C++ projects.</p>
+    </div>
+  </section>
+
+  <section id="game">
+    <h2>Mini Game: Memory Flip</h2>
+    <div class="game-board"></div>
+    <p id="game-status"></p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form id="contactForm">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="form-status"></p>
+  </section>
+
+  <script src="scripts/main.js"></script>
+  <script src="scripts/game.js"></script>
+</body>
+</html>

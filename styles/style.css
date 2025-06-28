@@ -1,0 +1,166 @@
+/* Animated Gradient Background */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s, color 0.3s;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+  }
+  
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  body.light-mode {
+    color: #222;
+  }
+  
+  body.dark-mode {
+    background: #222;
+    color: #f0f0f0;
+  }
+  
+  header {
+    text-align: center;
+    padding: 2em;
+  }
+  
+  .typewriter {
+    overflow: hidden;
+    border-right: .15em solid orange;
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    0%, 100% { border-color: transparent }
+    50% { border-color: orange }
+  }
+  
+  section {
+    padding: 2em;
+  }
+  
+  .timeline {
+    position: relative;
+    margin: 2em 0;
+    padding-left: 20px;
+    border-left: 2px solid #666;
+  }
+  
+  .timeline-item {
+    margin-bottom: 2em;
+    position: relative;
+  }
+  
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: orange;
+    border-radius: 50%;
+  }
+  
+  .cert-card, .edu-card {
+    background: #555;
+    color: white;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+  }
+  
+  .project-card {
+    background: #555;
+    color: white;
+    margin: 1em;
+    padding: 1em;
+    transition: transform 0.3s;
+  }
+  
+  .project-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 1em;
+  }
+  
+  .card {
+    width: 80px;
+    height: 80px;
+    background: #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 2em;
+  }
+  
+  .card.flipped, .card.matched {
+    background: #4caf50;
+    color: white;
+  }
+  
+  form input, form textarea, form button {
+    display: block;
+    width: 90%;
+    margin: 0.5em auto;
+    padding: 0.5em;
+  }
+  
+  /* ✅ Skills Chart Size */
+  #skills canvas {
+    max-width: 400px;
+    max-height: 400px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* ✅ Resume Button Style */
+  .resume-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f39c12;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  .resume-btn:hover {
+    background-color: #e67e22;
+  }
+  
+  /* ✅ Testimonials Style */
+  .testimonial {
+    background: rgba(0, 0, 0, 0.1);
+    margin: 1em 0;
+    padding: 1em;
+    border-left: 4px solid orange;
+  }
+  
+  /* ✅ Blog Posts */
+  .blog-post {
+    background: #444;
+    color: white;
+    margin: 1em 0;
+    padding: 1em;
+    border-radius: 5px;
+  }
+  
