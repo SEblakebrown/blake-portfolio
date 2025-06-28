@@ -10,7 +10,9 @@
 <body class="dark-mode">
 
   <header>
-    <h1 class="typewriter">Hi, I'm Blake Brown 🚀<br><span style="font-weight: normal; font-size: 0.8em; color: #f39c12;">Open to Work · Creative Problem Solver · Passionate about building efficient, and impactful tech solutions 💡👨‍💻</span></h1>
+    <h1 class="typewriter">Hi, I'm Blake Brown<br><span style="font-weight: normal; font-size: 0.8em; color: #f39c12;">
+      Open to Work · Creative Problem Solver <br> 
+      Passionate about building efficient, and impactful tech solutions 💡👨‍💻</span></h1>
     <button id="themeToggle">Toggle Dark/Light Mode</button>
   </header>
 
@@ -69,6 +71,18 @@
     <div class="testimonial">
       <p>“Always ready to help and great with troubleshooting complex systems.”</p>
       <h4>– Faculty Member, West Middle School</h4>
+    </div>
+    <div class="testimonial">
+      <p>“Blake consistently brings energy and creative problem-solving to every project. His ability to think outside the box has helped us streamline several workflows.”</p>
+      <h4>– Sarah Johnson, Senior Software Engineer at Omega Holdings</h4>
+    </div>
+    <div class="testimonial">
+      <p>“Blake has a great mix of technical knowledge and teamwork. During our last data migration project, he tackled challenges with confidence and kept the team motivated throughout.”</p>
+      <h4>– Justin Brown, Chief Financial Officer, Omega Holdings</h4>
+    </div>
+    <div class="testimonial">
+      <p>“Blake is passionate about technology and eager to learn. Working with him on data engineering projects was a breeze thanks to his quick learning curve.”</p>
+      <h4>– Jason Lee, Data Architect, Omega Holdings</h4>
     </div>
   </section>
 
@@ -131,13 +145,12 @@
 
   <section id="contact">
     <h2>Contact Me</h2>
-    <form id="contactForm">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" required></textarea>
+    <form action="https://formsubmit.co/brownblakecs@gmail.com" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
-    <p id="form-status"></p>
   </section>
 
   <script src="scripts/main.js"></script>

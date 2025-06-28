@@ -28,6 +28,33 @@ body {
     color: #f0f0f0;
   }
   
+  form input,
+  form textarea {
+    color: black !important;
+    background-color: white !important;
+  }
+
+  form input::placeholder,
+  form textarea::placeholder {
+    color: gray;
+  }
+
+  form button {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+
+  form button:hover {
+    background-color: #e67e22;
+  }
+
+
+
   header {
     text-align: center;
     padding: 2em;
