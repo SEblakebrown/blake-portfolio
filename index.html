@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="styles/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="light-mode">
+<body class="dark-mode">
 
   <header>
-    <h1 class="typewriter">Hi, I'm Blake Brown 🚀</h1>
+    <h1 class="typewriter">Hi, I'm Blake Brown 🚀<br><span style="font-weight: normal; font-size: 0.8em; color: #f39c12;">Open to Work · Creative Problem Solver · Passionate about building efficient, and impactful tech solutions 💡👨‍💻</span></h1>
     <button id="themeToggle">Toggle Dark/Light Mode</button>
   </header>
 
@@ -88,11 +88,46 @@
     </div>
   </section>
 
-  <section id="game">
+  <!-- <section id="game">
     <h2>Mini Game: Memory Flip</h2>
     <div class="game-board"></div>
     <p id="game-status"></p>
-  </section>
+  </section> -->
+
+   <section id="game-zone">
+  <h2>My Mini Games 🎮</h2>
+
+  <label for="game-select">Choose a game:</label>
+  <select id="game-select">
+    <option value="none">-- Select --</option>
+    <option value="memory">🃏 Memory Flip</option>
+    <option value="snake">🐍 Python Snake</option>
+    <option value="life">🌱 Game of Life</option>
+  </select>
+
+  <div id="memory-section" class="game-section" style="display:none;">
+    <h3>Memory Flip Game</h3>
+    <div class="game-board"></div>
+    <p id="game-status"></p>
+  </div>
+
+  <div id="snake-section" class="game-section" style="display:none;">
+    <h3>Snake Game</h3>
+    <canvas id="snake-canvas" width="400" height="400"></canvas>
+    <p>Use arrow keys to control the snake.</p>
+  </div>
+
+  <div id="life-section" class="game-section" style="display:none;">
+    <h3>Conway's Game of Life</h3>
+    <canvas id="life-canvas" width="500" height="500"></canvas>
+    <br>
+    <button id="start-life">▶️ Start / Pause</button>
+    <button id="clear-life">🧹 Clear</button>
+  </div>
+
+</section>
+
+
 
   <section id="contact">
     <h2>Contact Me</h2>
@@ -107,5 +142,54 @@
 
   <script src="scripts/main.js"></script>
   <script src="scripts/game.js"></script>
+  <script src="scripts/gameswitcher.js"></script>
+
+
+    <!-- ✅ Image Gallery with Lightbox
+  <section id="gallery">
+    <h2>Project Screenshots Gallery</h2>
+    <div class="gallery-grid">
+      <img src="assets/images/clark-tibbs-oqStl2L5oxI-unsplash.jpg" alt="Project 1" class="gallery-img">
+      <img src="assets/images/diego-ph-fIq0tET6llw-unsplash.jpg" alt="Project 2" class="gallery-img">
+      <img src="assets/images/joanna-kosinska-1_CMoFsPfso-unsplash.jpg" alt="Project 3" class="gallery-img">
+  </div>
+
+  <div id="lightbox" class="lightbox">
+      <span id="lightbox-close">&times;</span>
+      <img id="lightbox-img" class="lightbox-content" src="">
+    </div>
+  </section> -->
+
+
+  <!-- ✅ GitHub Repositories Fetch
+  <section id="github-projects">
+    <h2>My GitHub Repositories 📂</h2>
+    <ul id="repo-list"></ul>
+  </section> -->
+
+
+
+
+<!-- <section id="snake-terminal">
+  <h2>Building Snake in Python 🐍</h2>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+    <div class="terminal-body" id="typing-terminal"></div>
+  </div>
+</section>
+
+<section id="snake-game-section" style="display:none;">
+  <h2>Snake Game 🎮</h2>
+  <canvas id="snake-canvas" width="400" height="400"></canvas>
+  <p>Use arrow keys to control the snake.</p>
+</section> -->
+
+
+
+
 </body>
 </html>

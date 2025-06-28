@@ -125,12 +125,13 @@ body {
     width: 90%;
     margin: 0.5em auto;
     padding: 0.5em;
+    color: white;
   }
   
   /* ✅ Skills Chart Size */
   #skills canvas {
-    max-width: 400px;
-    max-height: 400px;
+    max-width: 500px;
+    max-height: 500px;
     display: block;
     margin: 0 auto;
   }
@@ -168,6 +169,82 @@ body {
   }
   
 /* ✅ Mobile Responsive Styles */
+
+/* ✅ Lightbox Styles */
+/* ✅ Gallery Grid & Thumbnails */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  justify-items: center;
+}
+
+.gallery-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s;
+}
+
+.gallery-img:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ Lightbox Styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox.show {
+  display: flex;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 8px;
+}
+
+#lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#game-zone select {
+  margin: 1em 0;
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+.game-section {
+  margin-top: 1em;
+  padding: 1em;
+  background: #333;
+  color: #fff;
+  border-radius: 8px;
+}
+
 
 @media (max-width: 768px) {
   header, section {
@@ -244,6 +321,22 @@ body {
     max-height: 250px;
   }
 
+  #skills {
+    opacity: 0;
+  }
+
+  
+  /* ✅ Chart Fade-in Animation */
+  #skills {
+    opacity: 1;
+    transition: opacity 0.8s ease;
+  }
+
+  #skills.fade-in {
+    opacity: 1;
+  }
+
+
   .resume-btn {
     font-size: 0.9em;
     padding: 8px;
@@ -253,6 +346,32 @@ body {
     width: 100%;
     font-size: 0.9em;
   }
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-  
+
+/* ✅ GitHub Repo List Style */
+#repo-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#repo-list li {
+  margin: 0.5em 0;
+}
+
+#repo-list a {
+  color: #f39c12;
+  text-decoration: none;
+}
+
+#repo-list a:hover {
+  text-decoration: underline;
+}
+
+}
+
