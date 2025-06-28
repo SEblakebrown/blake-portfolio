@@ -1,92 +1,5 @@
 /* Animated Gradient Background */
 
-/* ✅ Mobile Responsive Styles */
-
-@media (max-width: 768px) {
-  header, section {
-    padding: 1em;
-  }
-
-  h1, h2, h3 {
-    font-size: 1.3em;
-  }
-
-  .timeline {
-    padding-left: 10px;
-  }
-
-  .timeline-item::before {
-    left: -7px;
-    top: 3px;
-    width: 7px;
-    height: 7px;
-  }
-
-  .project-card, .cert-card, .edu-card, .testimonial, .blog-post {
-    margin: 0.5em 0;
-    padding: 0.8em;
-    font-size: 0.95em;
-  }
-
-  .game-board {
-    grid-template-columns: repeat(3, 60px);
-    gap: 8px;
-  }
-
-  .card {
-    width: 60px;
-    height: 60px;
-    font-size: 1.5em;
-  }
-
-  #skills canvas {
-    max-width: 300px;
-    max-height: 300px;
-  }
-
-  .resume-btn {
-    width: 90%;
-    text-align: center;
-    padding: 10px;
-    font-size: 1em;
-  }
-
-  form input, form textarea, form button {
-    width: 95%;
-    font-size: 1em;
-  }
-}
-
-@media (max-width: 480px) {
-  h1, h2, h3 {
-    font-size: 1.1em;
-  }
-
-  .game-board {
-    grid-template-columns: repeat(2, 50px);
-  }
-
-  .card {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2em;
-  }
-
-  #skills canvas {
-    max-width: 250px;
-    max-height: 250px;
-  }
-
-  .resume-btn {
-    font-size: 0.9em;
-    padding: 8px;
-  }
-
-  form input, form textarea, form button {
-    width: 100%;
-    font-size: 0.9em;
-  }
-}
 
 
 body {
@@ -253,4 +166,93 @@ body {
     padding: 1em;
     border-radius: 5px;
   }
+  
+/* ✅ Mobile Responsive Styles */
+
+@media (max-width: 768px) {
+  header, section {
+    padding: 1em;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.3em;
+  }
+
+  .timeline {
+    padding-left: 10px;
+  }
+
+  .timeline-item::before {
+    left: -7px;
+    top: 3px;
+    width: 7px;
+    height: 7px;
+  }
+
+  .project-card, .cert-card, .edu-card, .testimonial, .blog-post {
+    margin: 0.5em 0;
+    padding: 0.8em;
+    font-size: 0.95em;
+  }
+
+  .game-board {
+    grid-template-columns: repeat(3, 60px);
+    gap: 8px;
+  }
+
+  .card {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+  }
+
+  #skills canvas {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .resume-btn {
+    width: 90%;
+    text-align: center;
+    padding: 10px;
+    font-size: 1em;
+  }
+
+  form input, form textarea, form button {
+    width: 95%;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1, h2, h3 {
+    font-size: 1.1em;
+  }
+
+  .game-board {
+    grid-template-columns: repeat(2, 50px);
+  }
+
+  .card {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2em;
+  }
+
+  #skills canvas {
+    max-width: 250px;
+    max-height: 250px;
+  }
+
+  .resume-btn {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+
+  form input, form textarea, form button {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
+
   
