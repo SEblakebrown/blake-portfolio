@@ -263,3 +263,32 @@ document.getElementById('game-select').addEventListener('change', (e) => {
     drawLifeGrid();
   }
 });
+
+// ✅ Drag-to-paint for Game of Life
+let isMouseDown = false;
+
+lifeCanvas.addEventListener('mousedown', (e) => {
+  isMouseDown = true;
+  handleLifePaint(e);
+});
+
+lifeCanvas.addEventListener('mousemove', (e) => {
+  if (isMouseDown) {
+    handleLifePaint(e);
+  }
+});
+
+window.addEventListener('mouseup', () => {
+  isMouseDown = false;
+});
+
+function handleLifePaint(e) {
+  const rect = lifeCanvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / cellSize);
+  const y = Math.floor((e.clientY - rect.top) / cellSize);
+
+  if (x >= 0 && x < colsLife && y >= 0 && y < rowsLife) {
+    lifeGrid[y][x] = 1;  // ✅ Paint cell as alive while dragging
+    drawLifeGrid();
+  }
+}
