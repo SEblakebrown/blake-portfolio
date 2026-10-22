@@ -1,211 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blake Brown - Interactive Portfolio</title>
-  <link rel="stylesheet" href="styles/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121916">
+<title>Blake Brown — Software & Cloud Engineer</title>
+<meta name="description" content="Blake Brown is a Colorado-based software and cloud engineer with experience in AWS infrastructure, Terraform, Python automation, and enterprise data platforms.">
+<meta property="og:title" content="Blake Brown — Software & Cloud Engineer"><meta property="og:description" content="From cloud infrastructure to useful software. Explore my work, experience, and resume."><meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles/style.css"><script src="scripts/main.js" defer></script>
 </head>
-<body class="dark-mode">
-
-  <header>
-    <h1 class="typewriter">Hi, I'm Blake Brown<br><span style="font-weight: normal; font-size: 0.8em; color: #f39c12;">
-      Open to Work · Creative Problem Solver <br> 
-      Passionate about building efficient, and impactful tech solutions 💡👨‍💻</span></h1>
-    <button id="themeToggle">Toggle Dark/Light Mode</button>
-  </header>
-
-  <section id="resume">
-    <h2>My Resume</h2>
-    <a href="Blake Brown Resume.pdf" target="_blank" class="resume-btn">📄 Download My Resume</a>
-  </section>
-
-  <section id="skills">
-    <h2>My Technical Skills</h2>
-    <canvas id="skillsChart"></canvas>
-  </section>
-
-  <section id="experience">
-    <h2>Experience Timeline</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <h3>IT Specialist - West Middle School</h3>
-        <p>Jan 2025 – Present</p>
-        <p>Supporting school network systems, cybersecurity, and IT troubleshooting.</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Data Engineer Intern - Omega Holdings</h3>
-        <p>Jun 2024 – Dec 2024</p>
-        <p>Developed scalable data pipelines, ETL processes, and storage optimization.</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Apple Repair Technician - The Mac Shack</h3>
-        <p>Dec 2021 – Jun 2024</p>
-        <p>Diagnosed and repaired Apple devices and managed repair inventory.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="certifications">
-    <h2>Certifications</h2>
-    <div class="cert-card">
-      <h3>Apple Certified Repair Technician</h3>
-    </div>
-  </section>
-
-  <section id="education">
-    <h2>Education</h2>
-    <div class="edu-card">
-      <h3>Colorado State University</h3>
-      <p>Bachelor of Science in Computer Science</p>
-    </div>
-  </section>
-
-  <section id="testimonials">
-    <h2>What People Say About Me</h2>
-    <div class="testimonial">
-      <p>“Blake is a fast learner with strong problem-solving skills.”</p>
-      <h4>– Rizwan Ahmed, VP IT at Omega Holdings</h4>
-    </div>
-    <div class="testimonial">
-      <p>“Always ready to help and great with troubleshooting complex systems.”</p>
-      <h4>– Faculty Member, West Middle School</h4>
-    </div>
-    <div class="testimonial">
-      <p>“Blake consistently brings energy and creative problem-solving to every project. His ability to think outside the box has helped us streamline several workflows.”</p>
-      <h4>– Sarah Johnson, Senior Software Engineer at Omega Holdings</h4>
-    </div>
-    <div class="testimonial">
-      <p>“Blake has a great mix of technical knowledge and teamwork. During our last data migration project, he tackled challenges with confidence and kept the team motivated throughout.”</p>
-      <h4>– Justin Brown, Chief Financial Officer, Omega Holdings</h4>
-    </div>
-    <div class="testimonial">
-      <p>“Blake is passionate about technology and eager to learn. Working with him on data engineering projects was a breeze thanks to his quick learning curve.”</p>
-      <h4>– Jason Lee, Data Architect, Omega Holdings</h4>
-    </div>
-  </section>
-
-  <section id="blog">
-    <h2>What I'm Learning 🚀</h2>
-    <div class="blog-post">
-      <h3>Learning React Basics</h3>
-      <p>Currently exploring component-based UI design and JSX syntax using React.js.</p>
-    </div>
-    <div class="blog-post">
-      <h3>Working with Data Pipelines</h3>
-      <p>Gained experience building ETL pipelines during my Data Engineer internship at Omega Holdings.</p>
-    </div>
-    <div class="blog-post">
-      <h3>Sharpening Object-Oriented Design</h3>
-      <p>Implementing low-coupling and high-cohesion principles across my Java and C++ projects.</p>
-    </div>
-  </section>
-
-  <!-- <section id="game">
-    <h2>Mini Game: Memory Flip</h2>
-    <div class="game-board"></div>
-    <p id="game-status"></p>
-  </section> -->
-
-   <section id="game-zone">
-  <h2>My Mini Games 🎮</h2>
-
-  <label for="game-select">Choose a game:</label>
-  <select id="game-select">
-    <option value="none">-- Select --</option>
-    <option value="memory">🃏 Memory Flip</option>
-    <option value="snake">🐍 Python Snake</option>
-    <option value="life">🌱 Game of Life</option>
-  </select>
-
-  <div id="memory-section" class="game-section" style="display:none;">
-    <h3>Memory Flip Game</h3>
-    <div class="game-board"></div>
-    <p id="game-status"></p>
-  </div>
-
-  <div id="snake-section" class="game-section" style="display:none;">
-    <h3>Snake Game</h3>
-    <canvas id="snake-canvas" width="400" height="400"></canvas>
-    <p>Use arrow keys to control the snake.</p>
-  </div>
-
-  <div id="life-section" class="game-section" style="display:none;">
-    <h3>Conway's Game of Life <br>
-    Conway’s Game of Life is a cellular automaton where simple rules create complex, evolving patterns. <br>
-    Each cell on the grid lives, dies, or multiplies based on its neighbors, <br>
-    simulating how populations grow and change over time. 🌱🧬</h3>
-    <canvas id="life-canvas" width="500" height="500"></canvas>
-    <br>
-    <button id="start-life">▶️ Start / Pause</button>
-    <button id="clear-life">🧹 Clear</button>
-  </div>
-
+<body>
+<a class="skip-link" href="#main">Skip to content</a><div class="scroll-progress" aria-hidden="true"></div>
+<header class="header"><a class="wordmark" href="#home" aria-label="Blake Brown home">blake brown<span>●</span></a><nav aria-label="Main navigation"><a href="#work">Work</a><a href="#experience">Experience</a><a href="#resume">Resume</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main">
+<section class="hero section" id="home" aria-labelledby="hero-title">
+<div class="hero-meta"><span class="availability"><i></i> Open to engineering opportunities</span><span>BASED IN COLORADO · BUILDING EVERYWHERE</span></div>
+<div class="hero-grid"><div class="hero-copy"><p class="eyebrow">SOFTWARE / CLOUD / AUTOMATION</p><h1 id="hero-title">Good ideas.<br>Reliable <em>systems.</em></h1><p class="intro">I’m Blake, a software and cloud engineer who turns complex problems into tools, pipelines, and infrastructure people can count on.</p><div class="actions"><a class="button primary" href="#work">Explore my work <span>↓</span></a><a class="text-link" href="assets/Blake-Brown-Resume.pdf" download>Download resume <span>↗</span></a></div></div>
+<div class="system-art" role="img" aria-label="Illustration connecting code, cloud infrastructure, and data in one engineering system"><div class="art-grid"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="system-core"><span class="core-symbol">b<span>.</span></span><span>BUILD WITH PURPOSE</span></div><div class="satellite satellite-code"><span class="satellite-icon">&lt;/&gt;</span><div><small>01 / CREATE</small><strong>Software</strong></div></div><div class="satellite satellite-cloud"><span class="satellite-icon">⌘</span><div><small>02 / DEPLOY</small><strong>Cloud</strong></div></div><div class="satellite satellite-data"><span class="satellite-icon">≋</span><div><small>03 / CONNECT</small><strong>Data</strong></div></div><span class="art-caption">IDEA → IMPLEMENTATION → IMPACT</span><div class="art-dot dot-one"></div><div class="art-dot dot-two"></div></div></div>
+<div class="hero-bottom"><span>Built on curiosity. Backed by hands-on experience.</span><a href="#about">SCROLL TO DISCOVER <span>↓</span></a></div>
 </section>
-
-
-
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <form action="https://formsubmit.co/brownblakecs@gmail.com" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
-
-  <script src="scripts/main.js"></script>
-  <script src="scripts/game.js"></script>
-  <script src="scripts/gameswitcher.js"></script>
-
-
-    <!-- ✅ Image Gallery with Lightbox
-  <section id="gallery">
-    <h2>Project Screenshots Gallery</h2>
-    <div class="gallery-grid">
-      <img src="assets/images/clark-tibbs-oqStl2L5oxI-unsplash.jpg" alt="Project 1" class="gallery-img">
-      <img src="assets/images/diego-ph-fIq0tET6llw-unsplash.jpg" alt="Project 2" class="gallery-img">
-      <img src="assets/images/joanna-kosinska-1_CMoFsPfso-unsplash.jpg" alt="Project 3" class="gallery-img">
-  </div>
-
-  <div id="lightbox" class="lightbox">
-      <span id="lightbox-close">&times;</span>
-      <img id="lightbox-img" class="lightbox-content" src="">
-    </div>
-  </section> -->
-
-
-  <!-- ✅ GitHub Repositories Fetch
-  <section id="github-projects">
-    <h2>My GitHub Repositories 📂</h2>
-    <ul id="repo-list"></ul>
-  </section> -->
-
-
-
-
-<!-- <section id="snake-terminal">
-  <h2>Building Snake in Python 🐍</h2>
-  <div class="terminal">
-    <div class="terminal-header">
-      <span class="red"></span>
-      <span class="yellow"></span>
-      <span class="green"></span>
-    </div>
-    <div class="terminal-body" id="typing-terminal"></div>
-  </div>
-</section>
-
-<section id="snake-game-section" style="display:none;">
-  <h2>Snake Game 🎮</h2>
-  <canvas id="snake-canvas" width="400" height="400"></canvas>
-  <p>Use arrow keys to control the snake.</p>
-</section> -->
-
-
-
-
-</body>
-</html>
+<section class="credentials" aria-label="Professional highlights"><span>AWS <strong>Certified Cloud Practitioner</strong></span><span>CSU <strong>B.S. Computer Science</strong></span><span>SPECTRUM <strong>Enterprise cloud experience</strong></span></section>
+<section id="about" class="section about"><div class="section-marker reveal"><span>01 / THE APPROACH</span><span>A little about me</span></div><div class="about-grid"><h2 class="reveal">I like making<br>the complicated<br><em>work simply.</em></h2><div class="about-copy reveal"><p class="large-copy">My work connects software, infrastructure, and the people who depend on them.</p><p>At Charter Communications, I supported enterprise data platforms with AWS, Terraform, GitLab CI/CD, and Python. Before that, I worked on data workflows and solved hands-on IT problems for students and faculty.</p><p>I bring that same practical mindset to every project: understand the problem, build something useful, and make it easier to maintain.</p><a class="text-link" href="#experience">See my experience <span>↘</span></a></div></div></section>
+<section id="work" class="section work"><div class="section-marker reveal"><span>02 / SELECTED WORK</span><span>From infrastructure to interaction</span></div><div class="section-heading reveal"><h2>Built to <em>do something.</em></h2><p>A closer look at the systems I’ve worked on.<br>Professional projects are described without proprietary code.</p></div>
+<div class="projects">
+<article class="project project-one reveal"><div class="project-visual cloud-visual" aria-label="Illustrative cloud workflow"><span class="visual-label">INFRASTRUCTURE / WORKFLOW SKETCH</span><div class="flow"><span>EVENT</span><b>↓</b><span>λ &nbsp; LAMBDA</span><b>↓</b><div><span>GLUE</span><span>ATHENA</span></div></div><span class="visual-footer">DEFINED IN CODE. BUILT TO REPEAT.</span></div><div class="project-body"><div class="project-kicker"><span>01 — PROFESSIONAL PROJECT</span><span>AWS / TERRAFORM</span></div><h3>Cloud infrastructure.<br>Repeatable by design.</h3><p>Supported the MSE data platform with AWS infrastructure and automated ETL workflows for enterprise reporting.</p><ul><li>Defined repeatable infrastructure with Terraform.</li><li>Built SQL transformations and data validation processes.</li><li>Troubleshot deployment and production infrastructure issues.</li></ul><div class="tags"><span>AWS</span><span>Terraform</span><span>Python</span><span>GitLab CI/CD</span></div><details><summary>How I approached it <span>+</span></summary><p>Connected AWS Lambda, Glue, Athena, EventBridge, IAM, and VPC services while keeping deployments version controlled. Worked with engineering teams to investigate failures and support reliable reporting workflows.</p></details></div></article>
+<article class="project project-two reveal"><div class="project-visual data-visual" aria-label="Illustrative dbt model layers"><span class="visual-label">DATA ENGINEERING / MODEL SKETCH</span><div class="data-stack"><div><small>01</small> source data <span>↗</span></div><div><small>02</small> staging models <span>↗</span></div><div><small>03</small> analytics-ready <span>✓</span></div></div><span class="visual-footer">RAW INPUTS. CLEARER ANSWERS.</span></div><div class="project-body"><div class="project-kicker"><span>02 — PROFESSIONAL PROJECT</span><span>DBT / DATABRICKS</span></div><h3>Data that’s easier<br>to build on.</h3><p>Designed modular dbt transformations with reusable SQL models across staging, intermediate, and analytics layers.</p><ul><li>Integrated dbt with Databricks and GitLab workflows.</li><li>Automated testing and documentation.</li><li>Organized transformations for reuse and maintainability.</li></ul><div class="tags"><span>dbt</span><span>SQL</span><span>Databricks</span><span>Git</span></div><details><summary>How I approached it <span>+</span></summary><p>Broke transformations into focused models and used version control, tests, and documentation to make changes easier to understand and review. The goal was a maintainable foundation for analytics.</p></details></div></article>
+<article class="project project-three reveal"><div class="project-visual code-visual"><span class="visual-label">PERSONAL PROJECT / BROWSER PLAYGROUND</span><div class="pixel-grid" aria-hidden="true"></div><div class="pixel-title">Small rules.<br>Endless possibilities<span>_</span></div><span class="visual-footer">CURIOSITY, IN CODE.</span></div><div class="project-body"><div class="project-kicker"><span>03 — PERSONAL PROJECT</span><span>JAVASCRIPT / HTML / CSS</span></div><h3>A little room<br>to experiment.</h3><p>Interactive browser experiments, including Memory Flip, Snake, and Conway’s Game of Life. A space to explore state, logic, and user interaction.</p><div class="tags"><span>JavaScript</span><span>Canvas</span><span>Game logic</span></div><div class="actions"><a class="text-link" href="playground.html">Open the playground <span>↗</span></a><a class="text-link" href="https://github.com/SEblakebrown/blake-portfolio">View source <span>↗</span></a></div></div></article>
+</div></section>
+<section class="section experience" id="experience"><div class="section-marker reveal"><span>03 / EXPERIENCE</span><span>Hands-on, from the ground up</span></div><div class="experience-grid"><div class="experience-intro reveal"><h2>Real teams.<br>Real <em>problems.</em></h2><p>Experience across enterprise infrastructure, data engineering, and frontline technology support.</p><a href="assets/Blake-Brown-Resume.pdf" class="text-link" download>Get the full resume <span>↗</span></a></div><div class="timeline"><article class="timeline-item reveal"><div class="role-meta"><span>JAN — JUN 2026</span><span>CONTRACT</span></div><h3>DevOps Engineer</h3><h4>Charter Communications · Spectrum</h4><p>Built and maintained AWS infrastructure with Terraform, supported GitLab CI/CD, and developed Python automation and dbt workflows for enterprise data platforms.</p><div class="tags"><span>AWS</span><span>Terraform</span><span>CI/CD</span></div></article><article class="timeline-item reveal"><div class="role-meta"><span>2024 — 2025</span><span>INTERNSHIP</span></div><h3>Data Engineer Intern</h3><h4>Omega Environmental Technologies</h4><p>Developed SQL queries and automated data processing workflows. Supported reporting, data validation, query optimization, and Python automation.</p></article><article class="timeline-item reveal"><div class="role-meta"><span>JAN 2025 — 2026</span><span>IT SUPPORT</span></div><h3>IT Specialist</h3><h4>West Middle School · Fort Collins</h4><p>Designed a ticketing system with asset tracking and resolved hardware, software, and network issues for students and faculty.</p></article></div></div></section>
+<section class="section toolkit" id="skills"><div class="section-marker reveal"><span>04 / TOOLKIT</span><span>The tools behind the work</span></div><h2 class="reveal">A practical <em>stack.</em></h2><div class="toolkit-grid"><div class="skill-group reveal"><span>01</span><h3>Build</h3><p>Python · JavaScript · React<br>SQL · C++ · Java · HTML & CSS</p></div><div class="skill-group reveal"><span>02</span><h3>Deploy</h3><p>AWS · Terraform · GitLab CI/CD<br>Docker · Linux · Git & GitHub</p></div><div class="skill-group reveal"><span>03</span><h3>Connect</h3><p>dbt · Databricks · Glue · Athena<br>ETL workflows · Data validation</p></div></div></section>
+<section class="section resume" id="resume"><div class="resume-panel reveal"><div><p class="eyebrow">05 / THE SHORT VERSION</p><h2>The experience.<br><em>All in one place.</em></h2><p>A concise resume covering my engineering experience,<br>technical skills, education, and certification.</p><div class="actions"><a class="button primary" href="assets/Blake-Brown-Resume.pdf" download>Download resume <span>↓</span></a><a class="text-link" href="assets/Blake-Brown-Resume.pdf" target="_blank" rel="noopener">View PDF <span>↗</span></a></div></div><div class="resume-preview" aria-hidden="true"><div class="paper-title">BLAKE BROWN<span>SOFTWARE & CLOUD ENGINEER</span></div><div class="paper-line"></div><b>EXPERIENCE</b><strong>Charter Communications</strong><span>DevOps Engineer · 2026</span><strong>Omega Environmental Technologies</strong><span>Data Engineer Intern · 2024–2025</span><div class="paper-line"></div><b>EDUCATION</b><strong>Colorado State University</strong><span>B.S. Computer Science · 2024</span><div class="paper-stamp">LET’S BUILD.</div></div></div></section>
+<section class="section contact" id="contact"><div class="section-marker reveal"><span>06 / WHAT’S NEXT</span><span class="availability"><i></i> Open to work</span></div><div class="contact-content reveal"><p class="eyebrow">HAVE A CHALLENGE WORTH SOLVING?</p><h2>Let’s build<br>something <em>useful.</em></h2><p>I’m looking for my next opportunity in software, cloud, or DevOps engineering. Let’s talk about what your team is building.</p><a class="contact-email" href="mailto:brownblakecs@gmail.com">brownblakecs@gmail.com <span>↗</span></a><div class="contact-links"><a href="https://github.com/SEblakebrown">GitHub ↗</a><a href="assets/Blake-Brown-Resume.pdf" download>Resume ↓</a><span>Centennial, Colorado</span></div></div></section>
+</main><footer><span>© <span id="year">2026</span> Blake Brown</span><span>Curiosity → craft → useful things.</span><a href="#home">Back to top ↑</a></footer>
+</body></html>
