@@ -52,3 +52,54 @@
   }
   document.getElementById('year').textContent = new Date().getFullYear();
 })();
+
+// Pointer lighting uses one animation frame per input burst; no idle render loop.
+(() => {
+  const enabled = window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+  const surfaces = [...document.querySelectorAll('main > .section')];
+  let active = null;
+  let frame = 0;
+  let position = null;
+
+  function clear() {
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+    position = null;
+    surfaces.forEach(surface => {
+      surface.classList.remove('pointer-active');
+      surface.style.removeProperty('--depth-x');
+      surface.style.removeProperty('--depth-y');
+    });
+    active = null;
+  }
+
+  function paint() {
+    frame = 0;
+    if (!enabled.matches || !active || !position) return;
+    const bounds = active.getBoundingClientRect();
+    const x = position.x - bounds.left;
+    const y = position.y - bounds.top;
+    active.style.setProperty('--pointer-x', `${x}px`);
+    active.style.setProperty('--pointer-y', `${y}px`);
+    if (active.id === 'home') {
+      active.style.setProperty('--depth-x', `${(x / bounds.width - .5) * 10}px`);
+      active.style.setProperty('--depth-y', `${(y / bounds.height - .5) * 8}px`);
+    }
+    active.classList.add('pointer-active');
+  }
+
+  surfaces.forEach(surface => {
+    surface.classList.add('pointer-surface');
+    surface.addEventListener('pointermove', event => {
+      if (!enabled.matches || event.pointerType !== 'mouse') return;
+      if (active !== surface) { clear(); active = surface; }
+      position = { x: event.clientX, y: event.clientY };
+      if (!frame) frame = requestAnimationFrame(paint);
+    }, { passive: true });
+    surface.addEventListener('pointerleave', clear, { passive: true });
+  });
+  enabled.addEventListener('change', clear);
+  window.addEventListener('blur', clear);
+  window.addEventListener('scroll', clear, { passive: true });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) clear(); });
+})();
