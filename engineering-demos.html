@@ -44,9 +44,9 @@ footer{text-align:center;padding:25px;color:#94abba;font-size:12px;border-top:1p
 <div class="field"><label for="qty">Quantity (1–100)</label><input id="qty" type="number" min="1" max="100" step="1" value="2"></div>
 <div class="field"><label for="price">Unit price (USD)</label><input id="price" type="number" min="0" max="10000" step="0.01" value="12.50"></div>
 <div class="field"><label for="jsonformat">Response example</label><select id="jsonformat"><option value="ok">Valid request</option><option value="bad">Invalid request</option></select></div>
-</div><button class="action" id="lambda-run" type="button">Execute example request ↗</button>
+</div><button class="action" id="lambda-run" type="button">Execute example request ↗</button><div id="request-feedback" role="status" aria-live="polite" style="min-height:46px;color:#a7ecd1;font-size:13px;margin:4px 0 16px">Ready to execute a local example request.</div>
 <p class="note">Input validation and integer-cent pricing mirror the Python handler. The deployment uses the third-party terraform-aws-lambda module with AWS_IAM authorization. The browser performs no network or AWS operations.</p></div>
-<div class="demo-panel"><h3>SIMULATED HTTP RESPONSE · CALCULATED LOCALLY</h3><pre id="lambda-output" aria-live="polite"></pre><div class="pills"><span>Python 3.12</span><span>Terraform IaC</span><span>Signed endpoint</span><span>Unit tests</span></div>
+<div class="demo-panel"><h3>SIMULATED HTTP RESPONSE · CALCULATED LOCALLY</h3><div id="request-number" style="color:#a7ecd1;font-size:12px;margin-bottom:12px">No requests submitted yet</div><pre id="lambda-output" aria-live="polite">Click “Execute example request” to generate a response.</pre><div class="pills"><span>Python 3.12</span><span>Terraform IaC</span><span>Signed endpoint</span><span>Unit tests</span></div>
 <div class="lineage"><span>JSON Request</span><b>→</b><span>Lambda Handler</span><b>→</b><span>Validated Response</span></div></div>
 </div></section>
 <section class="demo" id="dbt-demo" aria-labelledby="dbt-title">
@@ -73,11 +73,17 @@ group by customer_id;</pre>
 (function(){
 "use strict";
 const q=(id)=>document.getElementById(id);
+let requestCount=0;
 function api(){
  let sku=q("sku").value,quantity=Number(q("qty").value),money=Number(q("price").value),cents=Math.round(money*100),forceBad=q("jsonformat").value==="bad";
  const valid=!forceBad&&sku.trim().length>=1&&sku.trim().length<=40&&Number.isInteger(quantity)&&quantity>=1&&quantity<=100&&Number.isFinite(money)&&money>=0&&money<=10000&&Math.abs(money*100-cents)<.000001;
  const payload=valid?{statusCode:200,headers:{"content-type":"application/json"},body:JSON.stringify({currency:"USD",item_count:1,subtotal_cents:quantity*cents})}:{statusCode:400,headers:{"content-type":"application/json"},body:JSON.stringify({error:"Invalid sample request: check SKU, quantity and integer-cent price"})};
+ requestCount += 1;
+ const stamp=new Date().toLocaleTimeString();
  q("lambda-output").textContent=JSON.stringify(payload,null,2);
+ q("request-number").textContent="Request #"+requestCount+" · "+stamp+" · HTTP "+payload.statusCode;
+ q("request-feedback").textContent=(valid?"✓ Request #"+requestCount+" succeeded. Calculated total: $"+(quantity*cents/100).toFixed(2):"⚠ Request #"+requestCount+" rejected: HTTP 400. Review the example response.")+" (browser simulation)";
+ q("request-feedback").style.color=valid?"#a7ecd1":"#ffcf89";
 }
 const people=[{id:1,name:"Ada"},{id:2,name:"Ben"},{id:3,name:"Cleo"}];
 const orders=[{id:1001,c:1,status:"paid",v:2500},{id:1002,c:1,status:"paid",v:5000},{id:1003,c:2,status:"paid",v:4000},{id:1004,c:2,status:"paid",v:6000},{id:1005,c:3,status:"pending",v:3000},{id:1006,c:1,status:"cancelled",v:1500}];
@@ -89,6 +95,6 @@ function analytics(){
  q("revenue-table").replaceChildren(...rows.map(r=>{const tr=document.createElement("tr");[r.name,String(r.count),usd(r.cents)].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});return tr;}));
  const max=Math.max(1,...rows.map(r=>r.cents));q("revenue-bars").replaceChildren(...rows.map(r=>{const wrap=document.createElement("div");wrap.className="bar-wrap";const value=document.createElement("strong");value.textContent=usd(r.cents);const bar=document.createElement("div");bar.className="bar";bar.style.height=Math.max(3,Math.round(r.cents/max*110))+"px";const title=document.createElement("span");title.textContent=r.name;wrap.append(value,bar,title);return wrap;}));
 }
-q("lambda-run").addEventListener("click",api);q("order-filter").addEventListener("change",analytics);api();analytics();
+q("lambda-run").addEventListener("click",api);q("order-filter").addEventListener("change",analytics);analytics();
 })();
 </script></body></html>
