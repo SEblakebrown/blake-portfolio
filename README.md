@@ -101,3 +101,40 @@ Do **not** expose this local development server to the public internet. GitHub P
 ### Important accuracy boundary
 
 These are **real local LLM calls**, not ten independent autonomous code agents continuously reconstructing the site for every visitor. Public animations are still simulations, and the local workshop generates preview components rather than directly editing or rebuilding the existing portfolio.
+
+## React/CSS Modules swarm block builder
+
+The `swarm-react/` directory is the source of the redesigned [Swarm Lab](swarm.html). This is a **visual construction simulation**, not an autonomous agent coding service.
+
+It uses React and CSS modules for the authoring system and **build-time server rendering** for the published `swarm.html`. GitHub Pages only serves the prebuilt HTML, JS, and CSS; it does not run React on a server. Every finished component is present in the HTML as a `data-block` with a `.fill` child. Only browsers with JavaScript and no reduced-motion preference hide blocks for staged construction. With scripting disabled or reduced motion enabled, the finished page is readable immediately.
+
+Features:
+- 25 real markup blocks across six sections; progressive `empty → mark → rough → done` state transitions
+- Dashed live W × H marquee, outline handles, skeleton, JSX tooltip, final glow and blur resolve
+- Twelve named SVG cursors in three brand colors, moved using a single animation-frame loop
+- Assigned agent or round-robin scheduling, up to four active cursors per section, idle flocking
+- Headline typing in an absolutely positioned overlay over the unchanged underlying heading box
+- Timestamped fixed activity feed, automatic section scrolling, and viewport-only handover after deliberate wheel/touch/keyboard input (disabled by `?play`)
+- Skip and Rebuild controls; abortable listeners and animation teardown
+
+### Build
+
+```bash
+cd swarm-react
+npm install
+npm run build
+```
+
+Build outputs are committed to the repository as `swarm.html`, `assets/swarm-react.js`, and `assets/swarm-react.css`. A GitHub Actions workflow builds them on the feature branch and runs Playwright browser tests before updating generated artifacts.
+
+### Testing
+
+```bash
+cd swarm-react
+npx playwright install chromium
+npm run test:e2e
+```
+
+The browser test suite verifies SSR markup, cursor count, skip, rebuild, no-script, reduced-motion and scroll handover. Actual outcome should be verified in GitHub Actions before merging.
+
+The separate `agent-workshop.html` + local Ollama backend remains available for **real LLM code generation**, subject to manual approval. It is not connected to the public animated swarm.

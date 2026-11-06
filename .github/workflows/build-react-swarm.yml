@@ -1,0 +1,52 @@
+name: Build server-rendered React Swarm
+on:
+  push:
+    branches: [feature/react-swarm-block-builder]
+    paths:
+      - 'swarm-react/**'
+      - '.github/workflows/build-react-swarm.yml'
+  workflow_dispatch:
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+        working-directory: swarm-react
+      - name: Syntax checks
+        run: npm run check
+        working-directory: swarm-react
+      - name: Build HTML and client assets
+        run: npm run build
+        working-directory: swarm-react
+      - name: Verify SSR and CSS output
+        run: |
+          test -s swarm.html
+          test -s assets/swarm-react.js
+          test -s assets/swarm-react.css
+          grep -q 'data-block=' swarm.html
+          grep -q 'data-phase="empty"' swarm.html
+          grep -q 'prefers-reduced-motion' assets/swarm-react.css
+      - name: Install Chromium for browser tests
+        run: npx playwright install --with-deps chromium
+        working-directory: swarm-react
+      - name: Run end-to-end browser tests
+        run: npm run test:e2e
+        working-directory: swarm-react
+      - name: Commit built site on feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add swarm.html assets/swarm-react.js assets/swarm-react.css
+          if ! git diff --cached --quiet; then
+            git commit -m "build: generate SSR React swarm page and CSS module bundle"
+            git push origin HEAD:feature/react-swarm-block-builder
+          fi
