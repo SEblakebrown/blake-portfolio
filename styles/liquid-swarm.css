@@ -98,3 +98,8 @@ body .pointer-surface::before{background:radial-gradient(circle,#7dd3fc1b,transp
 .cine-badge{color:#8ebbd4;display:block;font-size:10px;margin-top:5px}
 @media(max-width:650px){.cine-top{left:12px;right:12px;top:12px}.cine-top>span{font-size:9px;max-width:45%}.cine-controls button{padding:9px 8px}.cine-live{bottom:14px;left:10px;right:10px;max-width:none}.cine-heading{font-size:clamp(44px,12vw,76px)}}
 @media(prefers-reduced-motion:reduce){.cine-intro{display:none!important}.cine-identity,.cine-stage-viewport,.cine-window,.cine-intro.is-ending{transition:none!important}.cine-line i{animation:none!important}}
+
+/* If JavaScript fails before it starts the sequence, uncover the real page. */
+.cine-intro:not(.is-ready){animation:cine-failsafe .01s linear 15s forwards}
+@keyframes cine-failsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(max-width:700px){.cine-workspace-title{font-size:11px}.cine-live{font-size:10px}.cine-controls{gap:4px}.cine-controls button{font-size:10px}.cine-stage-viewport{transition:opacity .55s}}
