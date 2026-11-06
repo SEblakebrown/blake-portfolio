@@ -1,0 +1,7 @@
+order_id,customer_id,status,amount_cents
+1001,1,paid,2500
+1002,1,paid,5000
+1003,2,paid,4000
+1004,2,paid,6000
+1005,3,pending,3000
+1006,1,cancelled,1500
