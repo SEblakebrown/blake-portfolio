@@ -24,3 +24,7 @@
    filter:none!important;
  }
 }
+
+/* A fractional rotation rasterizes the photograph and softens fine details. */
+[data-block="hero-photo"] figure,
+[data-block="hero-photo"] figure:hover {transform:none!important}
