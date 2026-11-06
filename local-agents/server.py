@@ -22,6 +22,31 @@ def ask(model, role, text):
     with urllib.request.urlopen(req, timeout=240) as resp:
         return json.load(resp)["message"]["content"]
 
+def normalize_component(raw):
+    """Extract usable HTML from typical local LLM responses without inventing markup."""
+    if not isinstance(raw, str) or not raw.strip():
+        raise ValueError("Ollama returned an empty response")
+    raw = raw.strip()
+    blocks = re.findall(r"\x60{3}(?:html|htm)?[ \t]*\r?\n([\s\S]*?)\x60{3}", raw, flags=re.I)
+    if blocks:
+        candidates = [block for block in blocks if re.search(r"<(?:section|article|div|main|header|h[1-6])\b", block, re.I)]
+        if candidates:
+            raw = "\n".join(candidates)
+    # Accept complete HTML documents, standalone sections, and div-based components.
+    if not re.search(r"<(?:section|article|div|main|header|h[1-6])\b", raw, re.I):
+        raise ValueError("Ollama returned text rather than an HTML component")
+    if len(raw) > 70000:
+        raise ValueError("Generated component exceeded the size limit")
+    # Remove active content from the preview; it also loads in a script-disabled iframe.
+    raw = re.sub(r"<script\b[^>]*>[\s\S]*?</script\s*>", "", raw, flags=re.I)
+    raw = re.sub(r"<(?:iframe|form|object|embed|link|base|meta)\b[^>]*>", "", raw, flags=re.I)
+    raw = re.sub(r"\s+on[a-z]+\s*=\s*(?:\"[^\"]*\"|'[^']*'|[^\s>]+)", "", raw, flags=re.I)
+    raw = re.sub(r"""(?:href|src)\s*=\s*(?:"(?:javascript:|data:|https?://)[^"]*"|'(?:javascript:|data:|https?://)[^']*')""", "", raw, flags=re.I)
+    if not re.search(r"<section\b", raw, re.I):
+        # A div/article HTML component is useful even if the model omitted <section>.
+        raw = '<section class="generated-component">\n' + raw + '\n</section>'
+    return raw
+
 def run(prompt, model):
     try:
         log("NOVA", "Planning a portfolio component using Ollama")
@@ -29,13 +54,32 @@ def run(prompt, model):
         with LOCK: STATE["plan"] = plan[:6000]
         log("NOVA", "Plan completed")
         log("CODEX", "Generating an HTML/CSS portfolio component")
-        draft = ask(model, "You are CODEX. Output only a standalone semantic HTML section with inline CSS in a style tag. No JS, remote dependencies, forms, links, iframes, or markdown fences. Light frosted-glass style.", plan[:5000])
-        draft = re.sub(r"^\s*\x60\x60\x60(?:html)?|\x60\x60\x60\s*$", "", draft.strip(), flags=re.I)
-        if len(draft) > 70000 or not re.search(r"<section\b", draft, re.I):
-            raise ValueError("Model did not produce a usable section")
-        draft = re.sub(r"<script\b[^>]*>[\s\S]*?</script\s*>", "", draft, flags=re.I)
-        draft = re.sub(r"<(?:iframe|form|object|embed|link|base)\b[^>]*>", "", draft, flags=re.I)
-        draft = re.sub(r"\s+on[a-z]+\s*=\s*(?:\"[^\"]*\"|'[^']*'|[^\s>]+)", "", draft, flags=re.I)
+        code_role = ("You are CODEX. Produce ONLY valid, standalone HTML for a responsive "
+                     "portfolio component. Begin with <section> and end with </section>. "
+                     "Include a <style> block for light frosted-glass styling. "
+                     "No markdown, explanations, scripts, remote assets, forms, or iframes.")
+        draft = None
+        for attempt in range(2):
+            if attempt:
+                log("CODEX", "First response was not valid HTML; retrying with stricter instructions")
+            response = ask(
+                model, code_role,
+                ("Create HTML for the following plan:\n" + plan[:5000]) if not attempt else
+                ("Your prior response did not contain a usable HTML component. "
+                 "Return HTML only, starting exactly with <section> and ending with "
+                 "</section>. No prose, no markdown fences. Plan:\n" + plan[:4000])
+            )
+            try:
+                draft = normalize_component(response)
+                break
+            except ValueError as issue:
+                if attempt:
+                    raise ValueError(
+                        "CODEX returned no usable HTML after two attempts. "
+                        "Try a more specific request or a stronger Ollama coding model."
+                    ) from issue
+        if not draft:
+            raise ValueError("No usable CODEX output")
         with LOCK: STATE["draft"] = draft
         log("CODEX", "Draft component produced (not applied)")
         log("REVIEW", "Reviewing the generated component")
