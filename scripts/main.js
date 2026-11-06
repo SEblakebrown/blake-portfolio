@@ -134,7 +134,6 @@
   });
   // Do not replay over an anchored section when navigating from another page.
   if (window.location.hash && window.location.hash !== '#home') dismiss();
-  intro.addEventListener('animationend', event => {
-    if (event.animationName === 'opening-exit') intro.remove();
-  });
+  // Keep the hidden element mounted so Replay intro works after the first run.
+  // The animation ends with visibility:hidden and pointer-events:none.
 })();
