@@ -44,6 +44,8 @@ test("agents actually move blocks through construction states",async({page})=>{
  page.on("console",msg=>{if(msg.type()==="error")console.log("SWARM_CONSOLE_ERROR",msg.text());});
  await page.goto("/swarm.html?play");
  await expect(page.locator("[data-cursor]")).toHaveCount(12);
+ await page.waitForTimeout(1200);
+ console.log("SWARM_RUNTIME_STATE",await page.evaluate(()=>({debug:window.__swarmDebug,phases:[...document.querySelectorAll("[data-block]")].map(e=>e.dataset.phase).slice(0,6),sections:document.querySelectorAll("[data-section]").length,log:document.querySelector("#swarm-log-lines")?.innerText})));
  await expect.poll(async()=>await page.locator('[data-block][data-phase="mark"],[data-block][data-phase="rough"],[data-block][data-phase="typing"],[data-block][data-phase="done"]').count(),{timeout:8000}).toBeGreaterThan(0);
  await expect(page.locator("#swarm-log-lines")).toContainText(/Targeted|Marquee|Outlined|Resolved|Typed/);
  const cursor=page.locator('[data-cursor="CODEX"]');
