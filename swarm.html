@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080e19"><meta name="description" content="An interactive simulated AI agent swarm — a portfolio UI experiment by Blake Brown.">
+<title>Agent Swarm Lab — Blake Brown</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:#eaf1ff;background:#080d17;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;overflow:hidden}button,a{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid #9bdcfc;outline-offset:3px}
+.shell{height:100dvh;display:flex;flex-direction:column;background:radial-gradient(ellipse at 30% 10%,#16243c 0%,#090e19 58%,#06090e 100%)}
+.top{z-index:10;display:flex;align-items:center;gap:18px;justify-content:space-between;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid #ffffff18;background:#090f19ec;backdrop-filter:blur(18px)}
+.brand{font-weight:850;letter-spacing:.08em}.brand b{color:#b9dfff}.brand span{display:block;font-weight:450;font-size:10px;letter-spacing:.16em;color:#94a6bc;margin-top:3px}
+.top a{color:#bbcde4;text-decoration:none;font-size:13px}.top a:hover{color:white}.control{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.control button,.agent-list button,.window-bar button,.details button{background:#172236;color:#dbe8fc;border:1px solid #32425b;border-radius:8px;padding:8px 10px;font-size:12px}
+.control button:hover,.agent-list button:hover,.details button:hover{background:#243652}.control button.primary{background:#c8e7fc;color:#0b1b2c;border-color:#c8e7fc;font-weight:800}
+.control button[aria-pressed=true]{border-color:#83c9f7;color:#b7e9ff}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 272px;flex:1;min-height:0}.main-area{position:relative;overflow:hidden;touch-action:none;cursor:grab}.main-area.dragging{cursor:grabbing}
+.dotgrid{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#8cadd423 1px,transparent 1px);background-size:26px 26px;mask-image:radial-gradient(ellipse,black 30%,transparent 95%)}
+.stage{position:absolute;width:1700px;height:1050px;transform-origin:0 0;will-change:transform}
+.stage:before{content:"";position:absolute;inset:55px;border:1px solid #9dbde310;border-radius:35px;pointer-events:none}
+.trail{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:4}.trail line{stroke-width:1.6;stroke-dasharray:4 7;opacity:.45}
+.wnd{position:absolute;width:440px;min-height:205px;border:1px solid #6e8bab42;border-radius:14px;background:#111a2bea;box-shadow:0 20px 70px #0008,0 0 35px #567eb50a;overflow:hidden;transition:opacity .35s,scale .45s,box-shadow .35s;z-index:2}
+.wnd.construct{animation:materialize .55s cubic-bezier(.17,.85,.23,1) both}.wnd.active{box-shadow:0 20px 75px #0009,0 0 0 1px #8eb4e83b}
+@keyframes materialize{from{opacity:0;scale:.58;filter:blur(9px)}to{opacity:1;scale:1;filter:blur(0)}}
+.window-bar{height:39px;background:#19263b;display:flex;align-items:center;gap:9px;padding:0 12px;cursor:move;user-select:none;border-bottom:1px solid #ffffff15}
+.traffic{display:flex;gap:5px}.traffic i{display:block;width:8px;height:8px;border-radius:50%;background:#f37b79}.traffic i:nth-child(2){background:#f4c868}.traffic i:nth-child(3){background:#75d6a1}
+.wtitle{font-size:11px;letter-spacing:.06em;color:#ccdaec;flex:1;font-weight:700}.window-bar button{padding:3px 7px;font-size:11px}
+.wbody{padding:14px 16px;min-height:160px}.code{margin:0;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;color:#b4d5f9;white-space:pre-wrap;word-break:break-word}
+.code .kw{color:#d8b1ff}.caret{border-left:2px solid #94eaff;animation:blink 1s step-end infinite}@keyframes blink{50%{opacity:0}}
+.muted{color:#8299b3}.success{color:#8af1bf}.warn{color:#f4c87f}.browser-address{font:11px ui-monospace,monospace;color:#a9bbcf;border-radius:6px;border:1px solid #36475e;padding:8px;background:#0d1524;margin-bottom:12px}
+.skeleton{display:grid;gap:9px}.skeleton i{display:block;background:linear-gradient(90deg,#34465a55,#6a8cb366,#34465a55);background-size:200% 100%;height:11px;border-radius:8px;animation:shimmer 1.5s infinite}.skeleton i:nth-child(2){width:76%}.skeleton i:nth-child(3){width:55%}@keyframes shimmer{to{background-position:-200% 0}}
+.mini{display:flex;align-items:center;gap:9px;margin:7px 0;padding:7px;border:1px solid #2d3f56;border-radius:7px;font-size:11px;color:#cbd9eb}.mini i{width:8px;height:8px;border-radius:50%;background:#8bdcfa}
+.agent-cursor{position:absolute;z-index:7;pointer-events:none;transition:left .95s cubic-bezier(.22,.6,.14,1),top .95s cubic-bezier(.24,.75,.17,1);filter:drop-shadow(0 4px 8px #000a)}
+.pointer{width:0;height:0;border-left:12px solid var(--agent);border-top:8px solid transparent;border-bottom:8px solid transparent;transform:rotate(-42deg);filter:drop-shadow(0 0 6px var(--agent))}
+.agent-tag{display:inline-block;margin:1px 0 0 13px;border:1px solid var(--agent);border-radius:7px;background:#08101be8;padding:4px 7px;color:var(--agent);font:700 10px ui-monospace,monospace;letter-spacing:.06em;white-space:nowrap}
+.agent-cursor.busy .pointer{animation:pulse 1s infinite alternate}@keyframes pulse{to{filter:drop-shadow(0 0 11px var(--agent))}}
+.sidebar{border-left:1px solid #ffffff18;background:#0b121df2;display:flex;flex-direction:column;min-height:0}
+.side-title{font:700 11px ui-monospace,monospace;letter-spacing:.16em;color:#91a9c4;margin:0 0 12px}
+.side-section{padding:16px;border-bottom:1px solid #ffffff13}.agent-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}.agent-list button{text-align:left;padding:8px;font-size:10px;display:flex;align-items:center;gap:6px}
+.agent-list button.selected{border-color:#a7d1ef;background:#1b3048}.agent-dot{width:7px;height:7px;border-radius:50%;background:var(--agent);box-shadow:0 0 10px var(--agent)}
+.details{font-size:12px;color:#c2d1e5;line-height:1.6}.details strong{color:white}.details p{margin:6px 0}.details small{color:#7f93ae}
+.activity{overflow:auto;flex:1;min-height:100px}.activity-entry{padding:8px 0;border-top:1px solid #ffffff0d;animation:enter .3s ease-out;font-size:11px;color:#b9cbe0;line-height:1.5}@keyframes enter{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.activity-entry time{color:#788da7;margin-right:6px}.activity-entry b{color:#ddeaff}.bottom{position:absolute;left:16px;bottom:15px;z-index:9;background:#0b1522de;border:1px solid #425571;border-radius:10px;padding:10px 12px;max-width:min(520px,calc(100% - 32px));font-size:11px;color:#aabed5;backdrop-filter:blur(12px)}
+.bottom strong{color:#d4eeff}.bottom .status{color:#83edb7}.hint{display:block;margin-top:4px;color:#8295ad}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{position:absolute;right:10px;top:145px;bottom:15px;width:min(252px,50vw);z-index:9;border:1px solid #ffffff24;border-radius:13px;box-shadow:0 12px 44px #0009}.top{gap:9px;padding:9px 12px}.control button{padding:7px}.bottom{max-width:45vw}}
+@media(max-width:590px){.sidebar{top:auto;left:8px;right:8px;bottom:8px;width:auto;height:210px}.side-section:first-child{display:none}.side-section{padding:9px}.activity{font-size:10px}.bottom{bottom:226px;max-width:calc(100% - 20px)}.top a{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style></head><body><div id="app"></div>
+<script type="module">
+import React,{useState,useEffect,useRef,useMemo} from "https://esm.sh/react@19.1.1";
+import{createRoot}from "https://esm.sh/react-dom@19.1.1/client";
+const h=React.createElement;
+const AGENTS=[
+["NOVA","#b9e7ff","Orchestration"],["CODEX","#a5a7ff","Software development"],["RESEARCH","#ffc887","Research"],["BUILDER","#7ee8c0","Interface design"],["DEBUG","#f794ad","Error investigation"],["REVIEW","#d8b6ff","Code review"],["SYSTEM","#83baf5","System operations"],["MEMORY","#f7de83","Context management"],["GITHUB","#b5ccdb","Repository workflow"],["TESTER","#8fe6a0","Automated testing"]
+].map(([name,color,role],id)=>({name,color,role,id}));
+const SCENES=[
+{agent:0,kind:"plan",title:"NOVA / Task orchestration",msg:"NOVA → BUILDER: Layout initialized",x:90,y:100},
+{agent:3,kind:"design",title:"BUILDER / Interface canvas",msg:"BUILDER → CODEX: Layout initialized",x:590,y:80},
+{agent:1,kind:"code",title:"CODEX / App.tsx",msg:"CODEX: Editing App.tsx",x:110,y:405},
+{agent:2,kind:"research",title:"RESEARCH / Documentation",msg:"RESEARCH: Gathering references",x:1080,y:90},
+{agent:8,kind:"git",title:"GITHUB / Changes",msg:"GITHUB: Preparing changes for review",x:1080,y:370},
+{agent:4,kind:"debug",title:"DEBUG / Diagnostics",msg:"DEBUG → TESTER: Diagnostics collected",x:600,y:375},
+{agent:9,kind:"test",title:"TESTER / Terminal",msg:"TESTER: Running demonstration checks",x:120,y:715},
+{agent:5,kind:"review",title:"REVIEW / Inspection",msg:"REVIEW: Reviewing proposed changes",x:600,y:690},
+{agent:6,kind:"system",title:"SYSTEM / Operations",msg:"SYSTEM: Inspecting mock workspace",x:1085,y:665},
+{agent:7,kind:"memory",title:"MEMORY / Context",msg:"MEMORY → NOVA: Context summarized",x:620,y:110}
+];
+const SEED=AGENTS.map((a,i)=>({x:200+i*92,y:35+(i%3)*22,stage:"idle"}));
+const CODE="export function App() {\n  const agents = useSwarm();\n  return (\n    <Workspace agents={agents} />\n  );\n}\n\n// Interactive portfolio demo";
+function App(){
+ const [running,setRunning]=useState(false),[paused,setPaused]=useState(false),[tick,setTick]=useState(0),[windows,setWindows]=useState([]),[cursors,setCursors]=useState(SEED),[feed,setFeed]=useState([]),[selected,setSelected]=useState(0),[follow,setFollow]=useState(false),[cinematic,setCinematic]=useState(false),[reduced,setReduced]=useState(matchMedia("(prefers-reduced-motion: reduce)").matches);
+ const [camera,setCamera]=useState({x:0,y:0,s:0.72});const area=useRef(null),drag=useRef(null),timer=useRef(null),seq=useRef(0);
+ const active=SCENES[(Math.max(0,tick-1))%SCENES.length];
+ function reset(){setRunning(false);setPaused(false);setTick(0);setWindows([]);setCursors(SEED);setFeed([]);seq.current=0}
+ function start(){reset();setRunning(true)}
+ function pushEvent(msg,agent){setFeed(f=>[{id:++seq.current,stamp:new Date().toLocaleTimeString([], {hour12:false,minute:"2-digit",second:"2-digit"}),msg,agent},...f].slice(0,35))}
+ useEffect(()=>{if(!running||paused)return;timer.current=setInterval(()=>setTick(n=>n+1),reduced?2100:1700);return()=>clearInterval(timer.current)},[running,paused,reduced]);
+ useEffect(()=>{if(!running||tick===0)return;const scene=SCENES[(tick-1)%SCENES.length],i=scene.agent;
+ setWindows(ws=>ws.some(w=>w.kind===scene.kind)?ws.map(w=>w.kind===scene.kind?{...w,phase:tick}:w):[...ws,{...scene,phase:tick}]);
+ setCursors(cs=>cs.map((p,j)=>j===i?{x:scene.x+115+(tick%3)*28,y:scene.y+85+(tick%2)*65,stage:"working"}:({...p,stage:"idle"})));
+ pushEvent(scene.msg,i);
+ if(follow||cinematic)focus(scene.x,scene.y);
+ if(tick%10===0)pushEvent("NOVA: Demonstration cycle complete (simulated)",0);
+ },[tick]);
+ useEffect(()=>{const update=()=>{if(area.current&&tick===0){const r=area.current.getBoundingClientRect();setCamera({x:Math.max(12,(r.width-1700*.61)/2),y:20,s:.61})}};update();window.addEventListener("resize",update);return()=>window.removeEventListener("resize",update)},[]);
+ function focus(x,y){const el=area.current;if(!el)return;const r=el.getBoundingClientRect();setCamera({x:r.width/2-(x+190)*.85,y:r.height/2-(y+130)*.85,s:.85})}
+ function all(){const r=area.current?.getBoundingClientRect();if(!r)return;const s=Math.min((r.width-40)/1700,(r.height-40)/1050,.95);setCamera({x:(r.width-1700*s)/2,y:(r.height-1050*s)/2,s})}
+ function wheel(e){e.preventDefault();const r=area.current.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;const s=Math.max(.3,Math.min(1.45,camera.s*(e.deltaY>0?.9:1.1)));setCamera(c=>({s,x:mx-(mx-c.x)*s/c.s,y:my-(my-c.y)*s/c.s}))}
+ function down(e){if(e.button!==0||e.target.closest("button"))return;const win=e.target.closest(".wnd");drag.current={type:win?"window":"camera",id:win?.dataset.kind,x:e.clientX,y:e.clientY,camera:{...camera}};e.currentTarget.setPointerCapture(e.pointerId)}
+ function move(e){if(!drag.current)return;const d=drag.current,dx=e.clientX-d.x,dy=e.clientY-d.y;if(d.type==="camera")setCamera({...d.camera,x:d.camera.x+dx,y:d.camera.y+dy});else{setWindows(w=>w.map(x=>x.kind===d.id?{...x,x:x.x+dx/camera.s,y:x.y+dy/camera.s}:x));d.x=e.clientX;d.y=e.clientY}}
+ function end(){drag.current=null}
+ const chosen=AGENTS[selected],recent=feed.filter(f=>f.agent===selected).slice(0,3);
+ const windowContent=(w)=>{let age=Math.max(0,tick-w.phase);switch(w.kind){
+ case "code":return h("pre",{className:"code"},CODE.slice(0,reduced?CODE.length:Math.min(CODE.length,32+age*17)),h("span",{className:"caret"}," "));
+ case "research":return h(React.Fragment,null,h("div",{className:"browser-address"},"https://docs.example.dev / simulated research"),h("div",{className:"mini"},"●  Component patterns and motion guidance"),h("div",{className:"mini"},"●  Keyboard accessibility notes"),h("div",{className:"mini"},"●  Rendering performance checklist"));
+ case "test":return h("pre",{className:"code"},"> npm run test\n",h("span",{className:"warn"},"Simulated command — not executed\n"),"✓ Component rendering check\n✓ Keyboard controls check\n✓ Agent state check\n",h("span",{className:"success"},"3 sample checks displayed"));
+ case "design":return h("div",{className:"skeleton"},h("i"),h("i"),h("i"),h("div",{className:"mini"},"▣   Header     ◇ Panels     ✦ Activity"));
+ case "debug":return h("pre",{className:"code"},"[demo] Inspecting component state\n[demo] Checking layout boundaries\n",h("span",{className:"success"},"[demo] No simulated errors"));
+ case "git":return h(React.Fragment,null,h("div",{className:"mini"},"App.tsx   +42 / -3  (example)"),h("div",{className:"mini"},"SwarmCanvas.tsx   +110  (example)"),h("p",{className:"muted"},"No repository actions are performed by this demo."));
+ case "plan":return h(React.Fragment,null,h("div",{className:"mini"},"01   Design interactive workspace"),h("div",{className:"mini"},"02   Develop reusable components"),h("div",{className:"mini"},"03   Inspect and validate UI"));
+ case "review":return h(React.Fragment,null,h("div",{className:"mini"},"✓  Visual hierarchy review (demo)"),h("div",{className:"mini"},"✓  Responsive layout check (demo)"),h("div",{className:"mini"},"○  Await real code review"));
+ case "system":return h("pre",{className:"code"},"$ pwd\n/demo/workspace\n$ ls\nApp.tsx  package.json  src/\n\n",h("span",{className:"warn"},"Read-only mock terminal"));
+ default:return h(React.Fragment,null,h("div",{className:"mini"},"Goal: Build an interactive website"),h("div",{className:"mini"},"Context: React components + motion"),h("div",{className:"mini"},"Mode: Portfolio simulation"));}};
+ return h("div",{className:"shell"},
+ h("header",{className:"top"},h("div",{className:"brand"},"◈ SWARM ",h("b","/ LAB"),h("span","BLAKE BROWN · INTERACTIVE PORTFOLIO")),h("div",{className:"control"},
+ h("button",{className:"primary",onClick:start},"↻ Start swarm"),
+ h("button",{disabled:!running,onClick:()=>setPaused(p=>!p)},paused?"▶ Resume":"Ⅱ Pause"),
+ h("button",{"aria-pressed":follow,onClick:()=>{setFollow(v=>!v);setCinematic(false)}},"◎ Follow agent"),
+ h("button",{onClick:()=>{setFollow(false);setCinematic(false)}},"✥ Free camera"),
+ h("button",{onClick:all},"▣ Show all"),
+ h("button",{"aria-pressed":cinematic,onClick:()=>{setCinematic(v=>!v);setFollow(false)}},"◉ Cinematic"),
+ h("button",{"aria-pressed":reduced,onClick:()=>setReduced(v=>!v)},"◌ Reduce motion"),
+ h("button",{onClick:start},"↺ Replay")),
+ h("a",{href:"index.html"},"← Portfolio")),
+ h("div",{className:"layout"},h("main",{className:"main-area",ref:area,onWheel:wheel,onPointerDown:down,onPointerMove:move,onPointerUp:end,onPointerCancel:end,"aria-label":"Pannable agent swarm workspace"},
+ h("div",{className:"dotgrid"}),
+ h("div",{className:"stage",style:{transform:`translate(${camera.x}px,${camera.y}px) scale(${camera.s})`}},
+ h("svg",{className:"trail",width:1700,height:1050,"aria-hidden":true},...windows.slice(1).map((w,i)=>h("line",{key:w.kind,x1:windows[i].x+200,y1:windows[i].y+120,x2:w.x+200,y2:w.y+120,stroke:AGENTS[w.agent].color}))),
+ ...windows.map(w=>h("section",{className:"wnd construct"+(active.kind===w.kind?" active":""),key:w.kind,"data-kind":w.kind,style:{left:w.x,top:w.y}, "aria-label":w.title},h("div",{className:"window-bar"},h("div",{className:"traffic"},h("i"),h("i"),h("i")),h("span",{className:"wtitle"},w.title),h("button",{onClick:()=>setWindows(ws=>ws.filter(v=>v.kind!==w.kind)),"aria-label":"Close "+w.title},"×")),h("div",{className:"wbody"},windowContent(w)))),
+ ...AGENTS.map(a=>h("div",{className:"agent-cursor"+(cursors[a.id].stage==="working"?" busy":""),key:a.name,style:{left:cursors[a.id].x,top:cursors[a.id].y,"--agent":a.color}},h("div",{className:"pointer"}),h("div",{className:"agent-tag"},a.name)))),
+ h("div",{className:"bottom"},h("strong","SWARM VISUALIZATION")," · ",h("span",{className:"status"},running?(paused?"PAUSED":"RUNNING"):"READY")," · ",windows.length," windows",h("span",{className:"hint"},"Interactive demonstration · No real files, commands, web searches, tests, or GitHub writes. Drag the canvas or windows; scroll to zoom."))),
+ h("aside",{className:"sidebar"},h("div",{className:"side-section"},h("p",{className:"side-title"},"AGENT DIRECTORY"),h("div",{className:"agent-list"},...AGENTS.map(a=>h("button",{key:a.name,className:selected===a.id?"selected":"",onClick:()=>{setSelected(a.id);focus(cursors[a.id].x,cursors[a.id].y)},"aria-pressed":selected===a.id},h("span",{className:"agent-dot",style:{"--agent":a.color}}),a.name)))),
+ h("div",{className:"side-section details"},h("p",{className:"side-title"},"SELECTED AGENT"),h("strong",{style:{color:chosen.color}},chosen.name),h("p",chosen.role),h("small","STATUS · ",cursors[selected].stage.toUpperCase()),h("p",recent[0]?.msg||"No activity yet"),h("button",{onClick:()=>focus(cursors[selected].x,cursors[selected].y)},"Focus selected agent")),
+ h("div",{className:"side-section activity"},h("p",{className:"side-title"},"ACTIVITY FEED · SIMULATED"),...(feed.length?feed.map(f=>h("div",{className:"activity-entry",key:f.id},h("time",null,f.stamp),h("b",null,AGENTS[f.agent].name)," — ",f.msg)): [h("p",{className:"muted",key:"empty"},"Press Start swarm to play the interactive demonstration.")]))));
+}
+createRoot(document.getElementById("app")).render(h(App));
+</script></body></html>
