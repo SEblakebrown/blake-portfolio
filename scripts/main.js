@@ -103,3 +103,25 @@
   window.addEventListener('scroll', clear, { passive: true });
   document.addEventListener('visibilitychange', () => { if (document.hidden) clear(); });
 })();
+
+
+// Optional fast-dismiss for the CSS-driven intro. The animation completes without JavaScript.
+(() => {
+  const intro = document.getElementById('opening-screen');
+  if (!intro) return;
+  const skip = document.getElementById('opening-skip');
+  const dismiss = () => {
+    if (intro.classList.contains('opening-dismissed')) return;
+    intro.classList.add('opening-dismissed');
+  };
+  skip?.addEventListener('click', dismiss);
+  document.querySelector('.skip-link')?.addEventListener('click', dismiss);
+  window.addEventListener('keydown', event => {
+    if (event.key === 'Escape') dismiss();
+  });
+  // Do not replay over an anchored section when navigating from another page.
+  if (window.location.hash && window.location.hash !== '#home') dismiss();
+  intro.addEventListener('animationend', event => {
+    if (event.animationName === 'opening-exit') intro.remove();
+  });
+})();
