@@ -103,3 +103,56 @@ body .pointer-surface::before{background:radial-gradient(circle,#7dd3fc1b,transp
 .cine-intro:not(.is-ready){animation:cine-failsafe .01s linear 15s forwards}
 @keyframes cine-failsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
 @media(max-width:700px){.cine-workspace-title{font-size:11px}.cine-live{font-size:10px}.cine-controls{gap:4px}.cine-controls button{font-size:10px}.cine-stage-viewport{transition:opacity .55s}}
+
+
+/* Brighter arctic-glass color pass — presentation only.
+   All layout, transitions, timings, markup, and interactions are unchanged. */
+:root{--ink:#10283f;--paper:#f6fbff;--muted:#c0d5e6;--lime:#91e9ff;--line:#c5eaff54}
+html,body{background:#10283f;color:var(--paper)}
+body::before{background:
+  radial-gradient(ellipse at 14% 10%,#437ca5c7,transparent 52%),
+  radial-gradient(ellipse at 88% 73%,#6c76b88e,transparent 50%),
+  linear-gradient(140deg,#173d59,#1a344f 45%,#233d64)}
+.circuit-atmosphere{opacity:.72}
+.circuit-atmosphere path{stroke:#ace9ff;opacity:.34}
+.circuit-atmosphere circle{fill:#caf6ff;opacity:.72}
+.circuit-atmosphere .pulse{stroke:#d5f9ff;opacity:.9}
+.header{background:#1c4565c4;border-color:#d3f3ff5c}
+.header .nav-contact{background:#d8f5ff23;border-color:#d4efff80}
+.credentials{background:#255474b4;color:#bcf2ff}
+.credentials strong{color:#e6f4ff}
+.project,.oss-card,.resume-panel,.skill-group,.contact-content{
+  background:linear-gradient(140deg,#caefff25,#96bff222 58%,#c6a9f21b);
+  border-color:#e5f8ff68;
+  box-shadow:0 20px 56px #081e3861,inset 0 1px #ffffff40;
+}
+.project-body p,.project-body ul,.project details p,.oss-card p,.oss-card .oss-connection{color:#d3e5f3!important}
+.project-kicker,.oss-eyebrow,.oss-credit{color:#b7e4f4}
+.about p,.about .large-copy,.work p,.work .section-marker>span:last-child,.about .section-marker>span:last-child,.open-source p{color:#c3d8e8!important}
+.oss-card .oss-connection{background:#ace7ff18;border-left-color:#a7edff}
+.cloud-visual{background:radial-gradient(circle at 48% 40%,#4789af,#1d4768 75%)}
+.data-visual{background:radial-gradient(circle at 38% 20%,#5e9dac,#2b526f 75%)}
+.code-visual{background:linear-gradient(145deg,#2d577b,#43467a)}
+.oss-visual{background:linear-gradient(125deg,#306a93,#514f91)}
+.oss-dbt{background:linear-gradient(125deg,#347688,#4c6697)}
+.resume-panel{background:linear-gradient(125deg,#37658ac7,#3e4e83c9)}
+.hero .system-core{background:linear-gradient(140deg,#6497b6b8,#315777ee);border-color:#daf7ffbd}
+.hero .satellite{background:#d9f5ff2e;border-color:#e6f9ffa1}
+.button.primary{background:linear-gradient(120deg,#abebff,#c5d4ff);box-shadow:0 8px 26px #8ccff15e}
+.contact-content{background:linear-gradient(130deg,#b7e1ff26,#b8b6ff22)}
+/* The opening workspace remains a deep enough blue for white UI text,
+   but its blue-violet glass and reflections are significantly brighter. */
+.cine-intro{background:radial-gradient(ellipse at 50% 35%,#39658b,#163b60 58%,#122d4a 100%)}
+.cine-circuits{opacity:.87;background-image:linear-gradient(#b2eaff20 1px,transparent 1px),linear-gradient(90deg,#b2eaff20 1px,transparent 1px)}
+.cine-bloom{background:
+  radial-gradient(circle at 55% 45%,#a9eaff3d,transparent 43%),
+  radial-gradient(circle at 35% 55%,#c6adff36,transparent 39%)}
+.cine-window{background:linear-gradient(150deg,#396187f5,#223f66f2);border-color:#c9f2ffb8;box-shadow:0 22px 65px #081e4088,0 0 42px #a5e9ff53}
+.cine-window header{background:#c4edff2d;border-color:#e0f7ff66;color:#f2faff}
+.cine-pills span{background:#9cdbff30;border-color:#c5eeff8a;color:#eafaff}
+.cine-agent-name{background:#1d3b5cef}
+.cine-live{background:#294967f2;border-color:#c6efff9c;color:#e1f2ff}
+.cine-live .cine-status{color:#fff}
+.cine-controls button{background:#3b6084ed;border-color:#c0e7ff9c;color:#fff}
+.cine-controls button:hover{background:#4d789e}
+.cine-heading{text-shadow:0 0 70px #cbf2ff7b}
