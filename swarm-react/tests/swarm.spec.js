@@ -1,7 +1,7 @@
 import {test,expect} from "@playwright/test";
 test("SSR content exists and Skip resolves every block",async({page})=>{
  await page.goto("/swarm.html");
- await expect(page.locator("[data-block]")).toHaveCount(23);
+ await expect(page.locator("[data-block]")).toHaveCount(25);
  await expect(page.locator("[data-cursor]")).toHaveCount(12);
  await page.locator("#swarm-skip").click();
  await expect(page.locator('[data-block]:not([data-phase="done"])')).toHaveCount(0);
@@ -19,7 +19,7 @@ test("no scripting still displays server-rendered content",async({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});
  const page=await context.newPage();
  await page.goto("http://127.0.0.1:8000/swarm.html");
- await expect(page.locator("[data-block]")).toHaveCount(23);
+ await expect(page.locator("[data-block]")).toHaveCount(25);
  await expect(page.locator("h1")).toBeVisible();
  await context.close();
 });
