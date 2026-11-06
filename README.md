@@ -81,3 +81,23 @@ node tests/smoke-portfolio.cjs
 ```
 
 Browser-based visual and interaction QA remains necessary before merging.
+
+## Experimental real Ollama agents (local only)
+
+The cinematic homepage and public `swarm.html` remain visual simulations.
+A separate [Real Agent Workshop](agent-workshop.html) can connect to a **local Python server** that calls your own running Ollama model. The three actual model-backed roles are NOVA (plan), CODEX (generate HTML/CSS), and REVIEW (critique). The interface polls real model-generated progress events. Other swarm agent roles on the public site remain animated demonstrations.
+
+### Start on your computer
+
+1. Install and start [Ollama](https://ollama.com/), then download a model, for example `ollama pull llama3.2`.
+2. From the repository root, run `python local-agents/server.py`.
+3. Open **http://127.0.0.1:8765/** in the browser (not the GitHub Pages URL).
+4. Enter a component request, click **Start real agents**, inspect the generated code and review, then **Approve and save draft** or **Reject draft**.
+
+No API key or paid inference service is required for local Ollama. Performance and available models depend on your hardware. The server runs on loopback only, requires a per-process request token, and does not expose an internet-facing endpoint. It does not run shell commands, deploy to AWS, or push to GitHub. Generated content is shown in a script-disabled sandboxed iframe. Only explicit approval saves a generated standalone HTML snippet to `agent-output/`. This does not replace the homepage; review and integrate manually before publishing.
+
+Do **not** expose this local development server to the public internet. GitHub Pages cannot host its Python backend. Production autonomous agents would require authenticated server-side hosting, a job/event service, strict scopes, audits, quotas, and a separate PR-based code review/publishing workflow.
+
+### Important accuracy boundary
+
+These are **real local LLM calls**, not ten independent autonomous code agents continuously reconstructing the site for every visitor. Public animations are still simulations, and the local workshop generates preview components rather than directly editing or rebuilding the existing portfolio.
