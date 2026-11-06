@@ -13,13 +13,41 @@ const Block=({id,jsxLine,agent,kind,children,heading})=>
 const Arrow=()=><svg width="19" height="24" viewBox="0 0 19 24" aria-hidden="true"><path d="M1 1L1 20L6.2 15L10 23L13.7 21.5L9.9 14L17.8 13.5Z" fill="currentColor" stroke="white" strokeWidth="1.3" strokeLinejoin="round"/></svg>;
 function Swarm(){
  return <div className={styles.page}>
+  <div className={styles.opening} id="swarm-opening" aria-label="Blake Brown cinematic introduction" aria-hidden="true">
+    <div className={styles.openingGrid} aria-hidden="true"></div>
+    <div className={styles.openingGlow} aria-hidden="true"></div>
+    <div className={styles.openingContent}>
+      <span className={styles.openingKicker}>SOFTWARE · CLOUD · AUTOMATION</span>
+      <strong className={styles.openingName}>BLAKE BROWN<span>.</span></strong>
+      <p className={styles.openingSubtitle}>Engineering ideas into reality</p>
+      <div className={styles.openingLine}><i /></div>
+      <span className={styles.openingStatus}>INITIALIZING AGENT WORKSPACE</span>
+    </div>
+    <button type="button" className={styles.openingSkip} id="swarm-opening-skip">Skip everything ↗</button>
+  </div>
   <header className={styles.nav}>
-   <a className={styles.brand} href="index.html">blake<span>●</span>brown</a>
-   <span className={styles.navMiddle}>SWARM / LIVE PAGE CONSTRUCTION</span>
-   <div className={styles.actions}>
-    <button type="button" id="swarm-skip">Skip</button>
-    <button type="button" id="swarm-rebuild">Rebuild ↻</button>
-    <a href="agent-workshop.html">Real AI Lab ↗</a>
+   <a className={styles.brand} href="#hero" aria-label="Blake Brown — Back to top">blake<span>●</span>brown</a>
+   <span className={styles.navMiddle}>PORTFOLIO / AGENT-BUILT EXPERIENCE</span>
+   <div className={styles.topControls}>
+     <button type="button" id="swarm-skip">Skip</button>
+     <button type="button" id="swarm-rebuild">Rebuild ↻</button>
+     <details className={styles.menu} id="swarm-menu">
+       <summary className={styles.menuToggle} aria-label="Open navigation menu"><span className={styles.burgerIcon} aria-hidden="true"><i/><i/><i/></span><span>Menu</span></summary>
+       <nav className={styles.menuPanel} aria-label="Portfolio navigation">
+         <a href="#hero">Home</a>
+         <a href="#work">Projects</a>
+         <a href="#engineering">Engineering Lab</a>
+         <a href="#experience">Experience</a>
+         <a href="#stack">Skills</a>
+         <a href="#contact">Contact</a>
+         <div className={styles.menuDivider}></div>
+         <a href="assets/Blake-Brown-Resume.pdf" download>Download Resume ↓</a>
+         <a href="agent-workshop.html">Real AI Workshop ↗</a>
+         <a href="engineering-demos.html">Interactive Engineering Demos ↗</a>
+         <a href="classic-portfolio.html">Original Portfolio ↗</a>
+         <a href="https://github.com/SEblakebrown" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+       </nav>
+     </details>
    </div>
   </header>
   <main id="content">
@@ -33,7 +61,7 @@ function Swarm(){
       <p className={styles.lead}>I build useful software, scalable AWS infrastructure, and reliable data pipelines—turning engineering challenges into clear, maintainable systems.</p>
      </Block>
      <Block id="hero-buttons" agent="BUILDER" jsxLine={'<Actions primary="Work" secondary="Resume" />'}>
-      <div className={styles.buttons}><a className={styles.primary} href="#work">Explore my work <span>↗</span></a><a href="index.html">Full portfolio ↗</a></div>
+      <div className={styles.buttons}><a className={styles.primary} href="#work">Explore my work <span>↗</span></a><a href="assets/Blake-Brown-Resume.pdf" download>Download resume ↓</a></div>
      </Block>
      <Block id="hero-orbit" agent="DESIGN" jsxLine={'<SystemDiagram nodes={3} />'}>
        <div className={styles.diagram}><div className={styles.orbitRing}></div><div className={styles.orbitRingSmall}></div><div className={styles.orbitCore}>b<span>.</span></div><span className={styles.orbitA}>AWS</span><span className={styles.orbitB}>CODE</span><span className={styles.orbitC}>DATA</span></div>
@@ -78,7 +106,7 @@ function Swarm(){
    <section className={styles.section} id="contact" data-section="contact"><div className={styles.inner}>
     <Block id="contact-label" kind="tag" agent="LAYOUT" jsxLine={'<SectionNumber index={5} />'}><p className={styles.eyebrow}>05 / CONTACT</p></Block>
     <Block id="contact-heading" kind="title" heading agent="CODEX" jsxLine={'<SectionTitle>Let’s build something useful.</SectionTitle>'}><h2>Let's build <em>something useful.</em></h2></Block>
-    <Block id="contact-card" agent="GITHUB" jsxLine={'<Contact email="brownblakecs@gmail.com" />'}><div className={styles.contact}><p>Software, cloud and automation opportunities</p><a href="mailto:brownblakecs@gmail.com">brownblakecs@gmail.com ↗</a><a href="https://github.com/SEblakebrown">GitHub ↗</a><a href="index.html">Return to full portfolio ↗</a></div></Block>
+    <Block id="contact-card" agent="GITHUB" jsxLine={'<Contact email="brownblakecs@gmail.com" />'}><div className={styles.contact}><p>Software, cloud and automation opportunities</p><a href="mailto:brownblakecs@gmail.com">brownblakecs@gmail.com ↗</a><a href="https://github.com/SEblakebrown">GitHub ↗</a><a href="assets/Blake-Brown-Resume.pdf" download>Download resume ↓</a></div></Block>
    </div></section>
   </main>
   <div className={styles.log} id="swarm-log" role="log" aria-label="Agent construction activity" aria-live="off"><div className={styles.logTitle}>AGENT ACTIVITY · VISUAL SIMULATION</div><div id="swarm-log-lines"></div></div>
