@@ -138,3 +138,15 @@ npm run test:e2e
 The browser test suite verifies SSR markup, cursor count, skip, rebuild, no-script, reduced-motion and scroll handover. Actual outcome should be verified in GitHub Actions before merging.
 
 The separate `agent-workshop.html` + local Ollama backend remains available for **real LLM code generation**, subject to manual approval. It is not connected to the public animated swarm.
+
+## Homepage: cinematic opening → agent swarm → finished portfolio
+
+The new default `index.html` is build-time server-rendered React from `swarm-react/src/Swarm.jsx`. The identity opening runs first, then the existing 12-cursor simulated swarm animates the actual homepage blocks. The former homepage is preserved in `classic-portfolio.html` and accessible through the hamburger navigation; `swarm.html` continues to serve the same new builder for old links.
+
+**Navigation:** The top menu now contains Home, Projects, Engineering Lab, Experience, Skills, Contact, a resume download, the local real AI Workshop, interactive engineering demonstrations, original portfolio, and GitHub.
+
+**Skip:** During the opening, use "Skip everything"; once the build begins, use the header's Skip button. Both reveal all blocks immediately, then animate all cursors below the viewport rather than leaving them frozen over content. Rebuild still reverses blocks bottom-up and starts again.
+
+**Accessibility/fallback:** Reduced-motion and no-JavaScript users get the complete server-rendered homepage, without the cinematic overlay. Direct section links skip the opening. Deliberate scrolling hands over to visible-section construction, including during the opening, unless `?play` is present. The public swarm is visual choreography, not live AI code generation.
+
+The GitHub Actions pipeline now generates both `index.html` and `swarm.html`, packages the React/CSS Modules bundle, runs Playwright interaction tests, and commits output only when the tests pass.

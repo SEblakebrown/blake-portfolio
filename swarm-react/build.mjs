@@ -24,12 +24,13 @@ const page=`<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#eaf5ff">
-<meta name="description" content="Live React agent construction simulation with twelve cursors building real portfolio blocks.">
-<title>Agent Swarm Builder · Blake Brown</title>
-<link rel="stylesheet" href="assets/swarm-react.css?v=movement-fix-20261106">
+<meta name="description" content="Blake Brown is a software and cloud engineer. Explore projects, experience, and real engineering demos through an animated agent-built portfolio.">
+<title>Blake Brown — Software & Cloud Engineer</title>
+<link rel="stylesheet" href="assets/swarm-react.css?v=homepage-swarm-20261106">
 </head><body>
 <div id="swarm-root">${markup}</div>
-<script type="module" src="assets/swarm-react.js?v=movement-fix-20261106"></script>
+<script type="module" src="assets/swarm-react.js?v=homepage-swarm-20261106"></script>
 </body></html>`;
+await writeFile(resolve(out,"index.html"),page);
 await writeFile(resolve(out,"swarm.html"),page);
-console.log("Built server-rendered swarm.html and React/CSS-module assets.");
+console.log("Built server-rendered index.html and swarm.html with React/CSS-module assets.");

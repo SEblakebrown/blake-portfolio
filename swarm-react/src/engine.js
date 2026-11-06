@@ -16,6 +16,12 @@ export function startSwarmEngine(){
  const statuses=new Map(agents.map(([name],i)=>[name,{name,i,x:-120,y:-120,fromX:-120,fromY:-120,toX:-120,toY:-120,started:0,duration:650,assigned:null,bow:0}]));
  const feed=document.getElementById("swarm-log-lines");
  const skip=document.getElementById("swarm-skip"),rebuild=document.getElementById("swarm-rebuild");
+ const opening=document.getElementById("swarm-opening");
+ const openingSkip=document.getElementById("swarm-opening-skip");
+ const cursorLayer=document.getElementById("swarm-cursors");
+ const menu=document.getElementById("swarm-menu");
+ const introTimers=new Set();
+ let introPlaying=false,exiting=false,exitStarted=0;
  const sectionVisible=new Set();
  let raf=0,last=0,generation=0,active=true,paused=false,mode="sequential",current=0,finished=false,rewinding=false,rewindIndex=0,rewindAt=0;
  let wheelCount=0,wheelAt=0,touchY=null;
@@ -152,12 +158,50 @@ export function startSwarmEngine(){
    }
   }
  }
+ function schedule(fn,delay){
+  const id=window.setTimeout(()=>{introTimers.delete(id);if(active)fn();},delay);
+  introTimers.add(id);return id;
+ }
+ function stopIntro(){
+  introTimers.forEach(id=>clearTimeout(id));introTimers.clear();
+  introPlaying=false;
+  opening?.classList.remove(styles.openingActive,styles.openingExit);
+ }
+ function beginIntro(){
+  if(!opening){reset(false);return;}
+  introPlaying=true;
+  cursorLayer?.style.setProperty("opacity","0");
+  opening.classList.remove(styles.openingExit);
+  opening.classList.add(styles.openingActive);
+  record("SYSTEM","Opening identity sequence");
+  schedule(()=>{
+   opening.classList.add(styles.openingExit);
+   schedule(()=>{
+    stopIntro();
+    if(!active||finished)return;
+    record("SYSTEM","Identity complete · starting agent construction");
+    reset(false);
+   },680);
+  },2450);
+ }
  function finishAll(){
+  if(!active)return;
+  stopIntro();
   jobs.forEach(job=>{clearDecor(job);setPhase(job,"done");job.cursor=null;});
-  statuses.forEach(c=>{c.assigned=null;});
   finished=true;rewinding=false;
-  record("SYSTEM","Entire portfolio ready · construction simulation complete");
+  record("SYSTEM","All blocks complete · moving agents off screen");
+  // Do not freeze cursors where Skip was pressed: tween them below the visible
+  // viewport and hide the entire cursor layer after the exit completes.
+  const now=performance.now();
+  exiting=!prefersReduced();
+  exitStarted=now;
+  statuses.forEach((c,i)=>{
+   c.assigned=null;
+   moveTo(c,Math.round((i+1)*innerWidth/(statuses.size+1)),scrollY+innerHeight+105,now,780);
+  });
+  if(cursorLayer)cursorLayer.style.opacity=exiting?"1":"0";
   cancelAnimationFrame(raf);raf=0;
+  if(exiting)raf=requestAnimationFrame(frame);
  }
  function sectionEligible(i){
   if(mode==="sequential")return i===current;
@@ -235,6 +279,16 @@ export function startSwarmEngine(){
  }
  function frame(now){
   if(!active)return;
+  if(introPlaying){raf=requestAnimationFrame(frame);return;}
+  if(exiting){
+    statuses.forEach(c=>positionCursor(c,now));
+    if(now-exitStarted>=800){
+      exiting=false;
+      if(cursorLayer)cursorLayer.style.opacity="0";
+      raf=0;return;
+    }
+    raf=requestAnimationFrame(frame);return;
+  }
   window.__swarmDebug.ticks++;
   window.__swarmDebug.assigned=jobs.filter(j=>j.cursor).length;
   if(rewinding)updateRewind(now);
@@ -248,12 +302,15 @@ export function startSwarmEngine(){
   raf=requestAnimationFrame(frame);
  }
  function stop(){
-  active=false;cancelAnimationFrame(raf);aborter.abort();observer.disconnect();
+  active=false;stopIntro();cancelAnimationFrame(raf);aborter.abort();observer.disconnect();
   jobs.forEach(clearDecor);
  }
  function reset(rewind){
-  // One loop owned by this controller; cancel it before replacing the current run.
+  // A single animation-frame loop owns all cursors and gets cancelled on reset.
+  stopIntro();
   cancelAnimationFrame(raf);raf=0;generation++;
+  exiting=false;
+  if(cursorLayer)cursorLayer.style.opacity="1";
   finished=false;current=0;mode="sequential";
   statuses.forEach(c=>{c.assigned=null;});
   if(rewind){
@@ -267,7 +324,10 @@ export function startSwarmEngine(){
  }
  function handover(){
   if(noHandover||mode==="viewport"||finished||rewinding)return;
-  mode="viewport";record("SYSTEM","Manual navigation detected · building visible sections only");
+  // Deliberate navigation during the opening gives control back immediately.
+  if(introPlaying)reset(false);
+  mode="viewport";
+  record("SYSTEM","Manual navigation detected · building visible sections only");
  }
  const listen={signal:aborter.signal,passive:true};
  window.addEventListener("wheel",e=>{
@@ -280,12 +340,18 @@ export function startSwarmEngine(){
  window.addEventListener("touchmove",e=>{if(touchY!==null&&Math.abs(e.touches[0].clientY-touchY)>=60)handover();},listen);
  window.addEventListener("keydown",e=>{if(["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "].includes(e.key))handover();},{signal:aborter.signal});
  skip?.addEventListener("click",finishAll,{signal:aborter.signal});
+ openingSkip?.addEventListener("click",finishAll,{signal:aborter.signal});
+ menu?.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener("click",()=>{menu.open=false;},{signal:aborter.signal}));
+ window.addEventListener("keydown",e=>{if(e.key==="Escape"&&menu?.open)menu.open=false;},{signal:aborter.signal});
  rebuild?.addEventListener("click",()=>reset(true),{signal:aborter.signal});
- if(prefersReduced()){
-  jobs.forEach(j=>setPhase(j,"done"));finished=true;
+ if(prefersReduced()||location.hash&&sectionIds.includes(location.hash.slice(1))){
+  stopIntro();
+  jobs.forEach(j=>setPhase(j,"done"));
+  if(cursorLayer)cursorLayer.style.opacity="0";
+  finished=true;
  }else{
-  record("SYSTEM","Starting twelve-cursor page construction · simulated");
-  window.scrollTo({top:0,behavior:"instant"});reset(false);
+  window.scrollTo({top:0,behavior:"instant"});
+  beginIntro();
  }
  return stop;
 }

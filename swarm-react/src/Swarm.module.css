@@ -92,3 +92,58 @@ h1 em,h2 em{color:#2887ac;font-style:normal}
  .block[data-phase="empty"]>.fill{animation:swarmEmergencyReveal 0s 20s forwards}
 }
 @media(prefers-reduced-motion:reduce){.block.typing>.fill h1,.block.typing>.fill h2{color:inherit!important}}
+
+/* Homepage cinematic opening and all-links hamburger menu */
+.topControls{display:flex;align-items:center;gap:8px;position:relative}
+.topControls>button{font:750 12px system-ui;padding:10px 14px;border-radius:11px;border:1px solid #94c0d9;background:#e0f1fc;color:#185b80;cursor:pointer}
+.topControls>button:hover{background:#cbe8fa}
+.topControls>button:focus-visible,.menuToggle:focus-visible{outline:3px solid #278abb;outline-offset:3px}
+.menu{position:relative}
+.menuToggle{display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:11px;background:#245d82;color:#fff;cursor:pointer;user-select:none;font:750 12px system-ui;list-style:none;min-width:105px;justify-content:center}
+.menuToggle::-webkit-details-marker{display:none}
+.menu[open] .menuToggle{background:#15496c}
+.burgerIcon{height:16px;width:19px;display:flex;flex-direction:column;justify-content:space-around}
+.burgerIcon i{width:100%;height:2px;border-radius:10px;background:#fff;transition:transform .25s,opacity .25s}
+.menu[open] .burgerIcon i:first-child{transform:translateY(5px) rotate(45deg)}
+.menu[open] .burgerIcon i:nth-child(2){opacity:0}
+.menu[open] .burgerIcon i:last-child{transform:translateY(-5px) rotate(-45deg)}
+.menuPanel{position:absolute;right:0;top:calc(100% + 13px);width:min(330px,calc(100vw - 30px));max-height:min(680px,calc(100dvh - 95px));overflow-y:auto;display:grid;gap:2px;padding:13px;background:#f9fdfff8;border:1px solid #9fc7dc;border-radius:18px;box-shadow:0 26px 60px #2c577a52;backdrop-filter:blur(22px);z-index:110}
+.menuPanel a{display:block;text-decoration:none;color:#1f5478;font-size:14px;font-weight:650;border-radius:8px;padding:10px 12px}
+.menuPanel a:hover,.menuPanel a:focus-visible{background:#dfedf8;color:#0e466f}
+.menuDivider{height:1px;background:#bad2e3;margin:9px 4px}
+.opening{display:none;position:fixed;inset:0;z-index:900;overflow:hidden;place-items:center;background:radial-gradient(ellipse at 50% 38%,#395d82,#142e4b 60%,#081a2c);color:#f0faff;isolation:isolate;opacity:1;transform:translateY(0);transition:opacity .55s ease,transform .7s cubic-bezier(.55,0,.25,1);pointer-events:none}
+.openingActive{display:grid;pointer-events:auto}
+.openingExit{opacity:0;transform:translateY(-8%);pointer-events:none}
+.openingGrid{position:absolute;inset:-20%;background-image:linear-gradient(#9de7ff19 1px,transparent 1px),linear-gradient(90deg,#9de7ff19 1px,transparent 1px);background-size:47px 47px;transform:perspective(1100px) rotateX(22deg) scale(1.08);animation:openingGridShift 5s ease-out both}
+.openingGlow{position:absolute;inset:-30%;background:radial-gradient(circle at 54% 42%,#b4eaff37,transparent 34%),radial-gradient(circle at 24% 75%,#938be935,transparent 35%);animation:openingPulse 4s ease-in-out infinite alternate}
+.openingContent{position:relative;display:flex;align-items:center;flex-direction:column;text-align:center;gap:9px;padding:20px}
+.openingKicker,.openingStatus{font:750 clamp(10px,1.1vw,13px) ui-monospace,monospace;letter-spacing:.23em;color:#a4eaff}
+.openingName{font:850 clamp(45px,10.7vw,146px)/1.05 Manrope,"Segoe UI",system-ui,sans-serif;letter-spacing:-.075em;white-space:nowrap;text-shadow:0 0 55px #a6d9f554;animation:openingNameRise .85s ease-out both}
+.openingName span{color:#9bdffb}
+.openingSubtitle{color:#cee1ef;letter-spacing:.08em;font-size:clamp(11px,1.6vw,17px)}
+.openingLine{width:min(540px,68vw);height:2px;margin-top:26px;background:#b9e9ff31;overflow:hidden}
+.openingLine i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#74c8ff,#c2b9fc);transform:translateX(-100%);animation:openingLineDraw 1.5s .3s ease forwards}
+.openingStatus{margin-top:12px;font-size:10px;color:#87b5cd}
+.openingSkip{position:absolute;right:20px;top:20px;padding:11px 15px;border:1px solid #acdff57a;border-radius:12px;background:#e4f6ff16;color:#f1faff;font:700 12px system-ui;cursor:pointer;z-index:2}
+.openingSkip:hover{background:#e4f6ff35}
+.openingSkip:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@keyframes openingNameRise{from{opacity:0;filter:blur(14px);transform:translateY(25px) scale(.96)}to{opacity:1;filter:blur(0);transform:translateY(0) scale(1)}}
+@keyframes openingGridShift{from{opacity:.2;transform:perspective(1100px) rotateX(30deg) scale(1.16)}to{opacity:1;transform:perspective(1100px) rotateX(22deg) scale(1.08)}}
+@keyframes openingPulse{to{opacity:.55;transform:scale(1.05)}}
+@keyframes openingLineDraw{to{transform:translateX(0)}}
+.cursorLayer{transition:opacity .25s ease}
+@media(max-width:720px){
+ .topControls{margin-left:auto;gap:5px}
+ .topControls>button{font-size:11px;padding:9px 10px}
+ .menuToggle{padding:9px 10px;min-width:0}
+ .menuToggle>span:last-child{display:none}
+ .menuPanel{top:calc(100% + 11px)}
+ .openingName{font-size:clamp(41px,11vw,72px)}
+ .openingKicker{letter-spacing:.12em}
+ .openingSkip{top:12px;right:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ .opening{display:none!important}
+ .openingGrid,.openingGlow,.openingName,.openingLine i{animation:none!important}
+ .cursorLayer{display:none!important}
+}
