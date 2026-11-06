@@ -32,6 +32,12 @@ def normalize_component(raw):
         candidates = [block for block in blocks if re.search(r"<(?:section|article|div|main|header|h[1-6])\b", block, re.I)]
         if candidates:
             raw = "\n".join(candidates)
+    # Reject copies of this site's diagnostic UI or a whole existing page.
+    # This workshop generates an isolated portfolio component, not a homepage clone.
+    if re.search(r"(swarm startup diagnostics|diagnostics build 2026|swarm-log|swarm-copy|id=[\\\"']app[\\\"'])", raw, re.I):
+        raise ValueError("CODEX copied the swarm diagnostic screen instead of generating a component")
+    if re.search(r"<(?:!doctype|html|head|body)\\b", raw, re.I):
+        raise ValueError("CODEX returned a full webpage instead of a standalone component")
     # Accept complete HTML documents, standalone sections, and div-based components.
     if not re.search(r"<(?:section|article|div|main|header|h[1-6])\b", raw, re.I):
         raise ValueError("Ollama returned text rather than an HTML component")
@@ -57,6 +63,8 @@ def run(prompt, model):
         code_role = ("You are CODEX. Produce ONLY valid, standalone HTML for a responsive "
                      "portfolio component. Begin with <section> and end with </section>. "
                      "Include a <style> block for light frosted-glass styling. "
+                     "Do not reproduce any existing homepage, the swarm diagnostics overlay, or browser error screens. "
+                     "Create new content specifically addressing the user request. "
                      "No markdown, explanations, scripts, remote assets, forms, or iframes.")
         draft = None
         for attempt in range(2):
@@ -65,7 +73,7 @@ def run(prompt, model):
             response = ask(
                 model, code_role,
                 ("Create HTML for the following plan:\n" + plan[:5000]) if not attempt else
-                ("Your prior response did not contain a usable HTML component. "
+                ("Your prior response did not contain an original, usable portfolio component. Avoid diagnostics or full-page HTML. "
                  "Return HTML only, starting exactly with <section> and ending with "
                  "</section>. No prose, no markdown fences. Plan:\n" + plan[:4000])
             )
