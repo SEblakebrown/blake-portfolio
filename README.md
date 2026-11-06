@@ -18,3 +18,17 @@ Professional project descriptions reflect supplied resume material; illustration
 
 ## Updating
 Edit `index.html` for content, `styles/style.css` for presentation, and `scripts/main.js` for animation. Keep resume links synchronized with the PDF in `assets/`.
+
+## Agent Swarm Lab
+
+Open `swarm.html` from the portfolio homepage for an interactive React-based animated agent swarm visualization, featuring:
+
+- Ten color-coded agents and individually tracked cursors.
+- Animated workspace creation across editor, browser, terminal, research, design, review, testing, and system windows.
+- Pannable and zoomable stage, draggable windows, camera follow, cinematic mode, show-all view, pause/resume, replay, and focus selected agent.
+- Agent details, collaboration connectors, and an activity feed.
+- Reduced-motion preference and a manual animation-reduction control.
+
+**Simulation disclaimer:** All agent actions, sample code, commands, search results, reviews, test output, and GitHub panel activity are visual demonstrations. The page does not run tests, modify files, execute shell commands, connect to accounts, or orchestrate actual autonomous agents. Logs and example activity are explicitly marked as simulated. The public portfolio page remains dependency-free; the separate swarm experience loads React 19 from esm.sh, so its interactive UI requires internet access.
+
+The lab is designed as a frontend animation showcase, not an AI backend. To connect it to real activity in the future, use a server-side event adapter with explicit user authorization, event provenance, and approval controls.
