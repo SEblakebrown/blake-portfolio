@@ -26,10 +26,10 @@ const page=`<!doctype html>
 <meta name="theme-color" content="#eaf5ff">
 <meta name="description" content="Live React agent construction simulation with twelve cursors building real portfolio blocks.">
 <title>Agent Swarm Builder · Blake Brown</title>
-<link rel="stylesheet" href="assets/swarm-react.css">
+<link rel="stylesheet" href="assets/swarm-react.css?v=movement-fix-20261106">
 </head><body>
 <div id="swarm-root">${markup}</div>
-<script type="module" src="assets/swarm-react.js"></script>
+<script type="module" src="assets/swarm-react.js?v=movement-fix-20261106"></script>
 </body></html>`;
 await writeFile(resolve(out,"swarm.html"),page);
 console.log("Built server-rendered swarm.html and React/CSS-module assets.");
