@@ -28,11 +28,41 @@ class WorkshopTests(unittest.TestCase):
         self.assertEqual([x["agent"] for x in service.STATE["events"]][-1], "REVIEW")
 
     def test_reject_unusable_markup(self):
-        with patch.object(service, "ask", side_effect=["Plan", "Not HTML"]):
+        with patch.object(service, "ask", side_effect=["Plan", "Not HTML", "Still just an explanation"]):
             service.run("Build a component", "llama3.2")
         self.assertEqual(service.STATE["status"], "error")
         self.assertFalse(service.STATE["saved"])
 
+    def test_accepts_fenced_div_html_and_wraps_in_section(self):
+        examples = [
+            "Plan a project card",
+            "```html\n<div class='glass'><h2>Cloud Portfolio</h2></div>\n```",
+            "Review: contrast looks good",
+        ]
+        with patch.object(service, "ask", side_effect=examples) as llm:
+            service.run("Build a cloud component", "llama3.2")
+        self.assertEqual(llm.call_count, 3)
+        self.assertEqual(service.STATE["status"], "review")
+        self.assertTrue(service.STATE["draft"].startswith("<section"))
+        self.assertIn("Cloud Portfolio", service.STATE["draft"])
+
+    def test_retries_when_first_code_response_is_only_prose(self):
+        examples = [
+            "Plan a project card",
+            "Here is how I would create your portfolio.",
+            "<section><h2>Working sample</h2></section>",
+            "Review: include accessible text",
+        ]
+        with patch.object(service, "ask", side_effect=examples) as llm:
+            service.run("Build a component", "llama3.2")
+        self.assertEqual(llm.call_count, 4)
+        self.assertEqual(service.STATE["status"], "review")
+        self.assertTrue(any("retrying" in e["message"].lower() for e in service.STATE["events"]))
+
+    def test_rejects_empty_model_response(self):
+        with self.assertRaises(ValueError):
+            service.normalize_component("")
+    
     def test_server_is_loopback_only(self):
         source = SERVER.read_text(encoding="utf-8")
         self.assertIn('("127.0.0.1",8765)', source)
