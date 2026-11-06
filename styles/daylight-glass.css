@@ -1,0 +1,151 @@
+/* Daylight Glass — sitewide light color treatment, no motion/layout logic changed.
+   Loaded after liquid-swarm.css. All cinematic swarm classes retain their original design. */
+:root{
+  --ink:#152e46;
+  --paper:#f9fcff;
+  --muted:#4f6b83;
+  --lime:#207fae;
+  --line:#3f74952f;
+}
+html,body{background:#eaf5fc;color:var(--ink)}
+body::before{
+  background:
+    radial-gradient(ellipse at 6% 5%,#c9ecffdd,transparent 47%),
+    radial-gradient(ellipse at 91% 18%,#e5dfffbd,transparent 47%),
+    radial-gradient(ellipse at 46% 75%,#d5edf6ce,transparent 57%),
+    linear-gradient(145deg,#f6fbff 0%,#e9f5fc 48%,#e9eefd 100%);
+}
+.circuit-atmosphere{opacity:.65}
+.circuit-atmosphere svg{filter:drop-shadow(0 0 5px #399dd52d)}
+.circuit-atmosphere path{stroke:#438bb4;opacity:.31}
+.circuit-atmosphere circle{fill:#2581b2;opacity:.63}
+.circuit-atmosphere .pulse{stroke:#1787bd;opacity:.8}
+.header{
+  background:#f4fbffdf;
+  border-color:#92b7d17b;
+  box-shadow:0 12px 35px #4b789926;
+  backdrop-filter:blur(24px) saturate(1.5);
+}
+.header .wordmark{color:#183e59}
+.header .wordmark>span{color:#267fa9}
+.header nav a{color:#23445e}
+.header nav a:hover,.header nav a[aria-current]{color:#0c6d9c}
+.header .nav-contact{background:#d9f1ffba;border-color:#7aa9c7;color:#165176}
+.skip-link{background:#1f7098;color:#fff}
+.scroll-progress{background:#2889b8}
+.section{background:transparent!important;color:#19374d!important}
+.hero,.hero .hero-copy,.about,.work,.experience,.toolkit,.resume,.open-source,.contact{color:#19374d!important}
+.hero-meta,.hero-bottom,.hero .intro,.section-marker>span:last-child,.section-heading p,.experience-intro>p,.skill-group p,.resume-panel p:not(.eyebrow){color:#4b6880!important}
+.hero .eyebrow,.eyebrow,.section-marker>span:first-child,.skill-group>span{color:#176c99}
+.hero h1,.section h2,.section h3,.section h4{color:#18344e}
+.hero h1 em,.about h2 em,.work h2 em,.contact h2 em,.section h2 em{color:#1576a3}
+.about p,.about .large-copy,.work p,.work .section-marker>span:last-child,.about .section-marker>span:last-child,.open-source p{color:#45657e!important}
+.about .large-copy{color:#223f55!important}
+.hero-bottom{border-color:#91bcd34f}
+.hero-bottom a,.text-link{color:#175b80;border-bottom-color:#4f8baa6e}
+.text-link:hover{color:#084d79}
+.availability{color:#35667a}
+.availability i,.contact .availability i{background:#2e9fbb;box-shadow:0 0 0 5px #39b5da24}
+.credentials{
+  background:#e3f4ffba;color:#176891;
+  border-color:#9bc5e159;backdrop-filter:blur(18px);
+}
+.credentials strong{color:#2e5673}
+.project,.oss-card,.resume-panel,.skill-group,.contact-content{
+  background:linear-gradient(140deg,#ffffffde,#f1f9ffe6 52%,#ebecffe6);
+  border:1px solid #91b9d08c;
+  box-shadow:0 18px 52px #567e9c27,inset 0 1px #ffffff;
+  backdrop-filter:blur(20px) saturate(1.1);
+}
+.project-body,.oss-card-content,.project-body h3,.oss-card h3,
+.project-body summary,.project-body details,.oss-card .text-link{color:#173a53}
+.project-body p,.project-body ul,.project details p,.oss-card p,.oss-card .oss-connection{
+  color:#435d73!important;
+}
+.project-kicker,.oss-eyebrow,.oss-credit{color:#426b83}
+.project-body details{border-color:#7dacc65c}
+.project .tags span,.oss-card .tags span,.tags span{
+  color:#245873;background:#e2f3fc;
+  border:1px solid #9fcbe0;
+}
+.project-visual{border-color:#b2d5e7}
+.cloud-visual{background:radial-gradient(circle at 42% 28%,#d6f3ff,#8fbfdd 76%);color:#173f5c}
+.cloud-visual .visual-label,.cloud-visual .visual-footer{color:#265b78}
+.cloud-visual .flow>span,.cloud-visual .flow>div>span{
+  background:#effaffc9;border-color:#488cb08a;color:#224963;
+}
+.cloud-visual .flow>span:nth-of-type(2){background:#3994c5;color:white}
+.cloud-visual .flow b{color:#336b8f}
+.data-visual{background:radial-gradient(circle at 38% 20%,#f1fbff,#b7d9ef 78%);color:#214967}
+.data-visual .visual-label,.data-visual .visual-footer{color:#335f79}
+.data-stack>div{background:#f6fdff;color:#214761;border-color:#7dabc4;box-shadow:10px 12px 0 #7ea7c73d}
+.data-stack>div:nth-child(3){background:#c2e6fa;color:#153e5c}
+.code-visual{background:linear-gradient(145deg,#d3eefd,#c8d6f4);color:#204a63}
+.code-visual .visual-label,.code-visual .visual-footer{color:#305d78}
+.pixel-title{color:#193d5b}
+.pixel-title>span{color:#0b79aa}
+.pixel-grid{background:repeating-linear-gradient(0deg,transparent 0 21px,#3e95bd19 21px 22px),repeating-linear-gradient(90deg,transparent 0 21px,#3e95bd19 21px 22px);border-color:#8bbad58c}
+.oss-card .oss-connection{background:#e3f2fb;border-left-color:#408eb6;color:#375971!important}
+.oss-disclaimer,.oss-credit{color:#4e6a82}
+.oss-visual{background:linear-gradient(120deg,#acdff6,#bdd5f6);color:#173f5b}
+.oss-dbt{background:linear-gradient(125deg,#b6e7f0,#cbdcf7);color:#173d59}
+.oss-visual-label,.oss-visual-foot{color:#2a5b78}
+.oss-diagram>span{border-color:#568da6a6;background:#ffffffb2;color:#224c69}
+.oss-diagram>strong{background:#effaffa6;border-color:#84b6cd;color:#145781;box-shadow:0 0 28px #6da9d84d}
+.oss-diagram>b{color:#3d7394}
+.oss-card .text-link{color:#175e84}
+.oss-credit a{color:#1b6f9b;text-decoration:underline;text-underline-offset:2px}
+.skill-group{border-radius:17px}
+.skill-group h3{color:#153954}
+.skill-group p{color:#49677c!important}
+.experience-intro>p,.timeline p{color:#4c687f}
+.timeline-item{border-left-color:#81b2cc;box-shadow:none;background:transparent}
+.timeline-item:before{background:#2683b0}
+.timeline h3{color:#1b415e}
+.timeline h4{color:#176b98}
+.role-meta{color:#58778e}
+.resume-panel{background:linear-gradient(130deg,#f9fdffed,#e2efffec)}
+.resume-panel h2{color:#1b415d}
+.resume-panel .eyebrow{color:#1b75a0}
+.resume-panel p:not(.eyebrow){color:#476981!important}
+.resume-preview{background:#ffffff;color:#1c405c;box-shadow:12px 16px 0 #8cbedb45;border:1px solid #b9d5e5}
+.paper-stamp{color:#176391;background:#e4f4fd;border-color:#78b7d7}
+.resume-preview>span{color:#536d7e}
+.contact{color:#183b55!important}
+.contact .section-marker>span:last-child,.contact .eyebrow,.contact-content>p:not(.eyebrow){color:#416982!important}
+.contact-content{background:linear-gradient(128deg,#ffffffed,#e8f6ffea 64%,#ececfff0)}
+.contact h2,.contact h2 em{color:#1d4c6a}
+.contact h2 em{color:#167aab}
+.contact-email{color:#125f86;border-color:#689abd}
+.contact-links a{color:#16658c}
+.contact-links>span{color:#4c6b80}
+footer{background:#e9f4fbba;border-top:1px solid #9fc3d977;color:#42627b}
+footer a{color:#1b648a}
+.hero .system-core{
+  background:linear-gradient(135deg,#e7f8ffed,#b7d9f0ef);
+  border-color:#8fbcd8;
+  box-shadow:0 26px 70px #5c8bac38,inset 0 2px 2px #fff;
+}
+.hero .system-core .core-symbol{color:#1c5273}
+.hero .system-core .core-symbol span{color:#2187b6}
+.hero .system-core>span:last-child{color:#3a6883}
+.hero .satellite{background:#eff9ffe0;border-color:#a3cadd;color:#20415a;box-shadow:0 14px 40px #5987a02e}
+.hero .satellite small{color:#55758e}
+.hero .satellite-icon{color:#287aa2}
+.hero .orbit{border-color:#73a6c57d}
+.hero .art-grid{background-image:radial-gradient(#448db54d 1px,transparent 1px)}
+.hero .art-caption{color:#537b97}
+.art-dot{background:#399ac3;box-shadow:0 0 18px #489dd18c}
+.button.primary{background:linear-gradient(120deg,#267ca7,#386ba4);color:#fff;border-radius:12px;box-shadow:0 9px 24px #508aab42}
+.button.primary:hover{background:#155c87;color:#fff}
+#intro-replay{color:#185d84!important;border-color:#7cafc8!important;background:#f7fdffb8!important}
+#intro-replay:hover{background:#def1fb!important}
+::selection{background:#a8e5ff;color:#1d3852}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body .pointer-surface::before{background:radial-gradient(circle,#49b7e62b,transparent 68%)}
+}
+@media print{
+  .circuit-atmosphere{display:none!important}
+  body::before{display:none!important}
+  .section,.project,.oss-card,.resume-panel{background:white!important;color:black!important;box-shadow:none!important}
+}
