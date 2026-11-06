@@ -155,7 +155,7 @@ export function startSwarmEngine(){
   jobs.forEach(job=>{clearDecor(job);setPhase(job,"done");job.cursor=null;});
   statuses.forEach(c=>{c.assigned=null;});
   finished=true;rewinding=false;
-  record("NOVA","Entire portfolio ready · construction simulation complete");
+  record("SYSTEM","Entire portfolio ready · construction simulation complete");
   cancelAnimationFrame(raf);raf=0;
  }
  function sectionEligible(i){
@@ -201,7 +201,7 @@ export function startSwarmEngine(){
    current++;
    if(current>=sections.length){finishAll();return;}
    sections[current]?.scrollIntoView({behavior:"smooth",block:"start"});
-   record("NOVA","Beginning "+sections[current].id+" while camera scrolls");
+   record("SYSTEM","Beginning "+sections[current].id+" while camera scrolls");
   }
  }
  function idleFlock(cursor,now){
@@ -223,7 +223,7 @@ export function startSwarmEngine(){
   if(rewindIndex<0){
    rewinding=false;current=0;mode="sequential";
    window.scrollTo({top:0,behavior:"smooth"});
-   record("NOVA","Rebuild initialized");
+   record("SYSTEM","Rebuild initialized");
    return;
   }
   const job=jobs[rewindIndex];
@@ -254,7 +254,7 @@ export function startSwarmEngine(){
   statuses.forEach(c=>{c.assigned=null;});
   if(rewind){
    rewinding=true;rewindIndex=jobs.length-1;rewindAt=0;
-   record("NOVA","Rewinding blocks from bottom to top");
+   record("SYSTEM","Rewinding blocks from bottom to top");
   }else{
    rewinding=false;
    jobs.forEach(j=>{clearDecor(j);setPhase(j,"empty");j.cursor=null;j.started=0;});
@@ -263,7 +263,7 @@ export function startSwarmEngine(){
  }
  function handover(){
   if(noHandover||mode==="viewport"||finished||rewinding)return;
-  mode="viewport";record("NOVA","Manual navigation detected · building visible sections only");
+  mode="viewport";record("SYSTEM","Manual navigation detected · building visible sections only");
  }
  const listen={signal:aborter.signal,passive:true};
  window.addEventListener("wheel",e=>{
@@ -280,7 +280,7 @@ export function startSwarmEngine(){
  if(prefersReduced()){
   jobs.forEach(j=>setPhase(j,"done"));finished=true;
  }else{
-  record("NOVA","Starting twelve-cursor page construction · simulated");
+  record("SYSTEM","Starting twelve-cursor page construction · simulated");
   window.scrollTo({top:0,behavior:"instant"});reset(false);
  }
  return stop;
