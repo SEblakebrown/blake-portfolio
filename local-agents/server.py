@@ -55,10 +55,10 @@ def normalize_component(raw):
 
 def run(prompt, model):
     try:
-        log("NOVA", "Planning a portfolio component using Ollama")
-        plan = ask(model, "You are NOVA, a web architect. Write a concise plan. No false execution claims.", prompt)
+        log("PLANNER", "Planning a portfolio component using Ollama")
+        plan = ask(model, "You are PLANNER, a web architect. Write a concise plan. No false execution claims.", prompt)
         with LOCK: STATE["plan"] = plan[:6000]
-        log("NOVA", "Plan completed")
+        log("PLANNER", "Plan completed")
         log("CODEX", "Generating an HTML/CSS portfolio component")
         code_role = ("You are CODEX. Produce ONLY valid, standalone HTML for a responsive "
                      "portfolio component. Begin with <section> and end with </section>. "
@@ -160,7 +160,7 @@ class Handler(SimpleHTTPRequestHandler):
                 if STATE["status"]!="review": return self.respond({"error":"no draft"},409)
                 STATE["draft"]=""
                 STATE["status"]="rejected"
-            log("NOVA","Draft rejected — no file saved")
+            log("PLANNER","Draft rejected — no file saved")
             return self.respond({"rejected":True})
         self.respond({"error":"unknown operation"},404)
 
