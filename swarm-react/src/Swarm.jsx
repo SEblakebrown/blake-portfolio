@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Swarm.module.css";
 export const agents=[
- ["NOVA","#59a5ee"],["CODEX","#8d7fe6"],["RESEARCH","#31b5aa"],["BUILDER","#59a5ee"],
+ ["LAYOUT","#59a5ee"],["CODEX","#8d7fe6"],["RESEARCH","#31b5aa"],["BUILDER","#59a5ee"],
  ["DEBUG","#8d7fe6"],["REVIEW","#31b5aa"],["SYSTEM","#59a5ee"],["MEMORY","#8d7fe6"],
  ["GITHUB","#31b5aa"],["TESTER","#59a5ee"],["DESIGN","#8d7fe6"],["DEPLOY","#31b5aa"]
 ];
@@ -25,7 +25,7 @@ function Swarm(){
   <main id="content">
    <section className={styles.hero} id="hero" data-section="hero">
     <div className={styles.inner}>
-     <Block id="hero-flag" kind="tag" jsxLine={'<Status availability="open" />'} agent="NOVA"><p className={styles.eyebrow}><span className={styles.signal}/> SOFTWARE / CLOUD / AUTOMATION</p></Block>
+     <Block id="hero-flag" kind="tag" jsxLine={'<Status availability="open" />'} agent="LAYOUT"><p className={styles.eyebrow}><span className={styles.signal}/> SOFTWARE / CLOUD / AUTOMATION</p></Block>
      <Block id="hero-title" kind="title" heading agent="CODEX" jsxLine={'<HeroTitle>Good ideas. Reliable systems.</HeroTitle>'}>
       <h1>Good ideas.<br/><em>Reliable systems.</em></h1>
      </Block>
@@ -41,7 +41,7 @@ function Swarm(){
     </div>
    </section>
    <section className={styles.section} id="work" data-section="work"><div className={styles.inner}>
-    <Block id="work-label" agent="NOVA" kind="tag" jsxLine={'<SectionNumber index={1} />'}><p className={styles.eyebrow}>01 / SELECTED WORK</p></Block>
+    <Block id="work-label" agent="LAYOUT" kind="tag" jsxLine={'<SectionNumber index={1} />'}><p className={styles.eyebrow}>01 / SELECTED WORK</p></Block>
     <Block id="work-heading" heading kind="title" agent="CODEX" jsxLine={'<SectionTitle>Engineering in practice.</SectionTitle>'}><h2>Engineering <em>in practice.</em></h2></Block>
     <div className={styles.cards}>
      <Block id="work-cloud" agent="BUILDER" jsxLine={'<ProjectCard tech="AWS + Terraform" />'}>
@@ -53,7 +53,7 @@ function Swarm(){
     </div>
    </div></section>
    <section className={styles.section} id="engineering" data-section="engineering"><div className={styles.inner}>
-    <Block id="engineering-label" kind="tag" agent="NOVA" jsxLine={'<SectionNumber index={2} />'}><p className={styles.eyebrow}>02 / ENGINEERING LAB</p></Block>
+    <Block id="engineering-label" kind="tag" agent="LAYOUT" jsxLine={'<SectionNumber index={2} />'}><p className={styles.eyebrow}>02 / ENGINEERING LAB</p></Block>
     <Block id="engineering-heading" kind="title" heading agent="CODEX" jsxLine={'<SectionTitle>Try the technology.</SectionTitle>'}><h2>Try the <em>technology.</em></h2></Block>
     <div className={styles.cards}>
      <Block id="engineering-lambda" agent="TESTER" jsxLine={'<DemoPreview type="serverless" />'}><article className={styles.card}><p className={styles.eyebrow}>PYTHON · TERRAFORM · IAM</p><h3>Order quote API</h3><p>Validate a request and inspect a calculated response.</p><div className={styles.pillLine}><span>200 OK</span><span>JSON response</span></div><a href="engineering-demos.html#lambda-demo">Run example ↗</a></article></Block>
@@ -76,7 +76,7 @@ function Swarm(){
     </div>
    </div></section>
    <section className={styles.section} id="contact" data-section="contact"><div className={styles.inner}>
-    <Block id="contact-label" kind="tag" agent="NOVA" jsxLine={'<SectionNumber index={5} />'}><p className={styles.eyebrow}>05 / CONTACT</p></Block>
+    <Block id="contact-label" kind="tag" agent="LAYOUT" jsxLine={'<SectionNumber index={5} />'}><p className={styles.eyebrow}>05 / CONTACT</p></Block>
     <Block id="contact-heading" kind="title" heading agent="CODEX" jsxLine={'<SectionTitle>Let’s build something useful.</SectionTitle>'}><h2>Let's build <em>something useful.</em></h2></Block>
     <Block id="contact-card" agent="GITHUB" jsxLine={'<Contact email="brownblakecs@gmail.com" />'}><div className={styles.contact}><p>Software, cloud and automation opportunities</p><a href="mailto:brownblakecs@gmail.com">brownblakecs@gmail.com ↗</a><a href="https://github.com/SEblakebrown">GitHub ↗</a><a href="index.html">Return to full portfolio ↗</a></div></Block>
    </div></section>
