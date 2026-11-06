@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Agent Workshop — Blake Brown</title>
+<meta name="description" content="Local Ollama agent workshop for approved portfolio component drafts.">
+<style>
+:root{font-family:Inter,system-ui,sans-serif;color:#193b55;background:#eaf5fb}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% 10%,#c9edff,#eaf5fb 55%,#e8e8ff);min-height:100vh}
+header{padding:19px max(24px,5vw);background:#f9fcffdf;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #9dbdd5}
+header a{color:#145d89}header strong{letter-spacing:.05em}
+main{max-width:1250px;margin:0 auto;padding:40px 24px 70px}
+h1{font-size:clamp(35px,5vw,64px);letter-spacing:-.055em;line-height:1.08;margin:12px 0}
+p{line-height:1.65;color:#4f6e83}label{display:block;font-weight:750;font-size:13px;margin-bottom:8px}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{background:#ffffffe8;border:1px solid #9cc2d8;border-radius:20px;padding:24px;box-shadow:0 12px 40px #4c80a020;min-width:0}
+input,textarea{display:block;width:100%;padding:12px;margin:6px 0 15px;border:1px solid #96b9d0;border-radius:9px;font:inherit;background:#f7fcff;color:#17405d}
+textarea{min-height:105px;resize:vertical}button{background:#217da9;color:white;border:0;border-radius:9px;padding:11px 15px;font:700 13px system-ui;cursor:pointer;margin:3px 6px 3px 0}
+button.secondary{background:#e0f2fc;border:1px solid #8eb9d3;color:#195b7d}button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #357eaa;outline-offset:3px}
+.status{display:inline-block;background:#d8f1ff;color:#115d83;border-radius:8px;padding:7px 11px;font-weight:700;font-size:12px}
+.log{max-height:250px;overflow:auto;padding:10px;background:#16334c;border-radius:10px;color:#e2f6ff;font:12px/1.8 ui-monospace,monospace}
+.log div{border-bottom:1px solid #ffffff18;padding:4px 0}.log b{color:#92e5d1}
+pre{white-space:pre-wrap;word-break:break-word;background:#f3faff;border:1px solid #c0d7e6;border-radius:9px;padding:14px;max-height:240px;overflow:auto;font:12px/1.5 ui-monospace,monospace;color:#2e5672}
+iframe{width:100%;height:330px;border:1px solid #a0bfd3;border-radius:12px;background:white}
+.small{font-size:12px}.warn{color:#8d551c}.fieldline{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
+.hidden{display:none}.stack{display:grid;gap:20px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}}
+</style></head><body>
+<header><strong>◈ LIVE AGENT WORKSHOP</strong><a href="swarm.html">← Animated Swarm Lab</a></header>
+<main>
+<p class="small"><strong>LOCAL-ONLY EXPERIMENT · REAL OLLAMA MODEL CALLS</strong></p>
+<h1>Agents that actually <em>generate code.</em></h1>
+<p>This experimental local mode runs three real LLM roles: NOVA plans a component, CODEX generates HTML/CSS, and REVIEW critiques the output. It shows actual model results—not scripted success messages. Nothing is written until you approve the draft. It does not edit your deployed portfolio automatically.</p>
+<div class="fieldline"><span class="status" id="connection" role="status">Checking local service…</span><span class="small" id="backend-note">The public GitHub Pages website cannot operate this server.</span></div>
+<div class="layout">
+<div class="stack">
+<section class="panel">
+<h2>Build request</h2>
+<label for="prompt">What should the agents create?</label>
+<textarea id="prompt">Design a responsive frosted-glass featured project card for an AWS/Terraform serverless API, with a title, short description, skill tags, and an accessible source link placeholder.</textarea>
+<label for="model">Installed Ollama model</label><input id="model" value="llama3.2" autocomplete="off">
+<div><button id="start" disabled>Start real agents</button><button id="refresh" class="secondary">Refresh status</button></div>
+<p class="small">The model must already be available locally through Ollama. No AI API key is required for local inference.</p>
+</section>
+<section class="panel">
+<h2>Real agent activity</h2>
+<div class="log" id="log" role="log" aria-live="polite"><div>Awaiting connection…</div></div>
+</section>
+<section class="panel">
+<h2>Plan and review</h2>
+<label>Planning output (NOVA)</label><pre id="plan">No plan generated.</pre>
+<label>Review feedback (REVIEW)</label><pre id="review">No review yet.</pre>
+</section>
+</div>
+<div class="stack">
+<section class="panel">
+<h2>Generated component preview</h2>
+<p class="small">Untrusted HTML is shown in a sandboxed frame with scripts disabled. This is a draft component, not the live homepage.</p>
+<iframe id="preview" sandbox="" title="Sandboxed AI generated component preview"></iframe>
+<label for="source">HTML/CSS source</label>
+<pre id="source">No generated source yet.</pre>
+</section>
+<section class="panel">
+<h2>Approve before writing</h2>
+<p>Approve saves the generated HTML into a new file inside <code>agent-output/</code> on your computer. It does not modify the homepage or push anything to GitHub.</p>
+<button id="approve" disabled>Approve and save draft</button>
+<button id="reject" class="secondary" disabled>Reject draft</button>
+<p class="small" id="save-message" role="status">No pending draft.</p>
+</section>
+</div>
+</div>
+</main>
+<script>
+(()=>{
+"use strict";
+const el=id=>document.getElementById(id);
+let token="",lastFingerprint="",connected=false;
+const api=async(path,payload)=>{
+ const response=await fetch(path,{method:"POST",headers:{"Content-Type":"application/json","X-Workshop-Token":token},body:JSON.stringify(payload)});
+ const obj=await response.json();
+ if(!response.ok)throw Error(obj.error||"Request failed");
+ return obj;
+};
+function draw(data){
+ el("connection").textContent="Local Ollama workshop: "+data.status;
+ el("start").disabled=!connected||data.status==="running";
+ el("approve").disabled=data.status!=="review";
+ el("reject").disabled=data.status!=="review";
+ el("plan").textContent=data.plan||"No plan generated.";
+ el("review").textContent=data.review||"No review yet.";
+ el("source").textContent=data.draft||"No generated source yet.";
+ const feed=(data.events||[]).map(x=>x.time+" "+x.agent+" — "+x.message);
+ const fingerprint=feed.join("|");
+ if(fingerprint!==lastFingerprint){
+   lastFingerprint=fingerprint;
+   el("log").replaceChildren(...(feed.length?feed:["Waiting for agents…"]).map(line=>{
+     const item=document.createElement("div");item.textContent=line;return item;
+   }));
+   el("log").scrollTop=el("log").scrollHeight;
+ }
+ // Sandbox intentionally has no allow-scripts or allow-same-origin flags.
+ if(el("preview").dataset.draft!==data.draft){
+   el("preview").dataset.draft=data.draft||"";
+   el("preview").srcdoc=data.draft||"<p style='font-family:system-ui;padding:24px;color:#456'>Generated component will appear here after CODEX finishes.</p>";
+ }
+ if(data.saved)el("save-message").textContent="Approved and saved locally: "+data.saved;
+}
+async function connect(){
+ try{
+   const r=await fetch("/api/health",{cache:"no-store"});
+   if(!r.ok)throw Error("Backend unavailable");
+   const info=await r.json();
+   if(info.mode!=="local-ollama")throw Error("Wrong backend");
+   token=info.token;connected=true;
+   el("backend-note").textContent="Connected to your local Python server.";
+   await refresh();
+ }catch(err){
+   connected=false;el("connection").textContent="Local agent service not running";
+   el("backend-note").textContent="From the repository folder, run: python local-agents/server.py and open http://127.0.0.1:8765/";
+   el("start").disabled=true;
+ }
+}
+async function refresh(){
+ if(!connected)return connect();
+ try{const res=await fetch("/api/state",{cache:"no-store"});if(!res.ok)throw Error("Backend disconnected");draw(await res.json());}
+ catch(err){connected=false;el("connection").textContent="Connection lost";el("start").disabled=true;}
+}
+el("start").addEventListener("click",async()=>{
+ try{
+   await api("/api/start",{prompt:el("prompt").value,model:el("model").value});
+   el("save-message").textContent="Agent run started. Generated code requires approval.";
+   await refresh();
+ }catch(err){el("save-message").textContent=err.message;}
+});
+el("approve").addEventListener("click",async()=>{
+ try{const result=await api("/api/approve",{});el("save-message").textContent="Saved locally: "+result.saved;await refresh();}
+ catch(err){el("save-message").textContent=err.message;}
+});
+el("reject").addEventListener("click",async()=>{
+ try{await api("/api/reject",{});el("save-message").textContent="Rejected; nothing saved.";await refresh();}
+ catch(err){el("save-message").textContent=err.message;}
+});
+el("refresh").addEventListener("click",connect);
+connect();setInterval(()=>{if(connected&&!document.hidden)refresh();},1250);
+})();
+</script></body></html>
