@@ -68,7 +68,7 @@ function Swarm(){
       </div>
       <Block id="hero-photo" agent="DESIGN" kind="portrait" jsxLine={'<Portrait name="Blake Brown" />'}>
        <figure className={styles.portraitCard}>
-        <img className={styles.portraitImage} src="assets/blake-brown-headshot.webp" width="560" height="560" alt="Blake Brown in a navy suit and tie" decoding="async" fetchPriority="high" />
+        <img className={styles.portraitImage} src="assets/blake-brown-headshot-hd.webp" width="1000" height="1000" alt="Blake Brown in a navy suit and tie" decoding="async" fetchPriority="high" />
         <figcaption className={styles.portraitCaption}><span className={styles.portraitEyebrow}>THE PERSON BEHIND THE CODE</span><strong>Blake Brown</strong><span>Software &amp; Cloud Engineer</span></figcaption>
        </figure>
       </Block>
