@@ -36,7 +36,7 @@ def normalize_component(raw):
     # This workshop generates an isolated portfolio component, not a homepage clone.
     if re.search(r"(swarm startup diagnostics|diagnostics build 2026|swarm-log|swarm-copy|id=[\\\"']app[\\\"'])", raw, re.I):
         raise ValueError("CODEX copied the swarm diagnostic screen instead of generating a component")
-    if re.search(r"<(?:!doctype|html|head|body)\\b", raw, re.I):
+    if re.search(r"<(?:!doctype|html|head|body)\b", raw, re.I):
         raise ValueError("CODEX returned a full webpage instead of a standalone component")
     # Accept complete HTML documents, standalone sections, and div-based components.
     if not re.search(r"<(?:section|article|div|main|header|h[1-6])\b", raw, re.I):
