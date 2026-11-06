@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Engineering Project Demos — Blake Brown</title><meta name="description" content="Interactive AWS Lambda and dbt analytics engineering demonstrations by Blake Brown.">
+<style>
+:root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#09111b;color:#eaf5ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#263952 0%,transparent 55%),#09111b}
+a{color:#a5e1fd}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #acf2db;outline-offset:3px}
+header{display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,5vw,70px);border-bottom:1px solid #ffffff19;background:#0b1722a6}
+.logo{font-weight:800;letter-spacing:.06em}.logo span{color:#81ebd1}header a{text-decoration:none;font-size:14px}
+main{max-width:1240px;margin:0 auto;padding:50px 24px 100px}
+.eyebrow{color:#91e7d0;letter-spacing:.18em;font:700 11px ui-monospace,monospace}h1{font-size:clamp(40px,6vw,74px);letter-spacing:-.06em;line-height:1;margin:15px 0}h1 em{color:#83dbbc;font-style:normal}.intro{color:#abc1d1;max-width:720px;line-height:1.8;margin-bottom:38px}
+.demo{border:1px solid #445d70;border-radius:20px;overflow:hidden;background:#101e2c;margin-bottom:35px;box-shadow:0 20px 45px #0003}
+.demo-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;padding:22px 28px;background:linear-gradient(110deg,#263e50,#172635)}
+.demo-header h2{font-size:clamp(21px,3vw,29px);margin:0 0 7px}.demo-header p{margin:0;color:#b2c6d5;font-size:13px}.repo-link{font-size:12px;white-space:nowrap;text-decoration:none;padding:10px 14px;border:1px solid #7195aa;border-radius:9px}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.demo-panel{padding:28px;min-width:0}.demo-panel+ .demo-panel{border-left:1px solid #324554;background:#0b1724}
+h3{font-size:12px;color:#9bdaca;letter-spacing:.13em;font-weight:750;margin:0 0 18px}label{display:block;color:#a6bbca;font-size:12px;margin-bottom:7px}
+label strong{color:#e9f6ff}.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field{margin-bottom:18px}
+input,select{width:100%;padding:12px;border-radius:8px;border:1px solid #476177;background:#0b1724;color:#e8f4fc}
+input[type="number"]{font-variant-numeric:tabular-nums}
+.action{border:0;background:#a7ecd1;color:#082019;font-weight:800;padding:12px 18px;border-radius:9px;margin:4px 0 16px}
+.action:hover{background:#c9ffe6}
+pre{font:12px/1.75 ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow:auto;overflow-wrap:anywhere;background:#080f18;color:#b7ddf9;border:1px solid #294157;border-radius:12px;padding:18px;min-height:160px;margin:0}
+.note{color:#9ab1bf;font-size:12px;line-height:1.7;margin:12px 0 0}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}.pills span{color:#b5eadb;background:#1a3938;border:1px solid #33675e;border-radius:30px;padding:5px 10px;font-size:11px}
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}.data-table th,.data-table td{padding:12px 10px;text-align:left;border-bottom:1px solid #314658}.data-table th{color:#9dc3d9;font:700 11px ui-monospace,monospace;text-transform:uppercase}.data-table td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.bars{display:flex;align-items:end;gap:20px;min-height:175px;padding:20px 10px 0;border-bottom:1px solid #4a6171}.bar-wrap{width:32%;display:flex;flex-direction:column;align-items:center;gap:6px;color:#c3d9e6;font-size:12px}.bar{width:100%;max-width:86px;border-radius:7px 7px 0 0;background:linear-gradient(#94eacb,#418c83);min-height:3px;transition:height .25s ease}
+.metric{font-size:30px;font-weight:850;letter-spacing:-.04em}.metric-label{font-size:12px;color:#a2b4c7}.lineage{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0;font:11px ui-monospace,monospace}.lineage span{border:1px solid #476377;padding:10px;border-radius:8px;background:#1b3040}.lineage b{color:#8fe4c8}
+footer{text-align:center;padding:25px;color:#94abba;font-size:12px;border-top:1px solid #ffffff19}
+@media(max-width:830px){.demo-grid{grid-template-columns:1fr}.demo-panel+.demo-panel{border-left:0;border-top:1px solid #324554}.demo-panel{padding:20px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+</style></head><body>
+<header><div class="logo">BLAKE<span> / ENGINEERING LAB</span></div><a href="index.html#open-source">← Back to portfolio</a></header>
+<main>
+<p class="eyebrow">TWO ORIGINAL IMPLEMENTATIONS / LIVE BROWSER PREVIEWS</p>
+<h1>Built to <em>demonstrate.</em></h1>
+<p class="intro">Explore the logic behind two runnable engineering projects: a Python serverless order-quote API deployed through Terraform, and a dbt/DuckDB analytics pipeline. The previews below calculate results locally in your browser using the same data and rules. They do not execute AWS Lambda, Terraform, dbt, or DuckDB.</p>
+<section class="demo" id="lambda-demo" aria-labelledby="lambda-title">
+<div class="demo-header"><div><h2 id="lambda-title">01 — Serverless Order Quote API</h2><p>Python · AWS Lambda · Terraform · IAM authentication</p></div><a class="repo-link" href="https://github.com/SEblakebrown/blake-portfolio/tree/main/projects/serverless-event-api" target="_blank" rel="noopener noreferrer">View Python + Terraform source ↗</a></div>
+<div class="demo-grid">
+<div class="demo-panel"><h3>REQUEST BUILDER</h3>
+<div class="fields">
+<div class="field"><label for="sku">Product SKU</label><input id="sku" maxlength="40" value="A1"></div>
+<div class="field"><label for="qty">Quantity (1–100)</label><input id="qty" type="number" min="1" max="100" step="1" value="2"></div>
+<div class="field"><label for="price">Unit price (USD)</label><input id="price" type="number" min="0" max="10000" step="0.01" value="12.50"></div>
+<div class="field"><label for="jsonformat">Response example</label><select id="jsonformat"><option value="ok">Valid request</option><option value="bad">Invalid request</option></select></div>
+</div><button class="action" id="lambda-run" type="button">Execute example request ↗</button>
+<p class="note">Input validation and integer-cent pricing mirror the Python handler. The deployment uses the third-party terraform-aws-lambda module with AWS_IAM authorization. The browser performs no network or AWS operations.</p></div>
+<div class="demo-panel"><h3>SIMULATED HTTP RESPONSE · CALCULATED LOCALLY</h3><pre id="lambda-output" aria-live="polite"></pre><div class="pills"><span>Python 3.12</span><span>Terraform IaC</span><span>Signed endpoint</span><span>Unit tests</span></div>
+<div class="lineage"><span>JSON Request</span><b>→</b><span>Lambda Handler</span><b>→</b><span>Validated Response</span></div></div>
+</div></section>
+<section class="demo" id="dbt-demo" aria-labelledby="dbt-title">
+<div class="demo-header"><div><h2 id="dbt-title">02 — Customer Revenue Analytics</h2><p>dbt · DuckDB · SQL models · Data quality tests</p></div><a class="repo-link" href="https://github.com/SEblakebrown/blake-portfolio/tree/main/projects/duckdb-analytics-pipeline" target="_blank" rel="noopener noreferrer">View dbt + SQL source ↗</a></div>
+<div class="demo-grid">
+<div class="demo-panel"><h3>PIPELINE EXPLORER</h3>
+<div class="lineage"><span>CSV Seeds</span><b>→</b><span>Staging</span><b>→</b><span>Revenue Mart</span><b>→</b><span>Tests</span></div>
+<div class="field"><label for="order-filter">Choose order status to include</label><select id="order-filter"><option value="paid">Paid (production metric)</option><option value="all">All (exploratory comparison)</option><option value="pending">Pending only</option><option value="cancelled">Cancelled only</option></select></div>
+<div class="metric" id="revenue-total">$175.00</div><div class="metric-label" id="revenue-description">Paid revenue across 4 orders</div>
+<div class="bars" id="revenue-bars" aria-label="Customer revenue bar chart"></div>
+<p class="note">The dbt mart includes only paid orders; other filters are educational comparisons computed in JavaScript. For real dbt model execution, see the source README.</p></div>
+<div class="demo-panel"><h3>AGGREGATED RESULTS · CALCULATED LOCALLY</h3><table class="data-table"><thead><tr><th>Customer</th><th>Orders</th><th>Revenue</th></tr></thead><tbody id="revenue-table"></tbody></table>
+<div class="pills"><span>Unique + not null</span><span>Relationships</span><span>Accepted values</span><span>Documented lineage</span></div>
+<h3>SQL MODEL</h3><pre>select customer_id,
+       count(*) as paid_order_count,
+       sum(amount_cents) as total_cents
+from stg_orders
+where status = 'paid'
+group by customer_id;</pre>
+</div></div></section>
+<p class="note">Original example implementations by Blake Brown. Architecture concepts informed by <a href="https://github.com/terraform-aws-modules/terraform-aws-lambda">terraform-aws-lambda</a> and <a href="https://github.com/dbt-labs/jaffle_shop_duckdb">dbt Jaffle Shop DuckDB</a>; both remain separate third-party projects.</p>
+</main><footer>Blake Brown · Engineering project demonstrations · <a href="index.html">Portfolio</a></footer>
+<script>
+(function(){
+"use strict";
+const q=(id)=>document.getElementById(id);
+function api(){
+ let sku=q("sku").value,quantity=Number(q("qty").value),money=Number(q("price").value),cents=Math.round(money*100),forceBad=q("jsonformat").value==="bad";
+ const valid=!forceBad&&sku.trim().length>=1&&sku.trim().length<=40&&Number.isInteger(quantity)&&quantity>=1&&quantity<=100&&Number.isFinite(money)&&money>=0&&money<=10000&&Math.abs(money*100-cents)<.000001;
+ const payload=valid?{statusCode:200,headers:{"content-type":"application/json"},body:JSON.stringify({currency:"USD",item_count:1,subtotal_cents:quantity*cents})}:{statusCode:400,headers:{"content-type":"application/json"},body:JSON.stringify({error:"Invalid sample request: check SKU, quantity and integer-cent price"})};
+ q("lambda-output").textContent=JSON.stringify(payload,null,2);
+}
+const people=[{id:1,name:"Ada"},{id:2,name:"Ben"},{id:3,name:"Cleo"}];
+const orders=[{id:1001,c:1,status:"paid",v:2500},{id:1002,c:1,status:"paid",v:5000},{id:1003,c:2,status:"paid",v:4000},{id:1004,c:2,status:"paid",v:6000},{id:1005,c:3,status:"pending",v:3000},{id:1006,c:1,status:"cancelled",v:1500}];
+const usd=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(n/100);
+function analytics(){
+ const mode=q("order-filter").value,rows=people.map(p=>{const filtered=orders.filter(o=>o.c===p.id&&(mode==="all"||o.status===mode));return{name:p.name,count:filtered.length,cents:filtered.reduce((n,o)=>n+o.v,0)};});
+ const total=rows.reduce((n,r)=>n+r.cents,0),count=rows.reduce((n,r)=>n+r.count,0);
+ q("revenue-total").textContent=usd(total);q("revenue-description").textContent=(mode==="paid"?"Paid":mode==="all"?"All-status":mode==="pending"?"Pending":"Cancelled")+" revenue across "+count+" orders";
+ q("revenue-table").replaceChildren(...rows.map(r=>{const tr=document.createElement("tr");[r.name,String(r.count),usd(r.cents)].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});return tr;}));
+ const max=Math.max(1,...rows.map(r=>r.cents));q("revenue-bars").replaceChildren(...rows.map(r=>{const wrap=document.createElement("div");wrap.className="bar-wrap";const value=document.createElement("strong");value.textContent=usd(r.cents);const bar=document.createElement("div");bar.className="bar";bar.style.height=Math.max(3,Math.round(r.cents/max*110))+"px";const title=document.createElement("span");title.textContent=r.name;wrap.append(value,bar,title);return wrap;}));
+}
+q("lambda-run").addEventListener("click",api);q("order-filter").addEventListener("change",analytics);api();analytics();
+})();
+</script></body></html>
