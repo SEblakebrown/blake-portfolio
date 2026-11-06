@@ -40,7 +40,8 @@ test("manual scrolling hands construction over unless ?play is set",async({page}
 
 test("agents actually move blocks through construction states",async({page})=>{
  const errors=[];
- page.on("pageerror",err=>errors.push(err.message));
+ page.on("pageerror",err=>{errors.push(err.message);console.log("SWARM_PAGE_ERROR",err.stack||err.message);});
+ page.on("console",msg=>{if(msg.type()==="error")console.log("SWARM_CONSOLE_ERROR",msg.text());});
  await page.goto("/swarm.html?play");
  await expect(page.locator("[data-cursor]")).toHaveCount(12);
  await expect.poll(async()=>await page.locator('[data-block][data-phase="mark"],[data-block][data-phase="rough"],[data-block][data-phase="typing"],[data-block][data-phase="done"]').count(),{timeout:8000}).toBeGreaterThan(0);
