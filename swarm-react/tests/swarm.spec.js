@@ -12,7 +12,7 @@ test("Rebuild reverses and starts again",async({page})=>{
  await page.locator("#swarm-opening-skip").click();
  await page.locator("#swarm-rebuild").click();
  await expect.poll(()=>page.locator('[data-block][data-phase="empty"]').count()).toBeGreaterThan(0);
- await page.locator("#swarm-opening-skip").click();
+ await page.locator("#swarm-skip").click();
  await expect(page.locator('[data-block]:not([data-phase="done"])')).toHaveCount(0);
 });
 test("no scripting still displays server-rendered content",async({browser})=>{
