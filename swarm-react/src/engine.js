@@ -223,6 +223,7 @@ export function startSwarmEngine(){
   rewindAt=now;
   if(rewindIndex<0){
    rewinding=false;current=0;mode="sequential";
+   jobs.forEach(j=>{j.phase="queued";j.cursor=null;j.element.dataset.phase="empty";});
    window.scrollTo({top:0,behavior:"smooth"});
    record("SYSTEM","Rebuild initialized");
    return;
@@ -260,7 +261,7 @@ export function startSwarmEngine(){
    record("SYSTEM","Rewinding blocks from bottom to top");
   }else{
    rewinding=false;
-   jobs.forEach(j=>{clearDecor(j);setPhase(j,"empty");j.cursor=null;j.started=0;});
+   jobs.forEach(j=>{clearDecor(j);j.phase="queued";j.element.dataset.phase="empty";j.cursor=null;j.started=0;});
   }
   raf=requestAnimationFrame(frame);
  }
