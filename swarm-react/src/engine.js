@@ -30,6 +30,7 @@ export function startSwarmEngine(){
   phase:"queued",cursor:null,started:0,marquee:null,readout:null,handles:[],typing:null,textNode:null,
   width:0,height:0
  }));
+ window.__swarmDebug={sectionCount:sections.length,blockCount:jobs.length,ticks:0,lastError:"",assigned:0};
  function record(name,detail){
   const div=document.createElement("div");
   div.textContent=stamp()+"  "+name+" — "+detail;
@@ -233,6 +234,8 @@ export function startSwarmEngine(){
  }
  function frame(now){
   if(!active)return;
+  window.__swarmDebug.ticks++;
+  window.__swarmDebug.assigned=jobs.filter(j=>j.cursor).length;
   if(rewinding)updateRewind(now);
   else if(!finished){
    assign(now);
