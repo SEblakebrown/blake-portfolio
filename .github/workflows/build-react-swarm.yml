@@ -1,7 +1,7 @@
 name: Build server-rendered React Swarm
 on:
   push:
-    branches: [main, feature/react-swarm-block-builder]
+    branches: [main, feature/homepage-opening-swarm-navigation]
     paths:
       - 'swarm-react/**'
       - '.github/workflows/build-react-swarm.yml'
@@ -29,10 +29,13 @@ jobs:
         working-directory: swarm-react
       - name: Verify SSR and CSS output
         run: |
+          test -s index.html
           test -s swarm.html
           test -s assets/swarm-react.js
           test -s assets/swarm-react.css
-          grep -q 'data-block=' swarm.html
+          grep -q 'data-block=' index.html
+          grep -q 'id="swarm-opening"' index.html
+          grep -q 'id="swarm-menu"' index.html
           grep -q 'data-phase="empty"' swarm.html
           grep -q 'prefers-reduced-motion' assets/swarm-react.css
       - name: Install Chromium for browser tests
@@ -45,8 +48,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add swarm.html assets/swarm-react.js assets/swarm-react.css
+          git add index.html swarm.html assets/swarm-react.js assets/swarm-react.css
           if ! git diff --cached --quiet; then
-            git commit -m "build: generate SSR React swarm page and CSS module bundle"
+            git commit -m "build: generate SSR React homepage swarm and CSS module bundle"
             git push origin HEAD:"${GITHUB_REF_NAME}"
           fi
