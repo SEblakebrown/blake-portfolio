@@ -1,0 +1,14 @@
+/* Prevent a visible flash of blocks while agents are travelling or typing.
+   The content remains real server-rendered HTML; only an active, motion-enabled
+   browser hides it until the block resolves. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+ [data-block]:not([data-phase="done"]) > :first-child {
+   visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;
+ }
+}
+@media (prefers-reduced-motion: no-preference) {
+ html[data-swarm-js="true"] [data-block]:not([data-phase="done"]) > :first-child {
+   visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;
+ }
+}
+[data-block="hero-photo"] img {filter:none!important;image-rendering:auto}
