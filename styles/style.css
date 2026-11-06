@@ -24,3 +24,31 @@
   }
 }
 @media print { .pointer-surface::before { display: none; } }
+
+
+/* Open-source reference showcase: external projects are clearly attributed. */
+.open-source{background:#edf1e8}
+.oss-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:30px}
+.oss-card{display:flex;flex-direction:column;background:#f8faf5;border:1px solid #b7c5b1;border-radius:16px;overflow:hidden;box-shadow:0 16px 35px #2838250b;transition:transform .3s ease,box-shadow .3s ease}
+.oss-card:hover{transform:translateY(-5px);box-shadow:0 22px 48px #28382520}
+.oss-visual{height:184px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative;background:#203145;color:#e5f4fe}
+.oss-visual:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff10 1px,transparent 1px),linear-gradient(90deg,#ffffff10 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(to right,#0007,transparent);pointer-events:none}
+.oss-dbt{background:#263a31;color:#f1fbe9}
+.oss-visual-label,.oss-visual-foot{position:relative;z-index:1;font:700 10px ui-monospace,monospace;letter-spacing:.14em;opacity:.8}
+.oss-diagram{display:flex;align-items:center;justify-content:center;gap:15px;position:relative;z-index:1}
+.oss-diagram>span{border:1px solid #c6e8f866;border-radius:8px;padding:10px 12px;font:700 11px ui-monospace,monospace}
+.oss-diagram>b{font-weight:400;opacity:.65}
+.oss-diagram>strong{display:grid;place-items:center;min-width:65px;height:65px;border:1px solid #9ce9e5aa;background:#beeaf51c;box-shadow:0 0 32px #c0f7ef29;border-radius:15px;font-size:27px}
+.oss-dbt .oss-diagram>strong{font-size:23px}
+.oss-card-content{padding:28px;display:flex;flex-direction:column;flex:1}
+.oss-eyebrow{display:flex;justify-content:space-between;gap:12px;margin-bottom:19px;color:#557058;font:700 10px ui-monospace,monospace;letter-spacing:.08em}
+.oss-card h3{font-size:clamp(24px,2.6vw,34px);line-height:1.15;margin:0 0 14px;color:#18261d}
+.oss-card p{font-size:14px;line-height:1.7;color:#4b5d50;margin:0 0 14px}
+.oss-card .oss-connection{padding:15px;border-left:3px solid #84a46a;background:#ecf2e7;margin-bottom:21px}
+.oss-card .tags{margin-bottom:23px}
+.oss-card .text-link{margin-top:auto;align-self:flex-start}
+.oss-credit{display:block;font-size:11px;color:#6c786c;margin-top:20px}
+.oss-disclaimer{font-size:12px;line-height:1.7;color:#617363;max-width:800px;margin:21px 0 0}
+@media(max-width:850px){.oss-grid{grid-template-columns:1fr}.oss-visual{height:165px}}
+@media(max-width:450px){.oss-card-content{padding:22px}.oss-diagram{gap:8px}.oss-diagram>span{font-size:9px;padding:8px}.oss-diagram>strong{min-width:52px;height:52px;font-size:21px}}
+@media(prefers-reduced-motion:reduce){.oss-card{transition:none}.oss-card:hover{transform:none}}
