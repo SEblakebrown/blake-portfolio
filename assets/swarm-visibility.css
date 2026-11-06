@@ -12,3 +12,15 @@
  }
 }
 [data-block="hero-photo"] img {filter:none!important;image-rendering:auto}
+
+/* The portrait is always sharp once its construction state resolves. */
+@keyframes portraitClearReveal {
+ from {opacity:0;transform:scale(.985)}
+ to {opacity:1;transform:scale(1)}
+}
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+ [data-block="hero-photo"][data-phase="done"] > :first-child {
+   animation: portraitClearReveal .34s ease-out both!important;
+   filter:none!important;
+ }
+}
