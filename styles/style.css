@@ -55,7 +55,7 @@
 
 
 /* Cinematic, non-blocking portfolio intro: CSS itself dismisses the overlay. */
-.opening-screen{position:fixed;inset:0;z-index:999;background:#121916;color:#f2f1e9;display:grid;place-items:center;overflow:hidden;animation:opening-exit .85s cubic-bezier(.74,0,.2,1) 2s forwards;will-change:transform,opacity,visibility}
+.opening-screen{position:fixed;inset:0;z-index:999;background:#121916;color:#f2f1e9;display:grid;place-items:center;overflow:hidden;animation:intro-curtain-out 1s cubic-bezier(.65,0,.2,1) 4.7s forwards;will-change:transform,opacity,visibility}
 .opening-screen:before{content:"";position:absolute;width:min(75vw,720px);aspect-ratio:1;border:1px solid #c2ed8b1e;border-radius:50%;box-shadow:0 0 0 95px #c2ed8b08,0 0 0 190px #c2ed8b04;animation:opening-orbit 2.5s ease-out both}
 .opening-noise{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 54%,#344a2b77,transparent 58%),linear-gradient(90deg,#ffffff05 1px,transparent 1px),linear-gradient(#ffffff05 1px,transparent 1px);background-size:auto,48px 48px,48px 48px;opacity:.65}
 .opening-content{position:relative;text-align:center;padding:30px;max-width:95vw}
@@ -68,7 +68,7 @@
 .opening-corner{position:absolute;bottom:30px;left:5vw;font:700 10px ui-monospace,monospace;letter-spacing:.15em;color:#9db295}
 .opening-skip{position:absolute;right:4vw;bottom:20px;padding:10px 15px;border:1px solid #859c81;border-radius:40px;background:#1b2b1b;color:#e1f4d5;font:600 12px 'DM Sans',sans-serif;cursor:pointer}
 .opening-skip:hover{background:#314d2e}.opening-skip:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
-.opening-screen.opening-dismissed{animation:opening-exit .4s cubic-bezier(.6,0,.2,1) forwards}
+.opening-screen.opening-dismissed{animation:intro-curtain-out .35s cubic-bezier(.6,0,.2,1) forwards}
 @keyframes opening-rise{from{opacity:0;transform:translateY(30px);filter:blur(7px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
 @keyframes opening-progress{to{transform:translateX(0)}}
 @keyframes opening-orbit{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
