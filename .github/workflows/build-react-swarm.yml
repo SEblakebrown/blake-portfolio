@@ -35,6 +35,12 @@ jobs:
           grep -q 'data-block=' swarm.html
           grep -q 'data-phase="empty"' swarm.html
           grep -q 'prefers-reduced-motion' assets/swarm-react.css
+      - name: Install Chromium for browser tests
+        run: npx playwright install --with-deps chromium
+        working-directory: swarm-react
+      - name: Run end-to-end browser tests
+        run: npm run test:e2e
+        working-directory: swarm-react
       - name: Commit built site on feature branch
         run: |
           git config user.name "github-actions[bot]"
