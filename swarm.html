@@ -43,11 +43,48 @@
 @media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{position:absolute;right:10px;top:145px;bottom:15px;width:min(252px,50vw);z-index:9;border:1px solid #ffffff24;border-radius:13px;box-shadow:0 12px 44px #0009}.top{gap:9px;padding:9px 12px}.control button{padding:7px}.bottom{max-width:45vw}}
 @media(max-width:590px){.sidebar{top:auto;left:8px;right:8px;bottom:8px;width:auto;height:210px}.side-section:first-child{display:none}.side-section{padding:9px}.activity{font-size:10px}.bottom{bottom:226px;max-width:calc(100% - 20px)}.top a{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-</style></head><body><div id="app"><p id="loading" style="padding:24px;color:#eaf1ff">Loading Agent Swarm Lab…</p></div><script>window.addEventListener('error',()=>{const el=document.getElementById('loading');if(el)el.textContent='Could not load the swarm. Please check your connection and refresh.'});</script>
+</style></head><body>
+<style>
+#swarm-diagnostics{position:fixed;z-index:999999;bottom:12px;left:12px;width:min(550px,calc(100vw - 24px));max-height:55vh;background:#111b2b;color:#e9f5ff;border:1px solid #6b9dc6;border-radius:12px;box-shadow:0 12px 50px #000c;font:12px/1.5 ui-monospace,Consolas,monospace;overflow:hidden}
+#swarm-diagnostics summary{padding:10px 13px;cursor:pointer;background:#20334a;font-weight:700}
+#swarm-diagnostics .diag-inner{padding:10px}
+#swarm-diagnostics pre{white-space:pre-wrap;overflow:auto;max-height:27vh;font:11px/1.5 ui-monospace,Consolas,monospace;color:#bed8ef;margin:8px 0}
+#swarm-diagnostics button{background:#a7defc;color:#071222;border:0;border-radius:6px;padding:8px 12px;font:700 12px system-ui;cursor:pointer;margin-right:6px}
+#swarm-diagnostics .diag-status{color:#ffdb87}
+</style>
+<details id="swarm-diagnostics" open>
+ <summary>Swarm startup diagnostics — <span id="swarm-status" class="diag-status">Loading…</span></summary>
+ <div class="diag-inner"><div>Diagnostics build 2026-11-06-b · startup / script / network errors</div><pre id="swarm-log" aria-live="polite"></pre>
+ <button id="swarm-copy" type="button">Copy diagnostic logs</button><button id="swarm-retry" type="button">Reload page</button>
+ <div style="color:#9bb6d0;margin-top:8px">Logs exclude cookies, storage and page data. Review before sharing.</div></div>
+</details>
+<script>
+(function(){
+ const entries=[];const t0=Date.now();
+ const logEl=document.getElementById('swarm-log'),status=document.getElementById('swarm-status');
+ const safe=(v)=>String(v==null?'':v).replace(/https?:\/\/[^\s)]+/g,(url)=>{try{let u=new URL(url);return u.origin+u.pathname}catch{return '[url]'}}).slice(0,900);
+ function log(level,message){const line='+'+((Date.now()-t0)/1000).toFixed(1)+'s ['+level+'] '+safe(message);entries.push(line);if(entries.length>100)entries.shift();logEl.textContent=entries.join('\n');logEl.scrollTop=logEl.scrollHeight;if(level==='ERROR')status.textContent='ERROR (see logs)';}
+ window.swarmLog=log;window.swarmReady=function(){log('OK','React mounted');status.textContent='React mounted';document.getElementById('swarm-diagnostics').open=false;};
+ window.addEventListener('error',function(e){if(e.target&&e.target!==window){log('ERROR','Resource load failed: '+(e.target.tagName||'element')+' '+(e.target.src||e.target.href||''));}else{log('ERROR',(e.message||'Unknown script error')+' at '+(e.filename||'inline')+':'+(e.lineno||'?')+':'+(e.colno||'?'));}},true);
+ window.addEventListener('unhandledrejection',function(e){log('ERROR','Unhandled promise rejection: '+(e.reason?.stack||e.reason?.message||e.reason||'unknown'));});
+ window.addEventListener('securitypolicyviolation',function(e){log('ERROR','CSP blocked '+e.violatedDirective+' '+e.blockedURI);});
+ window.addEventListener('offline',function(){log('WARN','Browser reports offline');});
+ log('INFO','URL '+location.origin+location.pathname);
+ log('INFO','Browser '+navigator.userAgent);
+ log('INFO','Online '+navigator.onLine+'; modules supported '+('noModule' in document.createElement('script')));
+ log('INFO','Starting ESM imports; CDN is esm.sh');
+ document.getElementById('swarm-copy').addEventListener('click',async function(){const txt=entries.join('\n');try{await navigator.clipboard.writeText(txt);this.textContent='Copied!';}catch(err){const a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();this.textContent='Copied (fallback)';}});
+ document.getElementById('swarm-retry').addEventListener('click',function(){location.reload();});
+ setTimeout(function(){if(!window.__swarmBooted)log('ERROR','Module has not started after 6 seconds. Possible CDN import, network, MIME or JavaScript parse issue.');},6000);
+ setTimeout(function(){if(!window.__swarmMounted)log('ERROR','React has not mounted after 12 seconds. Check earlier messages and browser Console.');},12000);
+})();
+</script>
+<div id="app"><p id="loading" style="padding:24px;color:#eaf1ff">Loading Agent Swarm Lab…</p></div><script>window.addEventListener('error',()=>{const el=document.getElementById('loading');if(el)el.textContent='Could not load the swarm. Please check your connection and refresh.'});</script>
 <script type="module">
 import React from "https://esm.sh/react@19.1.1";
 import {createRoot} from "https://esm.sh/react-dom@19.1.1/client";
 
+window.__swarmBooted=true;window.swarmLog?.("OK","ES module loaded; React imports resolved");
 const h=React.createElement;
 const agents=["NOVA","CODEX","RESEARCH","BUILDER","DEBUG","REVIEW","SYSTEM","MEMORY","GITHUB","TESTER"];
 const colors=["#b9e7ff","#a5a7ff","#ffc887","#7ee8c0","#f794ad","#d8b6ff","#83baf5","#f7de83","#b5ccdb","#8fe6a0"];
@@ -82,6 +119,7 @@ function App(){
  h("div",{className:"side-section details"},h("p",{className:"side-title"},"SELECTED AGENT"),h("strong",{style:{color:colors[selected]}},agents[selected]),h("p",roles[selected]),b("Focus selected agent",()=>focus(selected))),
  h("div",{className:"side-section activity"},h("p",{className:"side-title"},"ACTIVITY FEED · SIMULATED"),...history))));
 }
-createRoot(document.getElementById("app")).render(h(App));
+window.swarmLog?.("INFO","Rendering React root");
+try {createRoot(document.getElementById("app")).render(h(App));window.__swarmMounted=true;window.swarmReady?.();} catch(err){window.swarmLog?.("ERROR","React render exception: "+(err.stack||err.message||err));}
 
 </script></body></html>
