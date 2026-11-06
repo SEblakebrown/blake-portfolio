@@ -1,0 +1,33 @@
+version: 2
+models:
+  - name: stg_customers
+    description: "Standardized customer dimension"
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: customer_name
+        data_tests: [not_null]
+  - name: stg_orders
+    description: "Typed and normalized order events"
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: status
+        data_tests:
+          - accepted_values:
+              values: ['paid', 'pending', 'cancelled']
+      - name: amount_cents
+        data_tests: [not_null]
+  - name: fct_customer_revenue
+    description: "Customer paid revenue with zeroes for customers without paid orders"
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: revenue_cents
+        data_tests: [not_null]
