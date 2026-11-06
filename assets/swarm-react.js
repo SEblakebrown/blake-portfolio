@@ -23906,7 +23906,13 @@ var Swarm_default = {
   openingSubtitle: "Swarm_openingSubtitle",
   openingLine: "Swarm_openingLine",
   openingLineDraw: "Swarm_openingLineDraw",
-  openingSkip: "Swarm_openingSkip"
+  openingSkip: "Swarm_openingSkip",
+  heroGrid: "Swarm_heroGrid",
+  heroCopy: "Swarm_heroCopy",
+  portraitCard: "Swarm_portraitCard",
+  portraitImage: "Swarm_portraitImage",
+  portraitCaption: "Swarm_portraitCaption",
+  portraitEyebrow: "Swarm_portraitEyebrow"
 };
 
 // src/Swarm.jsx
@@ -23983,24 +23989,36 @@ function Swarm() {
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { id: "content", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", { className: Swarm_default.hero, id: "hero", "data-section": "hero", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.inner, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-flag", kind: "tag", jsxLine: '<Status availability="open" />', agent: "LAYOUT", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { className: Swarm_default.eyebrow, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.signal }),
-          " SOFTWARE / CLOUD / AUTOMATION"
-        ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-title", kind: "title", heading: true, agent: "CODEX", jsxLine: "<HeroTitle>Good ideas. Reliable systems.</HeroTitle>", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { children: [
-          "Good ideas.",
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "Reliable systems." })
-        ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-summary", agent: "RESEARCH", jsxLine: '<Introduction role="Cloud Engineer" />', children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.lead, children: "I build useful software, scalable AWS infrastructure, and reliable data pipelines\u2014turning engineering challenges into clear, maintainable systems." }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-buttons", agent: "BUILDER", jsxLine: '<Actions primary="Work" secondary="Resume" />', children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.buttons, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: Swarm_default.primary, href: "#work", children: [
-            "Explore my work ",
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2197" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.heroGrid, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.heroCopy, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-flag", kind: "tag", jsxLine: '<Status availability="open" />', agent: "LAYOUT", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { className: Swarm_default.eyebrow, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.signal }),
+              " SOFTWARE / CLOUD / AUTOMATION"
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-title", kind: "title", heading: true, agent: "CODEX", jsxLine: "<HeroTitle>Good ideas. Reliable systems.</HeroTitle>", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { children: [
+              "Good ideas.",
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "Reliable systems." })
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-summary", agent: "RESEARCH", jsxLine: '<Introduction role="Cloud Engineer" />', children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.lead, children: "I build useful software, scalable AWS infrastructure, and reliable data pipelines\u2014turning engineering challenges into clear, maintainable systems." }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-buttons", agent: "BUILDER", jsxLine: '<Actions primary="Work" secondary="Resume" />', children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.buttons, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: Swarm_default.primary, href: "#work", children: [
+                "Explore my work ",
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2197" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "assets/Blake-Brown-Resume.pdf", download: true, children: "Download resume \u2193" })
+            ] }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "assets/Blake-Brown-Resume.pdf", download: true, children: "Download resume \u2193" })
-        ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-orbit", agent: "DESIGN", jsxLine: "<SystemDiagram nodes={3} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.diagram, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-photo", agent: "DESIGN", kind: "portrait", jsxLine: '<Portrait name="Blake Brown" />', children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", { className: Swarm_default.portraitCard, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { className: Swarm_default.portraitImage, src: "assets/blake-brown-headshot.webp", width: "560", height: "560", alt: "Blake Brown in a navy suit and tie", decoding: "async", fetchPriority: "high" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figcaption", { className: Swarm_default.portraitCaption, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.portraitEyebrow, children: "THE PERSON BEHIND THE CODE" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Blake Brown" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Software & Cloud Engineer" })
+            ] })
+          ] }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-orbit", agent: "BUILDER", jsxLine: "<SystemDiagram nodes={3} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.diagram, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.orbitRing }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.orbitRingSmall }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.orbitCore, children: [
