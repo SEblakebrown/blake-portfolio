@@ -23890,7 +23890,7 @@ var Swarm_default = {
 // src/Swarm.jsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 var agents = [
-  ["NOVA", "#59a5ee"],
+  ["LAYOUT", "#59a5ee"],
   ["CODEX", "#8d7fe6"],
   ["RESEARCH", "#31b5aa"],
   ["BUILDER", "#59a5ee"],
@@ -23923,7 +23923,7 @@ function Swarm() {
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { id: "content", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", { className: Swarm_default.hero, id: "hero", "data-section": "hero", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.inner, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-flag", kind: "tag", jsxLine: '<Status availability="open" />', agent: "NOVA", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { className: Swarm_default.eyebrow, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-flag", kind: "tag", jsxLine: '<Status availability="open" />', agent: "LAYOUT", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { className: Swarm_default.eyebrow, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.signal }),
           " SOFTWARE / CLOUD / AUTOMATION"
         ] }) }),
@@ -23953,7 +23953,7 @@ function Swarm() {
         ] }) })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", { className: Swarm_default.section, id: "work", "data-section": "work", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.inner, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "work-label", agent: "NOVA", kind: "tag", jsxLine: "<SectionNumber index={1} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.eyebrow, children: "01 / SELECTED WORK" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "work-label", agent: "LAYOUT", kind: "tag", jsxLine: "<SectionNumber index={1} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.eyebrow, children: "01 / SELECTED WORK" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "work-heading", heading: true, kind: "title", agent: "CODEX", jsxLine: "<SectionTitle>Engineering in practice.</SectionTitle>", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", { children: [
           "Engineering ",
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "in practice." })
@@ -23984,7 +23984,7 @@ function Swarm() {
         ] })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", { className: Swarm_default.section, id: "engineering", "data-section": "engineering", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.inner, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "engineering-label", kind: "tag", agent: "NOVA", jsxLine: "<SectionNumber index={2} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.eyebrow, children: "02 / ENGINEERING LAB" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "engineering-label", kind: "tag", agent: "LAYOUT", jsxLine: "<SectionNumber index={2} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.eyebrow, children: "02 / ENGINEERING LAB" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "engineering-heading", kind: "title", heading: true, agent: "CODEX", jsxLine: "<SectionTitle>Try the technology.</SectionTitle>", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", { children: [
           "Try the ",
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "technology." })
@@ -24052,7 +24052,7 @@ function Swarm() {
         ] })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", { className: Swarm_default.section, id: "contact", "data-section": "contact", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.inner, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "contact-label", kind: "tag", agent: "NOVA", jsxLine: "<SectionNumber index={5} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.eyebrow, children: "05 / CONTACT" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "contact-label", kind: "tag", agent: "LAYOUT", jsxLine: "<SectionNumber index={5} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.eyebrow, children: "05 / CONTACT" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "contact-heading", kind: "title", heading: true, agent: "CODEX", jsxLine: "<SectionTitle>Let\u2019s build something useful.</SectionTitle>", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", { children: [
           "Let's build ",
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "something useful." })
@@ -24118,6 +24118,7 @@ function startSwarmEngine() {
     width: 0,
     height: 0
   }));
+  window.__swarmDebug = { sectionCount: sections.length, blockCount: jobs.length, ticks: 0, lastError: "", assigned: 0 };
   function record(name, detail) {
     const div = document.createElement("div");
     div.textContent = stamp() + "  " + name + " \u2014 " + detail;
@@ -24288,7 +24289,7 @@ function startSwarmEngine() {
     });
     finished = true;
     rewinding = false;
-    record("NOVA", "Entire portfolio ready \xB7 construction simulation complete");
+    record("SYSTEM", "Entire portfolio ready \xB7 construction simulation complete");
     cancelAnimationFrame(raf);
     raf = 0;
   }
@@ -24339,7 +24340,7 @@ function startSwarmEngine() {
         return;
       }
       sections[current]?.scrollIntoView({ behavior: "smooth", block: "start" });
-      record("NOVA", "Beginning " + sections[current].id + " while camera scrolls");
+      record("SYSTEM", "Beginning " + sections[current].id + " while camera scrolls");
     }
   }
   function idleFlock(cursor, now) {
@@ -24363,8 +24364,13 @@ function startSwarmEngine() {
       rewinding = false;
       current = 0;
       mode = "sequential";
+      jobs.forEach((j) => {
+        j.phase = "queued";
+        j.cursor = null;
+        j.element.dataset.phase = "empty";
+      });
       window.scrollTo({ top: 0, behavior: "smooth" });
-      record("NOVA", "Rebuild initialized");
+      record("SYSTEM", "Rebuild initialized");
       return;
     }
     const job = jobs[rewindIndex];
@@ -24374,6 +24380,8 @@ function startSwarmEngine() {
   }
   function frame(now) {
     if (!active) return;
+    window.__swarmDebug.ticks++;
+    window.__swarmDebug.assigned = jobs.filter((j) => j.cursor).length;
     if (rewinding) updateRewind(now);
     else if (!finished) {
       assign(now);
@@ -24408,12 +24416,13 @@ function startSwarmEngine() {
       rewinding = true;
       rewindIndex = jobs.length - 1;
       rewindAt = 0;
-      record("NOVA", "Rewinding blocks from bottom to top");
+      record("SYSTEM", "Rewinding blocks from bottom to top");
     } else {
       rewinding = false;
       jobs.forEach((j) => {
         clearDecor(j);
-        setPhase(j, "empty");
+        j.phase = "queued";
+        j.element.dataset.phase = "empty";
         j.cursor = null;
         j.started = 0;
       });
@@ -24423,7 +24432,7 @@ function startSwarmEngine() {
   function handover() {
     if (noHandover || mode === "viewport" || finished || rewinding) return;
     mode = "viewport";
-    record("NOVA", "Manual navigation detected \xB7 building visible sections only");
+    record("SYSTEM", "Manual navigation detected \xB7 building visible sections only");
   }
   const listen = { signal: aborter.signal, passive: true };
   window.addEventListener("wheel", (e) => {
@@ -24448,7 +24457,7 @@ function startSwarmEngine() {
     jobs.forEach((j) => setPhase(j, "done"));
     finished = true;
   } else {
-    record("NOVA", "Starting twelve-cursor page construction \xB7 simulated");
+    record("SYSTEM", "Starting twelve-cursor page construction \xB7 simulated");
     window.scrollTo({ top: 0, behavior: "instant" });
     reset(false);
   }
