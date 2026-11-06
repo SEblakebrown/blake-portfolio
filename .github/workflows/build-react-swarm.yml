@@ -1,7 +1,7 @@
 name: Build server-rendered React Swarm
 on:
   push:
-    branches: [feature/react-swarm-block-builder]
+    branches: [main, feature/react-swarm-block-builder]
     paths:
       - 'swarm-react/**'
       - '.github/workflows/build-react-swarm.yml'
@@ -41,12 +41,12 @@ jobs:
       - name: Run end-to-end browser tests
         run: npm run test:e2e
         working-directory: swarm-react
-      - name: Commit built site on feature branch
+      - name: Commit tested generated site to current branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add swarm.html assets/swarm-react.js assets/swarm-react.css
           if ! git diff --cached --quiet; then
             git commit -m "build: generate SSR React swarm page and CSS module bundle"
-            git push origin HEAD:feature/react-swarm-block-builder
+            git push origin HEAD:"${GITHUB_REF_NAME}"
           fi
