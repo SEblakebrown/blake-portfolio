@@ -36,7 +36,7 @@ jobs:
           grep -q 'data-phase="empty"' swarm.html
           grep -q 'prefers-reduced-motion' assets/swarm-react.css
       - name: Install Chromium for browser tests
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
         working-directory: swarm-react
       - name: Run end-to-end browser tests
         run: npm run test:e2e
