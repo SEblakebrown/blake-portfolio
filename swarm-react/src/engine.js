@@ -324,7 +324,10 @@ export function startSwarmEngine(){
  }
  function handover(){
   if(noHandover||mode==="viewport"||finished||rewinding)return;
-  mode="viewport";record("SYSTEM","Manual navigation detected · building visible sections only");
+  // Deliberate navigation during the opening gives control back immediately.
+  if(introPlaying)reset(false);
+  mode="viewport";
+  record("SYSTEM","Manual navigation detected · building visible sections only");
  }
  const listen={signal:aborter.signal,passive:true};
  window.addEventListener("wheel",e=>{
