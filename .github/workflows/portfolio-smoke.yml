@@ -1,0 +1,25 @@
+name: Portfolio smoke checks
+on:
+  push:
+    branches: [main, feature/cinematic-swarm-liquid-glass]
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'styles/**'
+      - 'scripts/**'
+      - 'engineering-demos.html'
+      - 'tests/**'
+      - '.github/workflows/**'
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check scripts/main.js
+      - run: node --check scripts/swarm-intro.js
+      - run: node tests/smoke-portfolio.cjs
