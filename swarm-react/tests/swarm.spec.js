@@ -37,3 +37,16 @@ test("manual scrolling hands construction over unless ?play is set",async({page}
  await page.mouse.wheel(0,180);
  await expect(page.locator("#swarm-log-lines")).toContainText("Manual navigation detected");
 });
+
+test("agents actually move blocks through construction states",async({page})=>{
+ const errors=[];
+ page.on("pageerror",err=>errors.push(err.message));
+ await page.goto("/swarm.html?play");
+ await expect(page.locator("[data-cursor]")).toHaveCount(12);
+ await expect.poll(async()=>await page.locator('[data-block][data-phase="mark"],[data-block][data-phase="rough"],[data-block][data-phase="typing"],[data-block][data-phase="done"]').count(),{timeout:8000}).toBeGreaterThan(0);
+ await expect(page.locator("#swarm-log-lines")).toContainText(/Targeted|Marquee|Outlined|Resolved|Typed/);
+ const cursor=page.locator('[data-cursor="CODEX"]');
+ await expect.poll(async()=>cursor.evaluate(el=>getComputedStyle(el).transform),{timeout:8000}).not.toBe("none");
+ expect(errors).toEqual([]);
+ await expect(page.locator("body")).not.toContainText("NOVA");
+});
