@@ -1,0 +1,7 @@
+portfolio_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "portfolio_analytics.duckdb"
+      threads: 2
