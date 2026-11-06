@@ -23884,7 +23884,29 @@ var Swarm_default = {
   typedText: "Swarm_typedText",
   caret: "Swarm_caret",
   caretblink: "Swarm_caretblink",
-  swarmEmergencyReveal: "Swarm_swarmEmergencyReveal"
+  swarmEmergencyReveal: "Swarm_swarmEmergencyReveal",
+  topControls: "Swarm_topControls",
+  menuToggle: "Swarm_menuToggle",
+  menu: "Swarm_menu",
+  burgerIcon: "Swarm_burgerIcon",
+  menuPanel: "Swarm_menuPanel",
+  menuDivider: "Swarm_menuDivider",
+  opening: "Swarm_opening",
+  openingActive: "Swarm_openingActive",
+  openingExit: "Swarm_openingExit",
+  openingGrid: "Swarm_openingGrid",
+  openingGridShift: "Swarm_openingGridShift",
+  openingGlow: "Swarm_openingGlow",
+  openingPulse: "Swarm_openingPulse",
+  openingContent: "Swarm_openingContent",
+  openingKicker: "Swarm_openingKicker",
+  openingStatus: "Swarm_openingStatus",
+  openingName: "Swarm_openingName",
+  openingNameRise: "Swarm_openingNameRise",
+  openingSubtitle: "Swarm_openingSubtitle",
+  openingLine: "Swarm_openingLine",
+  openingLineDraw: "Swarm_openingLineDraw",
+  openingSkip: "Swarm_openingSkip"
 };
 
 // src/Swarm.jsx
@@ -23908,17 +23930,55 @@ var Block = ({ id, jsxLine, agent, kind, children, heading }) => /* @__PURE__ */
 var Arrow = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { width: "19", height: "24", viewBox: "0 0 19 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M1 1L1 20L6.2 15L10 23L13.7 21.5L9.9 14L17.8 13.5Z", fill: "currentColor", stroke: "white", strokeWidth: "1.3", strokeLinejoin: "round" }) });
 function Swarm() {
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.page, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.opening, id: "swarm-opening", "aria-label": "Blake Brown cinematic introduction", "aria-hidden": "true", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.openingGrid, "aria-hidden": "true" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.openingGlow, "aria-hidden": "true" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.openingContent, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.openingKicker, children: "SOFTWARE \xB7 CLOUD \xB7 AUTOMATION" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("strong", { className: Swarm_default.openingName, children: [
+          "BLAKE BROWN",
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "." })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: Swarm_default.openingSubtitle, children: "Engineering ideas into reality" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.openingLine, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("i", {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.openingStatus, children: "INITIALIZING AGENT WORKSPACE" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", className: Swarm_default.openingSkip, id: "swarm-opening-skip", children: "Skip everything \u2197" })
+    ] }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: Swarm_default.nav, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: Swarm_default.brand, href: "index.html", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { className: Swarm_default.brand, href: "#hero", "aria-label": "Blake Brown \u2014 Back to top", children: [
         "blake",
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u25CF" }),
         "brown"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.navMiddle, children: "SWARM / LIVE PAGE CONSTRUCTION" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.actions, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.navMiddle, children: "PORTFOLIO / AGENT-BUILT EXPERIENCE" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.topControls, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", id: "swarm-skip", children: "Skip" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", id: "swarm-rebuild", children: "Rebuild \u21BB" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "agent-workshop.html", children: "Real AI Lab \u2197" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("details", { className: Swarm_default.menu, id: "swarm-menu", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("summary", { className: Swarm_default.menuToggle, "aria-label": "Open navigation menu", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: Swarm_default.burgerIcon, "aria-hidden": "true", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("i", {}),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("i", {}),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("i", {})
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Menu" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("nav", { className: Swarm_default.menuPanel, "aria-label": "Portfolio navigation", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#hero", children: "Home" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#work", children: "Projects" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#engineering", children: "Engineering Lab" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#experience", children: "Experience" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#stack", children: "Skills" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "#contact", children: "Contact" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.menuDivider }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "assets/Blake-Brown-Resume.pdf", download: true, children: "Download Resume \u2193" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "agent-workshop.html", children: "Real AI Workshop \u2197" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "engineering-demos.html", children: "Interactive Engineering Demos \u2197" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "classic-portfolio.html", children: "Original Portfolio \u2197" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "https://github.com/SEblakebrown", target: "_blank", rel: "noopener noreferrer", children: "GitHub \u2197" })
+          ] })
+        ] })
       ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { id: "content", children: [
@@ -23938,7 +23998,7 @@ function Swarm() {
             "Explore my work ",
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2197" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "index.html", children: "Full portfolio \u2197" })
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "assets/Blake-Brown-Resume.pdf", download: true, children: "Download resume \u2193" })
         ] }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-orbit", agent: "DESIGN", jsxLine: "<SystemDiagram nodes={3} />", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: Swarm_default.diagram, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: Swarm_default.orbitRing }),
@@ -24061,7 +24121,7 @@ function Swarm() {
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Software, cloud and automation opportunities" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "mailto:brownblakecs@gmail.com", children: "brownblakecs@gmail.com \u2197" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "https://github.com/SEblakebrown", children: "GitHub \u2197" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "index.html", children: "Return to full portfolio \u2197" })
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", { href: "assets/Blake-Brown-Resume.pdf", download: true, children: "Download resume \u2193" })
         ] }) })
       ] }) })
     ] }),
@@ -24094,6 +24154,12 @@ function startSwarmEngine() {
   const statuses = new Map(agents.map(([name], i) => [name, { name, i, x: -120, y: -120, fromX: -120, fromY: -120, toX: -120, toY: -120, started: 0, duration: 650, assigned: null, bow: 0 }]));
   const feed = document.getElementById("swarm-log-lines");
   const skip = document.getElementById("swarm-skip"), rebuild = document.getElementById("swarm-rebuild");
+  const opening = document.getElementById("swarm-opening");
+  const openingSkip = document.getElementById("swarm-opening-skip");
+  const cursorLayer = document.getElementById("swarm-cursors");
+  const menu = document.getElementById("swarm-menu");
+  const introTimers = /* @__PURE__ */ new Set();
+  let introPlaying = false, exiting = false, exitStarted = 0;
   const sectionVisible = /* @__PURE__ */ new Set();
   let raf = 0, last = 0, generation = 0, active = true, paused = false, mode = "sequential", current = 0, finished = false, rewinding = false, rewindIndex = 0, rewindAt = 0;
   let wheelCount = 0, wheelAt = 0, touchY = null;
@@ -24278,20 +24344,62 @@ function startSwarmEngine() {
       }
     }
   }
+  function schedule(fn, delay) {
+    const id = window.setTimeout(() => {
+      introTimers.delete(id);
+      if (active) fn();
+    }, delay);
+    introTimers.add(id);
+    return id;
+  }
+  function stopIntro() {
+    introTimers.forEach((id) => clearTimeout(id));
+    introTimers.clear();
+    introPlaying = false;
+    opening?.classList.remove(Swarm_default.openingActive, Swarm_default.openingExit);
+  }
+  function beginIntro() {
+    if (!opening) {
+      reset(false);
+      return;
+    }
+    introPlaying = true;
+    cursorLayer?.style.setProperty("opacity", "0");
+    opening.classList.remove(Swarm_default.openingExit);
+    opening.classList.add(Swarm_default.openingActive);
+    record("SYSTEM", "Opening identity sequence");
+    schedule(() => {
+      opening.classList.add(Swarm_default.openingExit);
+      schedule(() => {
+        stopIntro();
+        if (!active || finished) return;
+        record("SYSTEM", "Identity complete \xB7 starting agent construction");
+        reset(false);
+      }, 680);
+    }, 2450);
+  }
   function finishAll() {
+    if (!active) return;
+    stopIntro();
     jobs.forEach((job) => {
       clearDecor(job);
       setPhase(job, "done");
       job.cursor = null;
     });
-    statuses.forEach((c) => {
-      c.assigned = null;
-    });
     finished = true;
     rewinding = false;
-    record("SYSTEM", "Entire portfolio ready \xB7 construction simulation complete");
+    record("SYSTEM", "All blocks complete \xB7 moving agents off screen");
+    const now = performance.now();
+    exiting = !prefersReduced();
+    exitStarted = now;
+    statuses.forEach((c, i) => {
+      c.assigned = null;
+      moveTo(c, Math.round((i + 1) * innerWidth / (statuses.size + 1)), scrollY + innerHeight + 105, now, 780);
+    });
+    if (cursorLayer) cursorLayer.style.opacity = exiting ? "1" : "0";
     cancelAnimationFrame(raf);
     raf = 0;
+    if (exiting) raf = requestAnimationFrame(frame);
   }
   function sectionEligible(i) {
     if (mode === "sequential") return i === current;
@@ -24380,6 +24488,21 @@ function startSwarmEngine() {
   }
   function frame(now) {
     if (!active) return;
+    if (introPlaying) {
+      raf = requestAnimationFrame(frame);
+      return;
+    }
+    if (exiting) {
+      statuses.forEach((c) => positionCursor(c, now));
+      if (now - exitStarted >= 800) {
+        exiting = false;
+        if (cursorLayer) cursorLayer.style.opacity = "0";
+        raf = 0;
+        return;
+      }
+      raf = requestAnimationFrame(frame);
+      return;
+    }
     window.__swarmDebug.ticks++;
     window.__swarmDebug.assigned = jobs.filter((j) => j.cursor).length;
     if (rewinding) updateRewind(now);
@@ -24397,15 +24520,19 @@ function startSwarmEngine() {
   }
   function stop() {
     active = false;
+    stopIntro();
     cancelAnimationFrame(raf);
     aborter.abort();
     observer.disconnect();
     jobs.forEach(clearDecor);
   }
   function reset(rewind) {
+    stopIntro();
     cancelAnimationFrame(raf);
     raf = 0;
     generation++;
+    exiting = false;
+    if (cursorLayer) cursorLayer.style.opacity = "1";
     finished = false;
     current = 0;
     mode = "sequential";
@@ -24431,6 +24558,7 @@ function startSwarmEngine() {
   }
   function handover() {
     if (noHandover || mode === "viewport" || finished || rewinding) return;
+    if (introPlaying) reset(false);
     mode = "viewport";
     record("SYSTEM", "Manual navigation detected \xB7 building visible sections only");
   }
@@ -24452,14 +24580,22 @@ function startSwarmEngine() {
     if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(e.key)) handover();
   }, { signal: aborter.signal });
   skip?.addEventListener("click", finishAll, { signal: aborter.signal });
+  openingSkip?.addEventListener("click", finishAll, { signal: aborter.signal });
+  menu?.querySelectorAll('a[href^="#"]').forEach((link) => link.addEventListener("click", () => {
+    menu.open = false;
+  }, { signal: aborter.signal }));
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu?.open) menu.open = false;
+  }, { signal: aborter.signal });
   rebuild?.addEventListener("click", () => reset(true), { signal: aborter.signal });
-  if (prefersReduced()) {
+  if (prefersReduced() || location.hash && sectionIds.includes(location.hash.slice(1))) {
+    stopIntro();
     jobs.forEach((j) => setPhase(j, "done"));
+    if (cursorLayer) cursorLayer.style.opacity = "0";
     finished = true;
   } else {
-    record("SYSTEM", "Starting twelve-cursor page construction \xB7 simulated");
     window.scrollTo({ top: 0, behavior: "instant" });
-    reset(false);
+    beginIntro();
   }
   return stop;
 }
