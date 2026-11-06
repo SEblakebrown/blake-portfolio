@@ -85,7 +85,7 @@ Browser-based visual and interaction QA remains necessary before merging.
 ## Experimental real Ollama agents (local only)
 
 The cinematic homepage and public `swarm.html` remain visual simulations.
-A separate [Real Agent Workshop](agent-workshop.html) can connect to a **local Python server** that calls your own running Ollama model. The three actual model-backed roles are NOVA (plan), CODEX (generate HTML/CSS), and REVIEW (critique). The interface polls real model-generated progress events. Other swarm agent roles on the public site remain animated demonstrations.
+A separate [Real Agent Workshop](agent-workshop.html) can connect to a **local Python server** that calls your own running Ollama model. The three actual model-backed roles are PLANNER (plan), CODEX (generate HTML/CSS), and REVIEW (critique). The interface polls real model-generated progress events. Other swarm agent roles on the public site remain animated demonstrations.
 
 ### Start on your computer
 
