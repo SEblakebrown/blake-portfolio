@@ -1,0 +1,84 @@
+/* Light laboratory pages. Cosmetic overrides only: event handlers and animations unchanged. */
+body.engineering-light,
+body.swarm-light{background:#eef7fd;color:#183952}
+body.engineering-light{
+  background:radial-gradient(ellipse at 15% 7%,#d5efff,transparent 55%),radial-gradient(ellipse at 90% 65%,#e4e0ff,transparent 54%),#eff8fe;
+}
+.engineering-light header{
+  background:#f8fcffea;border-bottom-color:#a4c5da;
+}
+.engineering-light header .logo{color:#1e4b6d}
+.engineering-light a{color:#176b99}
+.engineering-light h1{color:#153b5d}
+.engineering-light h1 em{color:#207da7}
+.engineering-light .eyebrow{color:#166e95}
+.engineering-light .intro,.engineering-light .note{color:#496b80}
+.engineering-light .demo{background:#f8fcffdc;border:1px solid #9fc5dc;box-shadow:0 18px 45px #5484a624}
+.engineering-light .demo-header{background:linear-gradient(115deg,#d6efff,#e4eafa)}
+.engineering-light .demo-header h2{color:#163f5b}
+.engineering-light .demo-header p{color:#486b82}
+.engineering-light .repo-link{border-color:#79b3d1;color:#145f86;background:#ffffff82}
+.engineering-light .demo-panel{color:#163c59}
+.engineering-light .demo-panel+.demo-panel{background:#eaf5fcda;border-left-color:#aacbdc}
+.engineering-light h3{color:#205b81}
+.engineering-light label{color:#47667d}
+.engineering-light label strong{color:#164a70}
+.engineering-light input,.engineering-light select{background:#fff;color:#173e59;border-color:#9dbfd3}
+.engineering-light .action{background:#247da6;color:#fff}
+.engineering-light .action:hover{background:#155e85}
+.engineering-light pre{background:#18354e;color:#e0f5ff;border-color:#5a8eaa}
+.engineering-light .pills span{background:#e0f3fd;border-color:#9ac7df;color:#1e617f}
+.engineering-light .data-table th,.engineering-light .data-table td{border-bottom-color:#afcadb}
+.engineering-light .data-table th{color:#416b85}
+.engineering-light .bars{border-bottom-color:#94bbd2}
+.engineering-light .bar{background:linear-gradient(#5dbad5,#298db2)}
+.engineering-light .metric-label,.engineering-light .bar-wrap{color:#416b84}
+.engineering-light .lineage span{background:#dff1fb;border-color:#9abbd2;color:#1f5777}
+.engineering-light .lineage b{color:#277da5}
+.engineering-light footer{color:#55758e;border-top-color:#b9d2e0}
+body.swarm-light .shell{background:radial-gradient(ellipse at 28% 9%,#d5edff 0%,#f4faff 64%,#e7efff 100%);color:#153c59}
+.swarm-light .top{background:#f7fbffef;border-bottom-color:#a5c9dc;box-shadow:0 5px 25px #517c9822}
+.swarm-light .brand{color:#153e5e}
+.swarm-light .brand b{color:#1579a8}
+.swarm-light .brand span{color:#54758c}
+.swarm-light .top a{color:#205e85}
+.swarm-light .control button,.swarm-light .agent-list button,.swarm-light .window-bar button,.swarm-light .details button{
+  background:#e0f2fc;color:#1c4c6c;border-color:#92c1d9
+}
+.swarm-light .control button:hover,.swarm-light .agent-list button:hover,.swarm-light .details button:hover{background:#c7e8f9}
+.swarm-light .control button.primary{background:#247ca5;color:#fff;border-color:#247ca5}
+.swarm-light .control button[aria-pressed=true]{border-color:#2086b0;color:#135c82}
+.swarm-light .dotgrid{background-image:radial-gradient(#4d96c239 1px,transparent 1px)}
+.swarm-light .stage:before{border-color:#4e95ba35}
+.swarm-light .wnd{
+  background:#f6fbfff2;border-color:#81b4d4;
+  box-shadow:0 16px 48px #34658c2e,0 0 26px #83c7f535
+}
+.swarm-light .wnd.active{box-shadow:0 16px 48px #34658c2e,0 0 0 2px #65b1dc55}
+.swarm-light .window-bar{background:#d9eefa;border-bottom-color:#9abfd8}
+.swarm-light .wtitle{color:#254c6b}
+.swarm-light .wbody{color:#1d4563}
+.swarm-light .code{color:#235b85}
+.swarm-light .muted{color:#5e7c92}
+.swarm-light .success{color:#0d7655}
+.swarm-light .warn{color:#a0660f}
+.swarm-light .browser-address{background:#e2f2fc;border-color:#a5c7de;color:#2c6181}
+.swarm-light .mini{border-color:#a5c6da;color:#2c536e;background:#eff8ff}
+.swarm-light .mini i{background:#2486b8}
+.swarm-light .skeleton i{background:linear-gradient(90deg,#b5d5e6,#f2faff,#b5d5e6);background-size:200% 100%}
+.swarm-light .agent-tag{background:#f8fcfff2}
+.swarm-light .sidebar{background:#f5fbfff5;border-left-color:#a4c3d6}
+.swarm-light .side-section{border-bottom-color:#b5d0e0}
+.swarm-light .side-title{color:#446b86}
+.swarm-light .agent-list button.selected{background:#c5e5f7;border-color:#4c9dc5}
+.swarm-light .details{color:#4b6c83}
+.swarm-light .details strong{color:#173e5d}
+.swarm-light .details small{color:#58788e}
+.swarm-light .activity-entry{color:#426781;border-top-color:#d1e2ee}
+.swarm-light .activity-entry b{color:#1d5072}
+.swarm-light .activity-entry time{color:#637f93}
+.swarm-light .bottom{background:#f4fbfff1;border-color:#8eb9d0;color:#55768b;box-shadow:0 5px 20px #5589a427}
+.swarm-light .bottom strong{color:#1b5376}
+.swarm-light .bottom .status{color:#08724e}
+.swarm-light .hint{color:#577c93}
+@media(max-width:950px){.swarm-light .sidebar{border-color:#b3d1e1;box-shadow:0 12px 44px #567c9927}}
