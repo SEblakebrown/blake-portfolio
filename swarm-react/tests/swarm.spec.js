@@ -53,3 +53,65 @@ test("agents actually move blocks through construction states",async({page})=>{
  expect(errors).toEqual([]);
  await expect(page.locator("body")).not.toContainText("NOVA");
 });
+
+test("the homepage plays opening identity before beginning the animated build",async({page})=>{
+ const errors=[];
+ page.on("pageerror",error=>errors.push(error.message));
+ await page.goto("/");
+ await expect(page.locator("#swarm-opening")).toBeVisible();
+ await expect(page.locator("#swarm-opening")).toContainText("BLAKE BROWN");
+ await expect(page.locator("#swarm-log-lines")).toContainText("Opening identity sequence");
+ await expect(page.locator("#swarm-opening")).toBeHidden({timeout:7500});
+ await expect(page.locator("#swarm-log-lines")).toContainText("starting agent construction");
+ await expect.poll(async()=>page.locator('[data-block][data-phase="mark"],[data-block][data-phase="rough"],[data-block][data-phase="done"]').count(),{timeout:7000}).toBeGreaterThan(0);
+ expect(errors).toEqual([]);
+});
+
+test("Skip during opening completes all blocks and cursors exit below viewport",async({page})=>{
+ await page.goto("/");
+ await expect(page.locator("#swarm-opening")).toBeVisible();
+ await page.locator("#swarm-opening-skip").click();
+ await expect(page.locator('[data-block]:not([data-phase="done"])')).toHaveCount(0);
+ await expect(page.locator("#swarm-opening")).toBeHidden();
+ await expect.poll(async()=>page.locator("#swarm-cursors").evaluate(el=>getComputedStyle(el).opacity),{timeout:5000}).toBe("0");
+ await expect(page.locator("#swarm-log-lines")).toContainText("moving agents off screen");
+});
+
+test("the homepage hamburger contains every route and closes after selection",async({page})=>{
+ await page.goto("/");
+ await page.locator("#swarm-opening-skip").click();
+ const menu=page.locator("#swarm-menu");
+ await expect(menu).not.toHaveAttribute("open");
+ await menu.locator("summary").click();
+ await expect(menu).toHaveAttribute("open","");
+ await expect(menu.getByRole("link",{name:"Experience"})).toBeVisible();
+ await expect(menu.getByRole("link",{name:"Download Resume"})).toHaveAttribute("href","assets/Blake-Brown-Resume.pdf");
+ await menu.getByRole("link",{name:"Projects"}).click();
+ await expect(menu).not.toHaveAttribute("open");
+ await expect(page).toHaveURL(/#work$/);
+});
+
+test("homepage is fully rendered without JavaScript or with reduced motion",async({browser})=>{
+ const noJs=await browser.newContext({javaScriptEnabled:false});
+ const page=await noJs.newPage();
+ await page.goto("http://127.0.0.1:8000/");
+ await expect(page.locator('[data-block]')).toHaveCount(25);
+ await expect(page.getByRole("heading",{name:/Good ideas/})).toBeVisible();
+ await expect(page.locator("#swarm-opening")).toBeHidden();
+ await noJs.close();
+ const lowMotion=await browser.newContext({reducedMotion:"reduce"});
+ const page2=await lowMotion.newPage();
+ await page2.goto("http://127.0.0.1:8000/");
+ await expect(page2.locator('[data-block]:not([data-phase="done"])')).toHaveCount(0);
+ await expect(page2.locator("#swarm-opening")).toBeHidden();
+ await lowMotion.close();
+});
+
+test("Rebuild runs after Skip and begins constructing blocks again",async({page})=>{
+ await page.goto("/");
+ await page.locator("#swarm-opening-skip").click();
+ await expect.poll(async()=>page.locator("#swarm-cursors").evaluate(el=>getComputedStyle(el).opacity)).toBe("0");
+ await page.locator("#swarm-rebuild").click();
+ await expect.poll(async()=>page.locator('[data-block][data-phase="empty"]').count(),{timeout:10000}).toBeGreaterThan(0);
+ await expect.poll(async()=>page.locator('[data-block][data-phase="mark"],[data-block][data-phase="rough"],[data-block][data-phase="done"]').count(),{timeout:11000}).toBeGreaterThan(0);
+});
