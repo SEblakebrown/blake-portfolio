@@ -43,83 +43,45 @@
 @media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{position:absolute;right:10px;top:145px;bottom:15px;width:min(252px,50vw);z-index:9;border:1px solid #ffffff24;border-radius:13px;box-shadow:0 12px 44px #0009}.top{gap:9px;padding:9px 12px}.control button{padding:7px}.bottom{max-width:45vw}}
 @media(max-width:590px){.sidebar{top:auto;left:8px;right:8px;bottom:8px;width:auto;height:210px}.side-section:first-child{display:none}.side-section{padding:9px}.activity{font-size:10px}.bottom{bottom:226px;max-width:calc(100% - 20px)}.top a{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-</style></head><body><div id="app"></div>
+</style></head><body><div id="app"><p id="loading" style="padding:24px;color:#eaf1ff">Loading Agent Swarm Lab…</p></div><script>window.addEventListener('error',()=>{const el=document.getElementById('loading');if(el)el.textContent='Could not load the swarm. Please check your connection and refresh.'});</script>
 <script type="module">
-import React,{useState,useEffect,useRef,useMemo} from "https://esm.sh/react@19.1.1";
-import{createRoot}from "https://esm.sh/react-dom@19.1.1/client";
+import React from "https://esm.sh/react@19.1.1";
+import {createRoot} from "https://esm.sh/react-dom@19.1.1/client";
+
 const h=React.createElement;
-const AGENTS=[
-["NOVA","#b9e7ff","Orchestration"],["CODEX","#a5a7ff","Software development"],["RESEARCH","#ffc887","Research"],["BUILDER","#7ee8c0","Interface design"],["DEBUG","#f794ad","Error investigation"],["REVIEW","#d8b6ff","Code review"],["SYSTEM","#83baf5","System operations"],["MEMORY","#f7de83","Context management"],["GITHUB","#b5ccdb","Repository workflow"],["TESTER","#8fe6a0","Automated testing"]
-].map(([name,color,role],id)=>({name,color,role,id}));
-const SCENES=[
-{agent:0,kind:"plan",title:"NOVA / Task orchestration",msg:"NOVA → BUILDER: Layout initialized",x:90,y:100},
-{agent:3,kind:"design",title:"BUILDER / Interface canvas",msg:"BUILDER → CODEX: Layout initialized",x:590,y:80},
-{agent:1,kind:"code",title:"CODEX / App.tsx",msg:"CODEX: Editing App.tsx",x:110,y:405},
-{agent:2,kind:"research",title:"RESEARCH / Documentation",msg:"RESEARCH: Gathering references",x:1080,y:90},
-{agent:8,kind:"git",title:"GITHUB / Changes",msg:"GITHUB: Preparing changes for review",x:1080,y:370},
-{agent:4,kind:"debug",title:"DEBUG / Diagnostics",msg:"DEBUG → TESTER: Diagnostics collected",x:600,y:375},
-{agent:9,kind:"test",title:"TESTER / Terminal",msg:"TESTER: Running demonstration checks",x:120,y:715},
-{agent:5,kind:"review",title:"REVIEW / Inspection",msg:"REVIEW: Reviewing proposed changes",x:600,y:690},
-{agent:6,kind:"system",title:"SYSTEM / Operations",msg:"SYSTEM: Inspecting mock workspace",x:1085,y:665},
-{agent:7,kind:"memory",title:"MEMORY / Context",msg:"MEMORY → NOVA: Context summarized",x:620,y:110}
-];
-const SEED=AGENTS.map((a,i)=>({x:200+i*92,y:35+(i%3)*22,stage:"idle"}));
-const CODE="export function App() {\n  const agents = useSwarm();\n  return (\n    <Workspace agents={agents} />\n  );\n}\n\n// Interactive portfolio demo";
+const agents=["NOVA","CODEX","RESEARCH","BUILDER","DEBUG","REVIEW","SYSTEM","MEMORY","GITHUB","TESTER"];
+const colors=["#b9e7ff","#a5a7ff","#ffc887","#7ee8c0","#f794ad","#d8b6ff","#83baf5","#f7de83","#b5ccdb","#8fe6a0"];
+const roles=["Planning","Coding","Research","UI design","Diagnostics","Review","System operations","Context","Repository","Tests"];
+const positions=[[80,90],[100,400],[1080,90],[590,90],[590,400],[590,700],[1080,700],[1080,400],[110,700],[110,750]];
 function App(){
- const [running,setRunning]=useState(false),[paused,setPaused]=useState(false),[tick,setTick]=useState(0),[windows,setWindows]=useState([]),[cursors,setCursors]=useState(SEED),[feed,setFeed]=useState([]),[selected,setSelected]=useState(0),[follow,setFollow]=useState(false),[cinematic,setCinematic]=useState(false),[reduced,setReduced]=useState(matchMedia("(prefers-reduced-motion: reduce)").matches);
- const [camera,setCamera]=useState({x:0,y:0,s:0.72});const area=useRef(null),drag=useRef(null),timer=useRef(null),seq=useRef(0);
- const active=SCENES[(Math.max(0,tick-1))%SCENES.length];
- function reset(){setRunning(false);setPaused(false);setTick(0);setWindows([]);setCursors(SEED);setFeed([]);seq.current=0}
- function start(){reset();setRunning(true)}
- function pushEvent(msg,agent){setFeed(f=>[{id:++seq.current,stamp:new Date().toLocaleTimeString([], {hour12:false,minute:"2-digit",second:"2-digit"}),msg,agent},...f].slice(0,35))}
- useEffect(()=>{if(!running||paused)return;timer.current=setInterval(()=>setTick(n=>n+1),reduced?2100:1700);return()=>clearInterval(timer.current)},[running,paused,reduced]);
- useEffect(()=>{if(!running||tick===0)return;const scene=SCENES[(tick-1)%SCENES.length],i=scene.agent;
- setWindows(ws=>ws.some(w=>w.kind===scene.kind)?ws.map(w=>w.kind===scene.kind?{...w,phase:tick}:w):[...ws,{...scene,phase:tick}]);
- setCursors(cs=>cs.map((p,j)=>j===i?{x:scene.x+115+(tick%3)*28,y:scene.y+85+(tick%2)*65,stage:"working"}:({...p,stage:"idle"})));
- pushEvent(scene.msg,i);
- if(follow||cinematic)focus(scene.x,scene.y);
- if(tick%10===0)pushEvent("NOVA: Demonstration cycle complete (simulated)",0);
- },[tick]);
- useEffect(()=>{const update=()=>{if(area.current&&tick===0){const r=area.current.getBoundingClientRect();setCamera({x:Math.max(12,(r.width-1700*.61)/2),y:20,s:.61})}};update();window.addEventListener("resize",update);return()=>window.removeEventListener("resize",update)},[]);
- function focus(x,y){const el=area.current;if(!el)return;const r=el.getBoundingClientRect();setCamera({x:r.width/2-(x+190)*.85,y:r.height/2-(y+130)*.85,s:.85})}
- function all(){const r=area.current?.getBoundingClientRect();if(!r)return;const s=Math.min((r.width-40)/1700,(r.height-40)/1050,.95);setCamera({x:(r.width-1700*s)/2,y:(r.height-1050*s)/2,s})}
- function wheel(e){e.preventDefault();const r=area.current.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;const s=Math.max(.3,Math.min(1.45,camera.s*(e.deltaY>0?.9:1.1)));setCamera(c=>({s,x:mx-(mx-c.x)*s/c.s,y:my-(my-c.y)*s/c.s}))}
- function down(e){if(e.button!==0||e.target.closest("button"))return;const win=e.target.closest(".wnd");drag.current={type:win?"window":"camera",id:win?.dataset.kind,x:e.clientX,y:e.clientY,camera:{...camera}};e.currentTarget.setPointerCapture(e.pointerId)}
- function move(e){if(!drag.current)return;const d=drag.current,dx=e.clientX-d.x,dy=e.clientY-d.y;if(d.type==="camera")setCamera({...d.camera,x:d.camera.x+dx,y:d.camera.y+dy});else{setWindows(w=>w.map(x=>x.kind===d.id?{...x,x:x.x+dx/camera.s,y:x.y+dy/camera.s}:x));d.x=e.clientX;d.y=e.clientY}}
- function end(){drag.current=null}
- const chosen=AGENTS[selected],recent=feed.filter(f=>f.agent===selected).slice(0,3);
- const windowContent=(w)=>{let age=Math.max(0,tick-w.phase);switch(w.kind){
- case "code":return h("pre",{className:"code"},CODE.slice(0,reduced?CODE.length:Math.min(CODE.length,32+age*17)),h("span",{className:"caret"}," "));
- case "research":return h(React.Fragment,null,h("div",{className:"browser-address"},"https://docs.example.dev / simulated research"),h("div",{className:"mini"},"●  Component patterns and motion guidance"),h("div",{className:"mini"},"●  Keyboard accessibility notes"),h("div",{className:"mini"},"●  Rendering performance checklist"));
- case "test":return h("pre",{className:"code"},"> npm run test\n",h("span",{className:"warn"},"Simulated command — not executed\n"),"✓ Component rendering check\n✓ Keyboard controls check\n✓ Agent state check\n",h("span",{className:"success"},"3 sample checks displayed"));
- case "design":return h("div",{className:"skeleton"},h("i"),h("i"),h("i"),h("div",{className:"mini"},"▣   Header     ◇ Panels     ✦ Activity"));
- case "debug":return h("pre",{className:"code"},"[demo] Inspecting component state\n[demo] Checking layout boundaries\n",h("span",{className:"success"},"[demo] No simulated errors"));
- case "git":return h(React.Fragment,null,h("div",{className:"mini"},"App.tsx   +42 / -3  (example)"),h("div",{className:"mini"},"SwarmCanvas.tsx   +110  (example)"),h("p",{className:"muted"},"No repository actions are performed by this demo."));
- case "plan":return h(React.Fragment,null,h("div",{className:"mini"},"01   Design interactive workspace"),h("div",{className:"mini"},"02   Develop reusable components"),h("div",{className:"mini"},"03   Inspect and validate UI"));
- case "review":return h(React.Fragment,null,h("div",{className:"mini"},"✓  Visual hierarchy review (demo)"),h("div",{className:"mini"},"✓  Responsive layout check (demo)"),h("div",{className:"mini"},"○  Await real code review"));
- case "system":return h("pre",{className:"code"},"$ pwd\n/demo/workspace\n$ ls\nApp.tsx  package.json  src/\n\n",h("span",{className:"warn"},"Read-only mock terminal"));
- default:return h(React.Fragment,null,h("div",{className:"mini"},"Goal: Build an interactive website"),h("div",{className:"mini"},"Context: React components + motion"),h("div",{className:"mini"},"Mode: Portfolio simulation"));}};
+ const [running,R]=React.useState(false),[paused,P]=React.useState(false),[step,S]=React.useState(0),[selected,A]=React.useState(0),[camera,C]=React.useState({x:20,y:15,s:.62}),[follow,F]=React.useState(false),[reduced,D]=React.useState(window.matchMedia("(prefers-reduced-motion: reduce)").matches),[windows,W]=React.useState([]),[events,E]=React.useState([]);
+ const stage=React.useRef(null),drag=React.useRef(null);
+ function all(){const r=stage.current?.getBoundingClientRect();if(!r)return;const s=Math.min((r.width-25)/1700,(r.height-25)/1050,.95);C({x:(r.width-1700*s)/2,y:(r.height-1050*s)/2,s});}
+ function focus(i){const r=stage.current?.getBoundingClientRect();if(r)C({x:r.width/2-(positions[i][0]+190)*.82,y:r.height/2-(positions[i][1]+110)*.82,s:.82});}
+ function start(){W([]);E([]);S(0);P(false);R(true);}
+ React.useEffect(()=>{all();},[]);
+ React.useEffect(()=>{if(!running||paused)return;const id=setInterval(()=>S(v=>v+1),reduced?2300:1600);return()=>clearInterval(id);},[running,paused,reduced]);
+ React.useEffect(()=>{if(!running||!step)return;const i=(step-1)%10,loc=positions[i],kind=roles[i];W(old=>old.some(w=>w.i===i)?old.map(w=>w.i===i?{...w,phase:step}:w):[...old,{i,x:loc[0],y:loc[1],kind,phase:step}]);E(old=>[{id:step,i,msg:agents[i]+" — "+kind+" (simulated)"},...old].slice(0,30));if(follow)focus(i);},[step]);
+ function down(e){if(e.button!==0||e.target.closest("button"))return;const win=e.target.closest(".wnd");drag.current={x:e.clientX,y:e.clientY,win:win?.dataset.id};e.currentTarget.setPointerCapture(e.pointerId);}
+ function move(e){if(!drag.current)return;const d=drag.current,dx=e.clientX-d.x,dy=e.clientY-d.y;d.x=e.clientX;d.y=e.clientY;if(d.win===undefined)C(v=>({...v,x:v.x+dx,y:v.y+dy}));else W(ws=>ws.map(w=>String(w.i)===d.win?{...w,x:w.x+dx/camera.s,y:w.y+dy/camera.s}:w));}
+ function wheel(e){e.preventDefault();const r=stage.current.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;C(c=>{const s=Math.min(1.5,Math.max(.25,c.s*(e.deltaY>0?.9:1.1)));return{x:mx-(mx-c.x)*s/c.s,y:my-(my-c.y)*s/c.s,s};});}
+ function b(label,action,props){return h("button",{onClick:action,...props},label);}
+ function contents(w){const demo={Planning:["User request: Build a website","NOVA: Assigning sample tasks"],Coding:["// App.tsx — sample editor","export function App() {","  return <Workspace />;","}"],Research:["docs.example.dev","Sample search results","Accessibility guidelines"],"UI design":["Wireframe created","Header · Workspace · Sidebar"],Diagnostics:["[demo] Inspecting components","[demo] No errors found"],Review:["[demo] Reviewing changes","[demo] Accessibility checklist"],"System operations":["$ pwd","/demo/workspace","$ ls","src  App.tsx  README.md"],Context:["Goal: animated portfolio","Context updated (demo)"],Repository:["Example change: App.tsx","No GitHub write performed"],Tests:["> npm test","Simulated command; not run","3 sample checks displayed"]};let lines=demo[w.kind]||[];if(w.kind==="Coding"&&!reduced)lines=lines.slice(0,Math.max(1,Math.min(lines.length,1+Math.floor((step-w.phase)/2))));return h("pre",{className:"code"},lines.join("\n"),h("span",{className:"caret"}," "));}
+ const controls=h("div",{className:"control"},b("↻ Start swarm",start,{className:"primary"}),b(paused?"▶ Resume":"Ⅱ Pause",()=>P(x=>!x),{disabled:!running}),b("◎ Follow agent",()=>F(x=>!x),{"aria-pressed":follow}),b("✥ Free camera",()=>F(false)),b("▣ Show all",all),b("◉ Cinematic",()=>F(x=>!x)),b("◌ Reduce motion",()=>D(x=>!x),{"aria-pressed":reduced}),b("↺ Replay",start));
+ const panes=windows.map(w=>h("section",{key:w.i,className:"wnd construct",style:{left:w.x,top:w.y},"data-id":w.i},h("div",{className:"window-bar"},h("div",{className:"traffic"},h("i"),h("i"),h("i")),h("span",{className:"wtitle"},agents[w.i]+" / "+w.kind),b("×",()=>W(v=>v.filter(p=>p.i!==w.i)))),h("div",{className:"wbody"},contents(w))));
+ const cursors=agents.map((name,i)=>{const active=running&&step>0&&(step-1)%10===i;const loc=active?[positions[i][0]+145,positions[i][1]+95]:[positions[i][0]+15,positions[i][1]-25];return h("div",{key:name,className:"agent-cursor"+(active?" busy":""),style:{left:loc[0],top:loc[1],"--agent":colors[i]}},h("div",{className:"pointer"}),h("div",{className:"agent-tag"},name));});
+ const directory=agents.map((name,i)=>b(h(React.Fragment,null,h("span",{className:"agent-dot",style:{"--agent":colors[i]}}),name),()=>{A(i);focus(i);},{key:name,className:selected===i?"selected":""}));
+ const history=events.length?events.map(e=>h("div",{className:"activity-entry",key:e.id},h("b",null,e.msg))):[h("p",{key:"empty",className:"muted"},"Press Start swarm to begin the demonstration.")];
  return h("div",{className:"shell"},
- h("header",{className:"top"},h("div",{className:"brand"},"◈ SWARM ",h("b","/ LAB"),h("span","BLAKE BROWN · INTERACTIVE PORTFOLIO")),h("div",{className:"control"},
- h("button",{className:"primary",onClick:start},"↻ Start swarm"),
- h("button",{disabled:!running,onClick:()=>setPaused(p=>!p)},paused?"▶ Resume":"Ⅱ Pause"),
- h("button",{"aria-pressed":follow,onClick:()=>{setFollow(v=>!v);setCinematic(false)}},"◎ Follow agent"),
- h("button",{onClick:()=>{setFollow(false);setCinematic(false)}},"✥ Free camera"),
- h("button",{onClick:all},"▣ Show all"),
- h("button",{"aria-pressed":cinematic,onClick:()=>{setCinematic(v=>!v);setFollow(false)}},"◉ Cinematic"),
- h("button",{"aria-pressed":reduced,onClick:()=>setReduced(v=>!v)},"◌ Reduce motion"),
- h("button",{onClick:start},"↺ Replay")),
- h("a",{href:"index.html"},"← Portfolio")),
- h("div",{className:"layout"},h("main",{className:"main-area",ref:area,onWheel:wheel,onPointerDown:down,onPointerMove:move,onPointerUp:end,onPointerCancel:end,"aria-label":"Pannable agent swarm workspace"},
- h("div",{className:"dotgrid"}),
- h("div",{className:"stage",style:{transform:`translate(${camera.x}px,${camera.y}px) scale(${camera.s})`}},
- h("svg",{className:"trail",width:1700,height:1050,"aria-hidden":true},...windows.slice(1).map((w,i)=>h("line",{key:w.kind,x1:windows[i].x+200,y1:windows[i].y+120,x2:w.x+200,y2:w.y+120,stroke:AGENTS[w.agent].color}))),
- ...windows.map(w=>h("section",{className:"wnd construct"+(active.kind===w.kind?" active":""),key:w.kind,"data-kind":w.kind,style:{left:w.x,top:w.y}, "aria-label":w.title},h("div",{className:"window-bar"},h("div",{className:"traffic"},h("i"),h("i"),h("i")),h("span",{className:"wtitle"},w.title),h("button",{onClick:()=>setWindows(ws=>ws.filter(v=>v.kind!==w.kind)),"aria-label":"Close "+w.title},"×")),h("div",{className:"wbody"},windowContent(w)))),
- ...AGENTS.map(a=>h("div",{className:"agent-cursor"+(cursors[a.id].stage==="working"?" busy":""),key:a.name,style:{left:cursors[a.id].x,top:cursors[a.id].y,"--agent":a.color}},h("div",{className:"pointer"}),h("div",{className:"agent-tag"},a.name)))),
- h("div",{className:"bottom"},h("strong","SWARM VISUALIZATION")," · ",h("span",{className:"status"},running?(paused?"PAUSED":"RUNNING"):"READY")," · ",windows.length," windows",h("span",{className:"hint"},"Interactive demonstration · No real files, commands, web searches, tests, or GitHub writes. Drag the canvas or windows; scroll to zoom."))),
- h("aside",{className:"sidebar"},h("div",{className:"side-section"},h("p",{className:"side-title"},"AGENT DIRECTORY"),h("div",{className:"agent-list"},...AGENTS.map(a=>h("button",{key:a.name,className:selected===a.id?"selected":"",onClick:()=>{setSelected(a.id);focus(cursors[a.id].x,cursors[a.id].y)},"aria-pressed":selected===a.id},h("span",{className:"agent-dot",style:{"--agent":a.color}}),a.name)))),
- h("div",{className:"side-section details"},h("p",{className:"side-title"},"SELECTED AGENT"),h("strong",{style:{color:chosen.color}},chosen.name),h("p",chosen.role),h("small","STATUS · ",cursors[selected].stage.toUpperCase()),h("p",recent[0]?.msg||"No activity yet"),h("button",{onClick:()=>focus(cursors[selected].x,cursors[selected].y)},"Focus selected agent")),
- h("div",{className:"side-section activity"},h("p",{className:"side-title"},"ACTIVITY FEED · SIMULATED"),...(feed.length?feed.map(f=>h("div",{className:"activity-entry",key:f.id},h("time",null,f.stamp),h("b",null,AGENTS[f.agent].name)," — ",f.msg)): [h("p",{className:"muted",key:"empty"},"Press Start swarm to play the interactive demonstration.")]))));
+ h("header",{className:"top"},h("div",{className:"brand"},"◈ SWARM ",h("b","/ LAB"),h("span","BLAKE BROWN · INTERACTIVE PORTFOLIO")),controls,h("a",{href:"index.html"},"← Portfolio")),
+ h("div",{className:"layout"},
+ h("main",{className:"main-area",ref:stage,onWheel:wheel,onPointerDown:down,onPointerMove:move,onPointerUp:()=>drag.current=null,onPointerCancel:()=>drag.current=null},
+ h("div",{className:"dotgrid"}),h("div",{className:"stage",style:{transform:"translate("+camera.x+"px,"+camera.y+"px) scale("+camera.s+")"}},...panes,...cursors),
+ h("div",{className:"bottom"},h("strong",null,"SWARM VISUALIZATION")," · ",running?(paused?"PAUSED":"RUNNING"):"READY"," · "+windows.length+" windows",h("span",{className:"hint"},"Interactive simulation only. No real code, tests, system commands, or GitHub operations."))),
+ h("aside",{className:"sidebar"},h("div",{className:"side-section"},h("p",{className:"side-title"},"AGENT DIRECTORY"),h("div",{className:"agent-list"},...directory)),
+ h("div",{className:"side-section details"},h("p",{className:"side-title"},"SELECTED AGENT"),h("strong",{style:{color:colors[selected]}},agents[selected]),h("p",roles[selected]),b("Focus selected agent",()=>focus(selected))),
+ h("div",{className:"side-section activity"},h("p",{className:"side-title"},"ACTIVITY FEED · SIMULATED"),...history))));
 }
 createRoot(document.getElementById("app")).render(h(App));
+
 </script></body></html>
