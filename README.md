@@ -51,3 +51,33 @@ Two new standalone project folders demonstrate software and data engineering ski
 [Try both interactive demos](engineering-demos.html). The web previews implement sample computation directly in browser JavaScript and do **not** execute the Python Lambda handler, Terraform, dbt, or DuckDB. Run the backend examples using their respective README instructions.
 
 The original [terraform-aws-lambda](https://github.com/terraform-aws-modules/terraform-aws-lambda) module and [dbt Jaffle Shop DuckDB](https://github.com/dbt-labs/jaffle_shop_duckdb) learning project are credited as dependency and inspiration, respectively. No upstream ownership or contribution is claimed.
+
+## Cinematic swarm homepage redesign
+
+The feature branch `feature/cinematic-swarm-liquid-glass` adds an animated, **simulated** portfolio-construction sequence on the existing homepage while keeping the actual portfolio as semantic HTML.
+
+- `styles/liquid-swarm.css`: dark liquid-glass overrides, SVG circuit background, cinematic workspace and agent styling
+- `scripts/swarm-intro.js`: ten deterministic agent cursors, dynamic panels populated from existing page content, camera interpolation, user controls, replay, responsive zoom, and an automatic exit fail-safe
+- `index.html`: intro stage and shared circuit backdrop; links to original engineering demos and standalone agent swarm remain intact
+- `tests/smoke-portfolio.cjs`: static checks for critical controls, links, reduced-motion and the fallback; GitHub Actions runs the checks on pull requests
+
+**Important:** The swarm construction is a visual portfolio demonstration, not a real AI multi-agent build. It does not run commands, modify files, make API calls, or perform tests. The underlying resume, skills, project and contact sections are real and remain accessible after the transition.
+
+The intro runs for approximately 11.2 seconds, with a Skip intro control, Escape support, pause/resume, a Replay build button, and an immediate skip for users who prefer reduced motion or open a deep link. Its stylesheet includes a 15-second safety fallback to uncover the portfolio if initialization fails.
+
+### Local preview
+
+```bash
+python3 -m http.server 8000
+# Open http://localhost:8000/
+```
+
+### Static checks
+
+```bash
+node --check scripts/main.js
+node --check scripts/swarm-intro.js
+node tests/smoke-portfolio.cjs
+```
+
+Browser-based visual and interaction QA remains necessary before merging.

@@ -103,37 +103,3 @@
   window.addEventListener('scroll', clear, { passive: true });
   document.addEventListener('visibilitychange', () => { if (document.hidden) clear(); });
 })();
-
-
-// Optional fast-dismiss for the CSS-driven intro. The animation completes without JavaScript.
-(() => {
-  const intro = document.getElementById('opening-screen');
-  if (!intro) return;
-  const skip = document.getElementById('opening-skip');
-  const dismiss = () => {
-    if (intro.classList.contains('opening-dismissed')) return;
-    intro.classList.add('opening-dismissed');
-  };
-  skip?.addEventListener('click', dismiss);
-  document.getElementById('intro-replay')?.addEventListener('click', () => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      window.alert('The opening animation is disabled by your device\'s Reduce Motion setting.');
-      return;
-    }
-    intro.classList.remove('opening-dismissed');
-    const animated = [intro, ...intro.querySelectorAll('.opening-name, .opening-kicker, .opening-subtitle, .opening-rule span')];
-    animated.forEach(element => { element.style.animation = 'none'; });
-    void intro.offsetWidth;
-    animated.forEach(element => { element.style.removeProperty('animation'); });
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  });
-
-  document.querySelector('.skip-link')?.addEventListener('click', dismiss);
-  window.addEventListener('keydown', event => {
-    if (event.key === 'Escape') dismiss();
-  });
-  // Do not replay over an anchored section when navigating from another page.
-  if (window.location.hash && window.location.hash !== '#home') dismiss();
-  // Keep the hidden element mounted so Replay intro works after the first run.
-  // The animation ends with visibility:hidden and pointer-events:none.
-})();
