@@ -147,3 +147,30 @@ h1 em,h2 em{color:#2887ac;font-style:normal}
  .openingGrid,.openingGlow,.openingName,.openingLine i{animation:none!important}
  .cursorLayer{display:none!important}
 }
+
+/* Profile portrait: balanced with hero copy and built by the same cursor engine. */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(260px,.75fr);gap:clamp(28px,4vw,72px);align-items:center}
+.heroCopy{min-width:0}
+.heroGrid .block[data-kind="portrait"]{width:100%;max-width:400px;justify-self:center}
+.portraitCard{position:relative;margin:0;padding:9px;border:1px solid #a2cbe2;border-radius:27px;background:linear-gradient(140deg,#ffffffda,#d1eeffbc 56%,#e4deffbb);box-shadow:0 25px 70px #376d9738,inset 0 2px #fff;backdrop-filter:blur(18px);overflow:hidden;transform:rotate(1.2deg);transition:transform .35s ease,box-shadow .35s ease}
+.portraitCard:hover{transform:translateY(-5px) rotate(0);box-shadow:0 35px 82px #346f9c50,inset 0 2px #fff}
+.portraitImage{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:center 40%;border-radius:19px;filter:saturate(.96);background:#dbeaf2}
+.portraitCaption{position:absolute;left:20px;right:20px;bottom:20px;display:flex;flex-direction:column;gap:2px;padding:13px 16px;border:1px solid #ffffff7d;border-radius:13px;background:#eaf8ffe6;box-shadow:0 9px 30px #183c5660;backdrop-filter:blur(18px);color:#1c4058}
+.portraitEyebrow{font:700 9px ui-monospace,monospace;letter-spacing:.13em;color:#367796}
+.portraitCaption strong{font-size:20px;letter-spacing:-.035em}
+.portraitCaption>span:last-child{font-size:12px;color:#4d748d}
+@media(max-width:950px){
+ .heroGrid{grid-template-columns:minmax(0,1fr) minmax(220px,.72fr);gap:22px}
+ .heroGrid h1{font-size:clamp(42px,6vw,78px)}
+ .heroGrid .lead{font-size:16px}
+ .portraitCaption{left:14px;right:14px;bottom:14px}
+}
+@media(max-width:720px){
+ .heroGrid{grid-template-columns:1fr;gap:28px}
+ .heroGrid h1{font-size:clamp(48px,11vw,80px)}
+ .heroGrid .block[data-kind="portrait"]{max-width:340px;width:min(100%,340px)}
+ .portraitCard{transform:none}
+ .portraitCard:hover{transform:translateY(-3px)}
+ .portraitCaption strong{font-size:18px}
+}
+@media(prefers-reduced-motion:reduce){.portraitCard{transition:none;transform:none}}

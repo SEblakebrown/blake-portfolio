@@ -53,6 +53,8 @@ function Swarm(){
   <main id="content">
    <section className={styles.hero} id="hero" data-section="hero">
     <div className={styles.inner}>
+     <div className={styles.heroGrid}>
+      <div className={styles.heroCopy}>
      <Block id="hero-flag" kind="tag" jsxLine={'<Status availability="open" />'} agent="LAYOUT"><p className={styles.eyebrow}><span className={styles.signal}/> SOFTWARE / CLOUD / AUTOMATION</p></Block>
      <Block id="hero-title" kind="title" heading agent="CODEX" jsxLine={'<HeroTitle>Good ideas. Reliable systems.</HeroTitle>'}>
       <h1>Good ideas.<br/><em>Reliable systems.</em></h1>
@@ -63,7 +65,15 @@ function Swarm(){
      <Block id="hero-buttons" agent="BUILDER" jsxLine={'<Actions primary="Work" secondary="Resume" />'}>
       <div className={styles.buttons}><a className={styles.primary} href="#work">Explore my work <span>↗</span></a><a href="assets/Blake-Brown-Resume.pdf" download>Download resume ↓</a></div>
      </Block>
-     <Block id="hero-orbit" agent="DESIGN" jsxLine={'<SystemDiagram nodes={3} />'}>
+      </div>
+      <Block id="hero-photo" agent="DESIGN" kind="portrait" jsxLine={'<Portrait name="Blake Brown" />'}>
+       <figure className={styles.portraitCard}>
+        <img className={styles.portraitImage} src="assets/blake-brown-headshot.webp" width="560" height="560" alt="Blake Brown in a navy suit and tie" decoding="async" fetchPriority="high" />
+        <figcaption className={styles.portraitCaption}><span className={styles.portraitEyebrow}>THE PERSON BEHIND THE CODE</span><strong>Blake Brown</strong><span>Software &amp; Cloud Engineer</span></figcaption>
+       </figure>
+      </Block>
+     </div>
+     <Block id="hero-orbit" agent="BUILDER" jsxLine={'<SystemDiagram nodes={3} />'}>
        <div className={styles.diagram}><div className={styles.orbitRing}></div><div className={styles.orbitRingSmall}></div><div className={styles.orbitCore}>b<span>.</span></div><span className={styles.orbitA}>AWS</span><span className={styles.orbitB}>CODE</span><span className={styles.orbitC}>DATA</span></div>
      </Block>
     </div>
