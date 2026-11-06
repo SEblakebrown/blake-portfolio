@@ -95,7 +95,7 @@
   }
   function cameraFor(x,y,focus){
     const {w,h}=screen();
-    const base=fit(),scale=base*(focus?1.14:1);
+    const base=fit(),scale=focus?(w<700?Math.max(base*1.14,.7):base*1.14):base;
     return {x:w/2-x*scale,y:h/2-y*scale,s:scale};
   }
   function renderCamera(ms){
