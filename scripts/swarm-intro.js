@@ -25,13 +25,13 @@
     {title:"CONTACT / NEXT", selector:"#contact h2", sub:".contact-content p:not(.eyebrow)", color:"#90c9f8", x:967,y:460}
   ];
   const agents = [
-    ["NOVA","#bae7ff",420,70],["CODEX","#afa7ff",570,90],["RESEARCH","#ffc887",820,70],
+    ["LAYOUT","#bae7ff",420,70],["CODEX","#afa7ff",570,90],["RESEARCH","#ffc887",820,70],
     ["BUILDER","#86eacd",280,185],["DEBUG","#f79ab6",1060,80],["REVIEW","#d9b7ff",930,350],
     ["SYSTEM","#89bdfc",180,705],["MEMORY","#f6dc8e",760,680],["GITHUB","#c5d8f3",1160,735],
     ["TESTER","#96eab0",530,710]
   ];
   const events = [
-    {at:1800, panel:0, agent:0, note:"NOVA → BUILDER: Initialize portfolio canvas", px:120,py:155},
+    {at:1800, panel:0, agent:0, note:"SYSTEM → BUILDER: Initialize portfolio canvas", px:120,py:155},
     {at:2650, panel:0, agent:3, note:"BUILDER: Constructing hero structure", px:190,py:205},
     {at:3450, panel:0, agent:1, note:"CODEX: Writing hero markup (simulation)", px:265,py:284},
     {at:4250, panel:1, agent:2, note:"RESEARCH → CODEX: Project labels prepared", px:600,py:220},
@@ -40,8 +40,8 @@
     {at:6850, panel:4, agent:6, note:"SYSTEM: Connecting skills and services", px:605,py:558},
     {at:7600, panel:4, agent:4, note:"DEBUG: Inspecting sample UI state", px:655,py:595},
     {at:8250, panel:5, agent:9, note:"TESTER: Example layout checks shown", px:1090,py:568},
-    {at:9000, panel:5, agent:5, note:"REVIEW → NOVA: Visual assembly ready", px:1180,py:604},
-    {at:9720, panel:-1,agent:0,note:"NOVA: Portfolio visualization complete",px:710,py:335}
+    {at:9000, panel:5, agent:5, note:"REVIEW → SYSTEM: Visual assembly ready", px:1180,py:604},
+    {at:9720, panel:-1,agent:0,note:"SYSTEM: Portfolio visualization complete",px:710,py:335}
   ];
   const MAX=11200;
   const screen = () => ({w:window.innerWidth,h:window.innerHeight});
