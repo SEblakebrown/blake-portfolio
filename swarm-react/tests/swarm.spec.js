@@ -1,7 +1,7 @@
 import {test,expect} from "@playwright/test";
 test("SSR content exists and Skip resolves every block",async({page})=>{
  await page.goto("/swarm.html");
- await expect(page.locator("[data-block]")).toHaveCount(25);
+ await expect(page.locator("[data-block]")).toHaveCount(26);
  await expect(page.locator("[data-cursor]")).toHaveCount(12);
  await page.locator("#swarm-opening-skip").click();
  await expect(page.locator('[data-block]:not([data-phase="done"])')).toHaveCount(0);
@@ -19,7 +19,7 @@ test("no scripting still displays server-rendered content",async({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});
  const page=await context.newPage();
  await page.goto("http://127.0.0.1:8000/swarm.html");
- await expect(page.locator("[data-block]")).toHaveCount(25);
+ await expect(page.locator("[data-block]")).toHaveCount(26);
  await expect(page.locator("h1")).toBeVisible();
  await context.close();
 });
@@ -95,7 +95,7 @@ test("homepage is fully rendered without JavaScript or with reduced motion",asyn
  const noJs=await browser.newContext({javaScriptEnabled:false});
  const page=await noJs.newPage();
  await page.goto("http://127.0.0.1:8000/");
- await expect(page.locator('[data-block]')).toHaveCount(25);
+ await expect(page.locator('[data-block]')).toHaveCount(26);
  await expect(page.getByRole("heading",{name:/Good ideas/})).toBeVisible();
  await expect(page.locator("#swarm-opening")).toBeHidden();
  await noJs.close();
@@ -114,4 +114,26 @@ test("Rebuild runs after Skip and begins constructing blocks again",async({page}
  await page.locator("#swarm-rebuild").click();
  await expect.poll(async()=>page.locator('[data-block][data-phase="empty"]').count(),{timeout:10000}).toBeGreaterThan(0);
  await expect.poll(async()=>page.locator('[data-block][data-phase="mark"],[data-block][data-phase="rough"],[data-block][data-phase="done"]').count(),{timeout:11000}).toBeGreaterThan(0);
+});
+
+test("headshot is visible in the homepage after Skip and loads without errors",async({page})=>{
+ await page.goto("/");
+ await page.locator("#swarm-opening-skip").click();
+ const photo=page.locator('[data-block="hero-photo"] img');
+ await expect(photo).toBeVisible();
+ await expect(photo).toHaveAttribute("alt","Blake Brown in a navy suit and tie");
+ await expect.poll(()=>photo.evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+ await expect(page.locator('[data-block="hero-photo"]')).toHaveAttribute("data-phase","done");
+});
+
+test("hero headshot is responsive on mobile",async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto("/");
+ await page.locator("#swarm-opening-skip").click();
+ const photo=page.locator('[data-block="hero-photo"] img');
+ await expect(photo).toBeVisible();
+ const rect=await photo.boundingBox();
+ expect(rect.width).toBeLessThan(390);
+ expect(rect.width).toBeGreaterThan(200);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
