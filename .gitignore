@@ -1,0 +1,4 @@
+# Approved local LLM drafts. Review before adding any generated code to git.
+agent-output/
+__pycache__/
+*.pyc
