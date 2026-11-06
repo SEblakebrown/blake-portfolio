@@ -32,3 +32,22 @@ Open `swarm.html` from the portfolio homepage for an interactive React-based ani
 **Simulation disclaimer:** All agent actions, sample code, commands, search results, reviews, test output, and GitHub panel activity are visual demonstrations. The page does not run tests, modify files, execute shell commands, connect to accounts, or orchestrate actual autonomous agents. Logs and example activity are explicitly marked as simulated. The public portfolio page remains dependency-free; the separate swarm experience loads React 19 from esm.sh, so its interactive UI requires internet access.
 
 The lab is designed as a frontend animation showcase, not an AI backend. To connect it to real activity in the future, use a server-side event adapter with explicit user authorization, event provenance, and approval controls.
+
+## Original runnable engineering projects
+
+Two new standalone project folders demonstrate software and data engineering skills with real source code. These are included inside the portfolio repository (not separate GitHub repositories).
+
+### Serverless Event API
+- Source: [projects/serverless-event-api](projects/serverless-event-api)
+- Python AWS Lambda request validation and integer-cent order quote handler
+- Standard-library Python unit tests and optional Terraform AWS deployment using the external terraform-aws-lambda module
+- IAM-protected Lambda Function URL; review infrastructure plans and AWS costs before any deployment
+
+### DuckDB Analytics Pipeline
+- Source: [projects/duckdb-analytics-pipeline](projects/duckdb-analytics-pipeline)
+- Locally runnable dbt/DuckDB project with original CSV seeds, staging models, revenue mart, relationships and value tests
+- Interactive browser explorer showing calculated revenue for different order statuses
+
+[Try both interactive demos](engineering-demos.html). The web previews implement sample computation directly in browser JavaScript and do **not** execute the Python Lambda handler, Terraform, dbt, or DuckDB. Run the backend examples using their respective README instructions.
+
+The original [terraform-aws-lambda](https://github.com/terraform-aws-modules/terraform-aws-lambda) module and [dbt Jaffle Shop DuckDB](https://github.com/dbt-labs/jaffle_shop_duckdb) learning project are credited as dependency and inspiration, respectively. No upstream ownership or contribution is claimed.
