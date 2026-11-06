@@ -63,6 +63,25 @@ class WorkshopTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             service.normalize_component("")
     
+    def test_rejects_diagnostics_page(self):
+        with self.assertRaisesRegex(ValueError, "diagnostic"):
+            service.normalize_component("<section><h2>Swarm startup diagnostics — Loading…</h2></section>")
+
+    def test_retry_after_diagnostics(self):
+        responses = ["Plan a portfolio card",
+                     "<section><h2>Swarm startup diagnostics — Loading…</h2></section>",
+                     "<section><h2>New portfolio project</h2></section>",
+                     "Review: readable text"]
+        with patch.object(service, "ask", side_effect=responses) as llm:
+            service.run("Build a card", "llama3.2")
+        self.assertEqual(llm.call_count, 4)
+        self.assertEqual(service.STATE["status"], "review")
+        self.assertIn("New portfolio project", service.STATE["draft"])
+
+    def test_rejects_complete_html_page(self):
+        with self.assertRaisesRegex(ValueError, "full webpage"):
+            service.normalize_component("<!doctype html><html><body><section>copy</section></body></html>")
+
     def test_server_is_loopback_only(self):
         source = SERVER.read_text(encoding="utf-8")
         self.assertIn('("127.0.0.1",8765)', source)
