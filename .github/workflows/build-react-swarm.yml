@@ -1,7 +1,7 @@
 name: Build server-rendered React Swarm
 on:
   push:
-    branches: [main, feature/homepage-opening-swarm-navigation]
+    branches: [main, feature/homepage-opening-swarm-navigation, feature/add-professional-portrait]
     paths:
       - 'swarm-react/**'
       - '.github/workflows/build-react-swarm.yml'
