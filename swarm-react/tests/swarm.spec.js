@@ -147,3 +147,13 @@ test("hero headshot is responsive on mobile",async({page})=>{
  expect(rect.width).toBeGreaterThan(200);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
+
+test("finished section remains visible for 1.5 seconds before the next starts",async({page})=>{
+ await page.goto("/?play");
+ await expect(page.locator("#swarm-log-lines")).toContainText("hero complete · showcasing finished work",{timeout:30000});
+ await expect(page.locator('[data-section="hero"] [data-block]:not([data-phase="done"])')).toHaveCount(0);
+ await page.waitForTimeout(650);
+ await expect(page.locator('[data-section="work"] [data-block][data-phase="empty"]')).toHaveCount(4);
+ await expect(page.locator("#swarm-log-lines")).not.toContainText("Beginning work");
+ await expect(page.locator("#swarm-log-lines")).toContainText("Beginning work",{timeout:6000});
+});
