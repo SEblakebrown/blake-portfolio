@@ -22,6 +22,8 @@ export function startSwarmEngine(){
  const menu=document.getElementById("swarm-menu");
  const introTimers=new Set();
  let introPlaying=false,exiting=false,exitStarted=0;
+ const SECTION_SHOWCASE_MS=1500;
+ let showcaseStarted=0,showcaseSection=-1;
  const sectionVisible=new Set();
  let raf=0,last=0,generation=0,active=true,paused=false,mode="sequential",current=0,finished=false,rewinding=false,rewindIndex=0,rewindAt=0;
  let wheelCount=0,wheelAt=0,touchY=null;
@@ -189,6 +191,7 @@ export function startSwarmEngine(){
   stopIntro();
   jobs.forEach(job=>{clearDecor(job);setPhase(job,"done");job.cursor=null;});
   finished=true;rewinding=false;
+  showcaseStarted=0;showcaseSection=-1;
   record("SYSTEM","All blocks complete · moving agents off screen");
   // Do not freeze cursors where Skip was pressed: tween them below the visible
   // viewport and hide the entire cursor layer after the exit completes.
@@ -239,15 +242,27 @@ export function startSwarmEngine(){
    window.scrollBy({top:clamp(correction,0,110),behavior:"smooth"});
   }
  }
- function nextSequential(){
+ function nextSequential(now){
   if(mode!=="sequential"||rewinding)return;
   const sectionJobs=jobs.filter(j=>j.section===current);
-  if(sectionJobs.length&&sectionJobs.every(j=>j.phase==="done")){
-   current++;
-   if(current>=sections.length){finishAll();return;}
-   sections[current]?.scrollIntoView({behavior:"smooth",block:"start"});
-   record("SYSTEM","Beginning "+sections[current].id+" while camera scrolls");
+  if(!sectionJobs.length||!sectionJobs.every(j=>j.phase==="done")){
+   showcaseStarted=0;showcaseSection=-1;return;
   }
+  // Keep the just-finished section on screen so the visitor can admire it.
+  // Never delay the last section's completion or user-triggered Skip.
+  if(current<sections.length-1){
+   if(showcaseSection!==current){
+    showcaseSection=current;showcaseStarted=now;
+    record("SYSTEM",sections[current].id+" complete · showcasing finished work");
+    return;
+   }
+   if(now-showcaseStarted<SECTION_SHOWCASE_MS)return;
+  }
+  showcaseStarted=0;showcaseSection=-1;
+  current++;
+  if(current>=sections.length){finishAll();return;}
+  sections[current]?.scrollIntoView({behavior:"smooth",block:"start"});
+  record("SYSTEM","Beginning "+sections[current].id+" while camera scrolls");
  }
  function idleFlock(cursor,now){
   if(cursor.assigned)return;
@@ -295,7 +310,7 @@ export function startSwarmEngine(){
   else if(!finished){
    assign(now);
    jobs.filter(j=>j.cursor).forEach(j=>updateJob(j,now));
-   nextSequential();
+   nextSequential(now);
    if(now-last>220){guideScroll();last=now;}
   }
   statuses.forEach(c=>c.assigned?positionCursor(c,now):idleFlock(c,now));
@@ -312,6 +327,7 @@ export function startSwarmEngine(){
   exiting=false;
   if(cursorLayer)cursorLayer.style.opacity="1";
   finished=false;current=0;mode="sequential";
+  showcaseStarted=0;showcaseSection=-1;
   statuses.forEach(c=>{c.assigned=null;});
   if(rewind){
    rewinding=true;rewindIndex=jobs.length-1;rewindAt=0;
@@ -326,7 +342,7 @@ export function startSwarmEngine(){
   if(noHandover||mode==="viewport"||finished||rewinding)return;
   // Deliberate navigation during the opening gives control back immediately.
   if(introPlaying)reset(false);
-  mode="viewport";
+  mode="viewport";showcaseStarted=0;showcaseSection=-1;
   record("SYSTEM","Manual navigation detected · building visible sections only");
  }
  const listen={signal:aborter.signal,passive:true};
