@@ -1,7 +1,7 @@
 name: Build server-rendered React Swarm
 on:
   push:
-    branches: [main, fix/sharp-photo-and-block-reveal]
+    branches: [main, feature/swarm-section-showcase-pause]
     paths:
       - 'swarm-react/**'
       - '.github/workflows/build-react-swarm.yml'
