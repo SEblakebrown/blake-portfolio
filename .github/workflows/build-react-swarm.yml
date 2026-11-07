@@ -37,7 +37,7 @@ jobs:
           test -s assets/swarm-visibility.css
           test -s assets/blake-brown-headshot-hd.avif
           grep -q 'blake-brown-headshot-hd.avif' index.html
-          grep -q 'data-swarm-js' index.html
+          grep -q 'dataset.swarmJs' index.html
           grep -q 'data-block=' index.html
           grep -q 'id="swarm-opening"' index.html
           grep -q 'id="swarm-menu"' index.html
