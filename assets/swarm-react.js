@@ -24181,6 +24181,8 @@ function startSwarmEngine() {
   const menu = document.getElementById("swarm-menu");
   const introTimers = /* @__PURE__ */ new Set();
   let introPlaying = false, exiting = false, exitStarted = 0;
+  const SECTION_SHOWCASE_MS = 1500;
+  let showcaseStarted = 0, showcaseSection = -1;
   const sectionVisible = /* @__PURE__ */ new Set();
   let raf = 0, last = 0, generation = 0, active = true, paused = false, mode = "sequential", current = 0, finished = false, rewinding = false, rewindIndex = 0, rewindAt = 0;
   let wheelCount = 0, wheelAt = 0, touchY = null;
@@ -24409,6 +24411,8 @@ function startSwarmEngine() {
     });
     finished = true;
     rewinding = false;
+    showcaseStarted = 0;
+    showcaseSection = -1;
     record("SYSTEM", "All blocks complete \xB7 moving agents off screen");
     const now = performance.now();
     exiting = !prefersReduced();
@@ -24459,18 +24463,32 @@ function startSwarmEngine() {
       window.scrollBy({ top: clamp(correction, 0, 110), behavior: "smooth" });
     }
   }
-  function nextSequential() {
+  function nextSequential(now) {
     if (mode !== "sequential" || rewinding) return;
     const sectionJobs = jobs.filter((j) => j.section === current);
-    if (sectionJobs.length && sectionJobs.every((j) => j.phase === "done")) {
-      current++;
-      if (current >= sections.length) {
-        finishAll();
+    if (!sectionJobs.length || !sectionJobs.every((j) => j.phase === "done")) {
+      showcaseStarted = 0;
+      showcaseSection = -1;
+      return;
+    }
+    if (current < sections.length - 1) {
+      if (showcaseSection !== current) {
+        showcaseSection = current;
+        showcaseStarted = now;
+        record("SYSTEM", sections[current].id + " complete \xB7 showcasing finished work");
         return;
       }
-      sections[current]?.scrollIntoView({ behavior: "smooth", block: "start" });
-      record("SYSTEM", "Beginning " + sections[current].id + " while camera scrolls");
+      if (now - showcaseStarted < SECTION_SHOWCASE_MS) return;
     }
+    showcaseStarted = 0;
+    showcaseSection = -1;
+    current++;
+    if (current >= sections.length) {
+      finishAll();
+      return;
+    }
+    sections[current]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    record("SYSTEM", "Beginning " + sections[current].id + " while camera scrolls");
   }
   function idleFlock(cursor, now) {
     if (cursor.assigned) return;
@@ -24530,7 +24548,7 @@ function startSwarmEngine() {
     else if (!finished) {
       assign(now);
       jobs.filter((j) => j.cursor).forEach((j) => updateJob(j, now));
-      nextSequential();
+      nextSequential(now);
       if (now - last > 220) {
         guideScroll();
         last = now;
@@ -24557,6 +24575,8 @@ function startSwarmEngine() {
     finished = false;
     current = 0;
     mode = "sequential";
+    showcaseStarted = 0;
+    showcaseSection = -1;
     statuses.forEach((c) => {
       c.assigned = null;
     });
@@ -24581,6 +24601,8 @@ function startSwarmEngine() {
     if (noHandover || mode === "viewport" || finished || rewinding) return;
     if (introPlaying) reset(false);
     mode = "viewport";
+    showcaseStarted = 0;
+    showcaseSection = -1;
     record("SYSTEM", "Manual navigation detected \xB7 building visible sections only");
   }
   const listen = { signal: aborter.signal, passive: true };
