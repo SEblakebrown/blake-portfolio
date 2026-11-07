@@ -1,0 +1,30 @@
+/* Prevent a visible flash of blocks while agents are travelling or typing.
+   The content remains real server-rendered HTML; only an active, motion-enabled
+   browser hides it until the block resolves. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+ [data-block]:not([data-phase="done"]) > :first-child {
+   visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;
+ }
+}
+@media (prefers-reduced-motion: no-preference) {
+ html[data-swarm-js="true"] [data-block]:not([data-phase="done"]) > :first-child {
+   visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;
+ }
+}
+[data-block="hero-photo"] img {filter:none!important;image-rendering:auto}
+
+/* The portrait is always sharp once its construction state resolves. */
+@keyframes portraitClearReveal {
+ from {opacity:0;transform:scale(.985)}
+ to {opacity:1;transform:scale(1)}
+}
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+ [data-block="hero-photo"][data-phase="done"] > :first-child {
+   animation: portraitClearReveal .34s ease-out both!important;
+   filter:none!important;
+ }
+}
+
+/* A fractional rotation rasterizes the photograph and softens fine details. */
+[data-block="hero-photo"] figure,
+[data-block="hero-photo"] figure:hover {transform:none!important}

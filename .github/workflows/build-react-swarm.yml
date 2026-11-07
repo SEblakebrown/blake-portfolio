@@ -1,10 +1,11 @@
 name: Build server-rendered React Swarm
 on:
   push:
-    branches: [main, feature/homepage-opening-swarm-navigation, feature/add-professional-portrait]
+    branches: [main, fix/sharp-photo-and-block-reveal]
     paths:
       - 'swarm-react/**'
       - '.github/workflows/build-react-swarm.yml'
+      - 'assets/swarm-visibility.css'
   workflow_dispatch:
 jobs:
   build-and-commit:
@@ -33,6 +34,10 @@ jobs:
           test -s swarm.html
           test -s assets/swarm-react.js
           test -s assets/swarm-react.css
+          test -s assets/swarm-visibility.css
+          test -s assets/blake-brown-headshot-hd.avif
+          grep -q 'blake-brown-headshot-hd.avif' index.html
+          grep -q 'dataset.swarmJs' index.html
           grep -q 'data-block=' index.html
           grep -q 'id="swarm-opening"' index.html
           grep -q 'id="swarm-menu"' index.html

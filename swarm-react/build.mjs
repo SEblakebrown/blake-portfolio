@@ -23,13 +23,13 @@ const markup=renderPage();
 const page=`<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#eaf5ff">
+<meta name="theme-color" content="#eaf5ff">\n<script>document.documentElement.dataset.swarmJs="true";</script>
 <meta name="description" content="Blake Brown is a software and cloud engineer. Explore projects, experience, and real engineering demos through an animated agent-built portfolio.">
 <title>Blake Brown — Software & Cloud Engineer</title>
-<link rel="stylesheet" href="assets/swarm-react.css?v=portrait-20261106">
+<link rel="stylesheet" href="assets/swarm-visibility.css?v=block-reveal-3">\n<link rel="stylesheet" href="assets/swarm-react.css?v=portrait-hd-850-20261106">
 </head><body>
 <div id="swarm-root">${markup}</div>
-<script type="module" src="assets/swarm-react.js?v=portrait-20261106"></script>
+<script type="module" src="assets/swarm-react.js?v=portrait-hd-850-20261106"></script>
 </body></html>`;
 await writeFile(resolve(out,"index.html"),page);
 await writeFile(resolve(out,"swarm.html"),page);
