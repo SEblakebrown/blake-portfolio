@@ -126,6 +126,16 @@ test("headshot is visible in the homepage after Skip and loads without errors",a
  await expect(page.locator('[data-block="hero-photo"]')).toHaveAttribute("data-phase","done");
 });
 
+test("HD portrait loads as AVIF and is not softened by CSS transforms",async({page})=>{
+ await page.goto("/");
+ await page.locator("#swarm-opening-skip").click();
+ const portrait=page.locator('[data-block="hero-photo"] img');
+ await expect.poll(()=>portrait.evaluate(el=>el.complete && el.naturalWidth),{timeout:10000}).toBeGreaterThanOrEqual(850);
+ expect(await portrait.evaluate(el=>new URL(el.currentSrc).pathname)).toContain("blake-brown-headshot-hd.avif");
+ const figure=page.locator('[data-block="hero-photo"] figure');
+ expect(await figure.evaluate(el=>getComputedStyle(el).transform)).toBe("none");
+});
+
 test("hero headshot is responsive on mobile",async({page})=>{
  await page.setViewportSize({width:390,height:844});
  await page.goto("/");
