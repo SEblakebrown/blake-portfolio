@@ -24010,7 +24010,10 @@ function Swarm() {
             ] }) })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Block, { id: "hero-photo", agent: "DESIGN", kind: "portrait", jsxLine: '<Portrait name="Blake Brown" />', children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", { className: Swarm_default.portraitCard, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { className: Swarm_default.portraitImage, src: "assets/blake-brown-headshot.webp", width: "560", height: "560", alt: "Blake Brown in a navy suit and tie", decoding: "async", fetchPriority: "high" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("picture", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("source", { srcSet: "assets/blake-brown-headshot-hd.avif", type: "image/avif" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { className: Swarm_default.portraitImage, src: "assets/blake-brown-headshot.webp", width: "850", height: "850", alt: "Blake Brown in a navy suit and tie", decoding: "async", fetchPriority: "high" })
+            ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figcaption", { className: Swarm_default.portraitCaption, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: Swarm_default.portraitEyebrow, children: "THE PERSON BEHIND THE CODE" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Blake Brown" }),
